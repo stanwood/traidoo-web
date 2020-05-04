@@ -1,0 +1,30 @@
+export type ProductFormData = {
+  // General
+  name: string;
+  category: number;
+  description: string;
+  // Image
+  image: File[];
+  // Properties
+  isOrganic: boolean;
+  isVegan: boolean;
+  isGlutenFree: boolean;
+  isGrazingAnimal: boolean;
+  isGmoFree: boolean;
+  // Pricing
+  price: number;
+  unit: string;
+  vat: number;
+  amount: number;
+  // Delivery
+  containerType: number;
+  deliveryCharge: number;
+  deliveryOptionsIds: number[];
+  // Availability
+  regions: number[];
+  // Internal
+  sellersProductIdentifier: string;
+  tags: string[];
+  ean8: string;
+  ean13: string;
+};
