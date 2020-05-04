@@ -10,7 +10,6 @@ i18n
   .use(languageDetector)
   .use(initReactI18next)
   .init({
-    lng: "de",
     fallbackLng: "de",
     debug: true,
     lowerCaseLng: true,
