@@ -74,8 +74,6 @@ const CompanyProfileForm = ({
     clearError("companyType");
   };
 
-  const values = getValues();
-
   return (
     <Container component="main" maxWidth="md">
       <div className={classes.paper}>

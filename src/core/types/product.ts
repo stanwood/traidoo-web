@@ -29,10 +29,16 @@ type Product = {
     id: number;
     deposit: number;
     sizeClass: string;
+    image: string;
   };
   deliveryOptions: DeliveryOption[];
   delivery: { [key: string]: number };
   region: Region;
+  regions: Region[];
+  ean8: string;
+  ean13: string;
+  sellersProductIdentifier: string;
+  tags: { id: number; slug: string; name: string }[];
 };
 
 export default Product;

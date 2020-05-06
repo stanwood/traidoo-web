@@ -1,12 +1,16 @@
 import { objectToFormData } from "object-to-formdata";
 import api from "../../../core/ky";
-import Product from "../../../core/types/product";
 import { ProductFormData } from "../../../shared/products/ProductForm/types";
 import { generateHeaders } from "../../headers";
 
-export const addProductRequest = async (
-  data: ProductFormData
-): Promise<Product> => {
+export const editProductRequest = async ({
+  productId,
+  data,
+}: {
+  productId: number;
+  data: ProductFormData;
+}): Promise<any> => {
+  console.log(data);
   const formData = objectToFormData(
     {
       ...data,
@@ -16,8 +20,13 @@ export const addProductRequest = async (
     { indices: true }
   );
 
+  // FIXME: Why objectToFormData removes regionIds?
+  if (data?.regionIds?.length < 1 && !formData.get("regionIds")) {
+    formData.append("regionIds", "[]");
+  }
+
   return await api
-    .post("products", {
+    .patch(`products/${productId}`, {
       body: formData,
       headers: generateHeaders(true, true),
     })

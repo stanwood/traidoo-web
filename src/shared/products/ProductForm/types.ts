@@ -22,6 +22,7 @@ export type ProductFormData = {
   deliveryOptionsIds: number[];
   // Availability
   regions: number[];
+  regionIds: number[];
   // Internal
   sellersProductIdentifier: string;
   tags: string[];

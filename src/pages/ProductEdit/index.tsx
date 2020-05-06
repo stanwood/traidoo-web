@@ -4,20 +4,26 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { getCategoriesRequest } from "../../api/queries/categories";
 import { getContainersRequest } from "../../api/queries/containers";
-import { addProductRequest } from "../../api/queries/products/addProduct";
+import { getProductRequest } from "../../api/queries/products";
+import { editProductRequest } from "../../api/queries/products/editProduct";
 import { getRegionsRequest } from "../../api/queries/regions";
 import { getTagsRequest } from "../../api/queries/tags";
-import Product from "../../core/types/product";
 import ProductForm from "../../shared/products/ProductForm";
-import { addSchema } from "../../shared/products/ProductForm/validation";
+import { editSchema } from "../../shared/products/ProductForm/validation";
 
-const ProductAddPage = () => {
+const ProductEditPage = () => {
   const { t } = useTranslation();
+  const { id: productId } = useParams<{ id: string }>();
   const history = useHistory();
-  const [addProduct] = useMutation(addProductRequest);
+  const { data: productData, status: productStatus } = useQuery(
+    ["/product", Number(productId)],
+    getProductRequest
+  );
+
+  const [editProduct] = useMutation(editProductRequest);
   const { data: categoriesData, status: categoriesStatus } = useQuery(
     ["/categories", false],
     getCategoriesRequest
@@ -43,7 +49,7 @@ const ProductAddPage = () => {
     clearError,
     watch,
   } = useForm<any>({
-    validationSchema: addSchema,
+    validationSchema: editSchema,
   });
 
   useEffect(() => {
@@ -57,12 +63,13 @@ const ProductAddPage = () => {
   }, [register]);
 
   const onSubmit = (formData: any) => {
-    addProduct(formData).then((product: Product) =>
-      history.push(`/seller/products/${product.id}`)
-    );
+    editProduct({ productId: Number(productId), data: formData }).then(() => {
+      history.push(`/seller/products/${productId}`);
+    });
   };
 
   if (
+    productStatus === "loading" ||
     containersStatus === "loading" ||
     regionsStatus === "loading" ||
     categoriesStatus === "loading" ||
@@ -91,10 +98,11 @@ const ProductAddPage = () => {
         // @ts-ignore
         regions={regionsData.results}
         tags={tagsData}
-        buttonName={t("add")}
+        defaultValues={productData}
+        buttonName={t("edit")}
       />
     </Container>
   );
 };
 
-export default ProductAddPage;
+export default ProductEditPage;

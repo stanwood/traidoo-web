@@ -21,6 +21,7 @@ import PasswordReset from "./pages/PasswordReset";
 import PasswordSet from "./pages/PasswordSet";
 import ProductAddPage from "./pages/ProductAdd";
 import ProductDetail from "./pages/ProductDetail";
+import ProductEditPage from "./pages/ProductEdit";
 import Products from "./pages/Products";
 import ProfilePage from "./pages/Profile";
 import CompanyProfile from "./pages/Profile/Company";
@@ -93,6 +94,9 @@ const App: React.FC = () => {
           </Route>
           <Route exact path="/products">
             <Products />
+          </Route>
+          <Route exact path="/seller/products/:id/edit">
+            <ProductEditPage />
           </Route>
           <Route exact path="/seller/products">
             <SellerProductsListPage />
