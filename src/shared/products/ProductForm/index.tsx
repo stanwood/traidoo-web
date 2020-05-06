@@ -15,9 +15,10 @@ import Typography from "@material-ui/core/Typography";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import Product from "../../../core/types/product";
 import useStyles from "./styles";
 
-const ProductAdd = ({
+const ProductForm = ({
   onSubmit,
   handleSubmit,
   register,
@@ -28,6 +29,8 @@ const ProductAdd = ({
   containers,
   regions,
   tags,
+  defaultValues,
+  buttonName,
 }: {
   onSubmit: Function;
   handleSubmit: Function;
@@ -39,6 +42,8 @@ const ProductAdd = ({
   containers: any;
   regions: any;
   tags: any;
+  defaultValues?: Product | undefined;
+  buttonName: any;
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -59,7 +64,7 @@ const ProductAdd = ({
     seller: 1,
     buyer: 2,
   };
-  const [delivery, setDelivery] = useState({
+  const [delivery, setDelivery] = useState<{ [key: string]: boolean }>({
     centralLogistic: false,
     seller: false,
     buyer: false,
@@ -68,17 +73,47 @@ const ProductAdd = ({
 
   const [selectedVat, setSelectedVat] = useState<number | undefined>(undefined);
   const [unitValue, setUnitValue] = useState<string | unknown>(t("kg"));
-  const [image, setImage] = useState<string>("");
+  const [image, setImage] = useState<string | undefined>("");
   const [regionsList, setRegionsList] = useState<number[]>([]);
 
   const vatInputLabel = useRef<HTMLLabelElement>(null);
   const [vatLabelWidth, setVatLabelWidth] = useState(0);
 
+  useEffect(() => {
+    setValue("categoryId", defaultValues?.category.id);
+    setValue("vat", defaultValues?.vat);
+    setValue("unit", defaultValues?.unit);
+    setValue("containerTypeId", defaultValues?.containerType.id);
+    setRegionsList(defaultValues?.regions.map((region) => region.id) || []);
+
+    defaultValues?.deliveryOptions?.map((deliveryOption) => {
+      switch (deliveryOption.id) {
+        case 0:
+          setDelivery((delivery: any) => ({
+            ...delivery,
+            centralLogistic: true,
+          }));
+          break;
+        case 1:
+          setDelivery((delivery: any) => ({ ...delivery, seller: true }));
+          break;
+        case 2:
+          setDelivery((delivery: any) => ({ ...delivery, buyer: true }));
+          break;
+      }
+    });
+
+    const integers = Object.entries(delivery)
+      .filter((v) => v[1])
+      .map((v) => (v[1] ? deliveryMapping[v[0]] : null));
+    setValue("deliveryOptionsIds", integers);
+  }, []);
+
   const handleDeliveryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = { ...delivery, [event.target.name]: event.target.checked };
     const integers = Object.entries(value)
-      .filter((v: [string, boolean]) => v[1])
-      .map((v: [string, boolean]) => (v[1] ? deliveryMapping[v[0]] : null));
+      .filter((v) => v[1])
+      .map((v) => (v[1] ? deliveryMapping[v[0]] : null));
     setDelivery({ ...delivery, [event.target.name]: event.target.checked });
     clearError("deliveryOptionsIds");
     setValue("deliveryOptionsIds", integers);
@@ -139,11 +174,6 @@ const ProductAdd = ({
     setValue("containerTypeId", value.id);
   };
 
-  useEffect(() => {
-    setVatLabelWidth(vatInputLabel.current!.offsetWidth);
-    setValue("unit", unitValue);
-  }, [vatInputLabel, unitValue, setValue]);
-
   return (
     <form className={classes.form} onSubmit={handleSubmit(onSubmit)} noValidate>
       <Paper className={classes.paper}>
@@ -162,6 +192,7 @@ const ProductAdd = ({
               inputRef={register}
               error={errors.name ? true : false}
               helperText={errors.name ? errors.name.message : ""}
+              defaultValue={defaultValues?.name}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -181,6 +212,8 @@ const ProductAdd = ({
               renderOption={(option) => (
                 <React.Fragment>{option.name}</React.Fragment>
               )}
+              defaultValue={defaultValues?.category}
+              getOptionSelected={(option, value) => option.id === value.id}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -214,6 +247,7 @@ const ProductAdd = ({
               inputRef={register}
               error={errors.description ? true : false}
               helperText={errors.description ? errors.description.message : ""}
+              defaultValue={defaultValues?.description}
             />
           </Grid>
         </Grid>
@@ -226,7 +260,11 @@ const ProductAdd = ({
             </Typography>
             <Grid container item spacing={3}>
               <Grid item xs={12} sm={6}>
-                <img src={image} alt="" className={classes.imagePreview} />
+                <img
+                  src={image || defaultValues?.image}
+                  alt=""
+                  className={classes.imagePreview}
+                />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <Input
@@ -264,7 +302,12 @@ const ProductAdd = ({
               <Grid item xs={12} sm={6}>
                 <FormControlLabel
                   control={
-                    <Checkbox color="primary" id="isOrganic" name="isOrganic" />
+                    <Checkbox
+                      color="primary"
+                      id="isOrganic"
+                      name="isOrganic"
+                      defaultChecked={defaultValues?.isOrganic}
+                    />
                   }
                   label={t("organic")}
                   id="isOrganic"
@@ -279,6 +322,7 @@ const ProductAdd = ({
                       color="primary"
                       id="isGrazingAnimal"
                       name="isGrazingAnimal"
+                      defaultChecked={defaultValues?.isGrazingAnimal}
                     />
                   }
                   label={t("grasing")}
@@ -290,7 +334,12 @@ const ProductAdd = ({
               <Grid item xs={12} sm={6}>
                 <FormControlLabel
                   control={
-                    <Checkbox color="primary" id="isVegan" name="isVegan" />
+                    <Checkbox
+                      color="primary"
+                      id="isVegan"
+                      name="isVegan"
+                      defaultChecked={defaultValues?.isVegan}
+                    />
                   }
                   label={t("vegan")}
                   id="isVegan"
@@ -305,6 +354,7 @@ const ProductAdd = ({
                       color="primary"
                       id="isGlutenFree"
                       name="isGlutenFree"
+                      defaultChecked={defaultValues?.isGlutenFree}
                     />
                   }
                   label={t("glutenFree")}
@@ -316,7 +366,12 @@ const ProductAdd = ({
               <Grid item xs={12} sm={6}>
                 <FormControlLabel
                   control={
-                    <Checkbox color="primary" id="isGmoFree" name="isGmoFree" />
+                    <Checkbox
+                      color="primary"
+                      id="isGmoFree"
+                      name="isGmoFree"
+                      defaultChecked={defaultValues?.isGmoFree}
+                    />
                   }
                   label={t("gmoFree")}
                   id="isGmoFree"
@@ -345,6 +400,7 @@ const ProductAdd = ({
               inputRef={register}
               error={errors.price ? true : false}
               helperText={errors.price ? errors.price.message : ""}
+              defaultValue={defaultValues?.price}
               InputProps={{
                 endAdornment: (
                   <Select
@@ -354,6 +410,7 @@ const ProductAdd = ({
                     value={unitValue || ""}
                     className={classes.endAdornment}
                     onChange={handleUnitChange}
+                    defaultValue={defaultValues?.unit}
                   >
                     {units.map((unit: string) => {
                       return (
@@ -379,7 +436,7 @@ const ProductAdd = ({
               </InputLabel>
               <Select
                 labelId="vatLabelId"
-                value={selectedVat || ""}
+                value={selectedVat || defaultValues?.vat || ""}
                 id="vat"
                 name="vat"
                 variant="outlined"
@@ -411,6 +468,7 @@ const ProductAdd = ({
               inputRef={register}
               error={errors.amount ? true : false}
               helperText={errors.amount ? errors.amount.message : ""}
+              defaultValue={defaultValues?.amount}
             />
           </Grid>
         </Grid>
@@ -439,6 +497,8 @@ const ProductAdd = ({
                   {option.sizeClass}
                 </React.Fragment>
               )}
+              defaultValue={defaultValues?.containerType}
+              getOptionSelected={(option, value) => option.id === value.id}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -567,42 +627,50 @@ const ProductAdd = ({
                   ? errors.sellersProductIdentifier.message
                   : ""
               }
+              defaultValue={defaultValues?.sellersProductIdentifier}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Autocomplete
-              fullWidth
-              multiple
-              options={tags.sort((a: any, b: any) =>
-                a.name > b.name ? 1 : -1
-              )}
-              classes={{
-                option: classes.option,
-              }}
-              autoHighlight
-              onChange={(event: object, value: any, reason: string) =>
-                handleTagsChange(value)
-              }
-              getOptionLabel={(tag: any) => tag.name}
-              renderOption={(option) => (
-                <React.Fragment>{option.name}</React.Fragment>
-              )}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label={t("searchTerms")}
-                  variant="outlined"
-                  id="tags"
-                  name="tags"
-                  inputProps={{
-                    ...params.inputProps,
-                    autoComplete: "new-password",
-                  }}
-                  error={errors.tags ? true : false}
-                  helperText={errors.tags ? errors.tags.message : ""}
-                />
-              )}
-            />
+            {
+              // @ts-ignore
+              <Autocomplete
+                fullWidth
+                multiple
+                options={tags.sort((a: any, b: any) =>
+                  a.name > b.name ? 1 : -1
+                )}
+                classes={{
+                  option: classes.option,
+                }}
+                autoHighlight
+                onChange={(event: object, value: any, reason: string) =>
+                  handleTagsChange(value)
+                }
+                getOptionLabel={(tag: any) => tag.name}
+                renderOption={(option: any) => (
+                  <React.Fragment>{option.name}</React.Fragment>
+                )}
+                defaultValue={defaultValues?.tags}
+                getOptionSelected={(option: any, value: any) =>
+                  value.id === option.id
+                }
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label={t("searchTerms")}
+                    variant="outlined"
+                    id="tags"
+                    name="tags"
+                    inputProps={{
+                      ...params.inputProps,
+                      autoComplete: "new-password",
+                    }}
+                    error={errors.tags ? true : false}
+                    helperText={errors.tags ? errors.tags.message : ""}
+                  />
+                )}
+              />
+            }
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -614,6 +682,7 @@ const ProductAdd = ({
               inputRef={register}
               error={errors.ean8 ? true : false}
               helperText={errors.ean8 ? errors.ean8.message : ""}
+              defaultValue={defaultValues?.ean8}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -626,6 +695,7 @@ const ProductAdd = ({
               inputRef={register}
               error={errors.ean13 ? true : false}
               helperText={errors.ean13 ? errors.ean13.message : ""}
+              defaultValue={defaultValues?.ean13}
             />
           </Grid>
         </Grid>
@@ -638,7 +708,7 @@ const ProductAdd = ({
             color="primary"
             className={classes.editButton}
           >
-            {t("add")}
+            {buttonName}
           </Button>
         </Grid>
       </Grid>
@@ -646,4 +716,4 @@ const ProductAdd = ({
   );
 };
 
-export default ProductAdd;
+export default ProductForm;

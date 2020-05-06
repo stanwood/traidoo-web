@@ -40,7 +40,8 @@ const AddItemDialog = (props: AddItemDialogProps) => {
 
   useEffect(() => {
     register({ name: "latestDeliveryDate" });
-  }, [register]);
+    setValue("latestDeliveryDate", startOfTomorrow());
+  }, [register, setValue]);
 
   return (
     <div>

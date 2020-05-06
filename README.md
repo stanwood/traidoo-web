@@ -74,3 +74,9 @@ Use https://github.com/microsoft/tsdoc.
 ```sh
 npm run i18next
 ```
+
+## TODO
+
+- Try to use react-hook-from `Controller`: https://react-hook-form.com/api/#Controller
+- Try to implement route-based code splitting: https://reactjs.org/docs/code-splitting.html#route-based-code-splitting
+- Get rid of all `any` in types

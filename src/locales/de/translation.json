@@ -126,6 +126,7 @@
   "missing": "missing",
   "ml": "ml",
   "mustAcceptTermsAndConditions": "mustAcceptTermsAndConditions",
+  "mustBeGreaterThanZero": "__MISSING__",
   "name": "name",
   "nameRequired": "nameRequired",
   "nationality": "nationality",

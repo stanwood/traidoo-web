@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) =>
       width: "100%",
     },
     input: {
-      display: "None",
+      display: "none",
     },
     error: {
       color: "red",

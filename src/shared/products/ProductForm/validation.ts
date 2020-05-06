@@ -1,9 +1,7 @@
 import * as yup from "yup";
-import i18n from "../../i18n";
+import i18n from "../../../i18n";
 
-const SUPPORTED_IMAGES = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
-
-const schema = yup.object().shape({
+const addSchema = yup.object().shape({
   // General
   name: yup.string().required(i18n.t("nameRequired")),
   categoryId: yup.number().required(i18n.t("categoryRequired")),
@@ -51,4 +49,8 @@ const schema = yup.object().shape({
   ean13: yup.string().notRequired(),
 });
 
-export default schema;
+const editSchema = yup.object().shape({
+  image: yup.mixed(),
+});
+
+export { addSchema, editSchema };
