@@ -7,9 +7,9 @@ export const passwordSetRequest = async (
   password: string
 ) => {
   return await api
-    .post("auth/set_password", {
+    .post("auth/password-set", {
       json: { uid, token, new_password: password },
-      headers: generateHeaders(false)
+      headers: generateHeaders(false),
     })
     .json();
 };

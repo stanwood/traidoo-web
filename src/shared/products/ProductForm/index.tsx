@@ -86,28 +86,27 @@ const ProductForm = ({
     setValue("containerTypeId", defaultValues?.containerType.id);
     setRegionsList(defaultValues?.regions.map((region) => region.id) || []);
 
+    let deliveryOptions: { [key: string]: boolean } = {};
     defaultValues?.deliveryOptions?.map((deliveryOption) => {
       switch (deliveryOption.id) {
         case 0:
-          setDelivery((delivery: any) => ({
-            ...delivery,
-            centralLogistic: true,
-          }));
+          deliveryOptions["centralLogistic"] = true;
           break;
         case 1:
-          setDelivery((delivery: any) => ({ ...delivery, seller: true }));
+          deliveryOptions["seller"] = true;
           break;
         case 2:
-          setDelivery((delivery: any) => ({ ...delivery, buyer: true }));
+          deliveryOptions["buyer"] = true;
           break;
       }
     });
 
-    const integers = Object.entries(delivery)
+    setDelivery(deliveryOptions);
+    const integers = Object.entries(deliveryOptions)
       .filter((v) => v[1])
       .map((v) => (v[1] ? deliveryMapping[v[0]] : null));
     setValue("deliveryOptionsIds", integers);
-  }, []);
+  }, [defaultValues]);
 
   const handleDeliveryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = { ...delivery, [event.target.name]: event.target.checked };
@@ -140,8 +139,8 @@ const ProductForm = ({
     }
 
     setRegionsList(newRegionsList);
-    clearError("regionsIds");
-    setValue("regionIds", newRegionsList);
+    clearError("regions");
+    setValue("regions", newRegionsList);
   };
 
   const handleUnitChange = (
@@ -534,6 +533,7 @@ const ProductForm = ({
                 helperText={
                   errors.deliveryCharge ? errors.deliveryCharge.message : ""
                 }
+                defaultValue={defaultValues?.deliveryCharge}
               />
             )}
           </Grid>

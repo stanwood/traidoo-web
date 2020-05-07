@@ -11,7 +11,7 @@ export const getTokenRequest = async ({
   password: string;
 }) => {
   return await api
-    .post("auth/login", {
+    .post("auth/token", {
       json: { email, password },
       headers: generateHeaders(false),
     })
@@ -22,7 +22,7 @@ export const refreshTokenRequest = async (
   refresh: string
 ): Promise<{ access: string }> => {
   return await ky
-    .post("auth/jwt/refresh", {
+    .post("auth/token/refresh", {
       json: { refresh },
       headers: generateHeaders(false),
       prefixUrl: Config.apiEndpoint,

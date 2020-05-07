@@ -10,7 +10,6 @@ export const editProductRequest = async ({
   productId: number;
   data: ProductFormData;
 }): Promise<any> => {
-  console.log(data);
   const formData = objectToFormData(
     {
       ...data,
@@ -20,9 +19,9 @@ export const editProductRequest = async ({
     { indices: true }
   );
 
-  // FIXME: Why objectToFormData removes regionIds?
-  if (data?.regionIds?.length < 1 && !formData.get("regionIds")) {
-    formData.append("regionIds", "[]");
+  // FIXME: This is a workaround for API issues
+  if (data?.regions?.length < 1 && !formData.get("regions")) {
+    formData.append("regions", "");
   }
 
   return await api
