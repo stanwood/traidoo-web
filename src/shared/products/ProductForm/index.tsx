@@ -542,7 +542,7 @@ const ProductForm = ({
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={delivery.centralLogistic}
+                    checked={delivery.centralLogistic || false}
                     onChange={handleDeliveryChange}
                     name="centralLogistic"
                   />
@@ -552,7 +552,7 @@ const ProductForm = ({
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={delivery.seller}
+                    checked={delivery.seller || false}
                     onChange={handleDeliveryChange}
                     name="seller"
                   />
@@ -562,7 +562,7 @@ const ProductForm = ({
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={delivery.buyer}
+                    checked={delivery.buyer || false}
                     onChange={handleDeliveryChange}
                     name="buyer"
                   />

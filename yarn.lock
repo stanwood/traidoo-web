@@ -8976,7 +8976,7 @@ object-path@0.11.4:
   resolved "https://registry.yarnpkg.com/object-path/-/object-path-0.11.4.tgz#370ae752fbf37de3ea70a861c23bba8915691949"
   integrity sha1-NwrnUvvzfePqcKhhwju6iRVpGUk=
 
-object-to-formdata@^3.0.6:
+object-to-formdata@^3.0.9:
   version "3.0.9"
   resolved "https://registry.yarnpkg.com/object-to-formdata/-/object-to-formdata-3.0.9.tgz#40e3314522345789259738811c0222b7d6e556e9"
   integrity sha512-1JDHRFSpk6wzhPBAAqdVncdvbjZ+bjB0tioruNdKn8UyudBBXiBxRa7PJyvYqp4ioEKX98dEOX9Fw1RxA+vLzg==
