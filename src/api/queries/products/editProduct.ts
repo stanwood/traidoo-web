@@ -1,7 +1,8 @@
-import { objectToFormData } from "object-to-formdata";
 import api from "../../../core/ky";
+import { objectToFormData } from "../../../core/utils/objectToFormData";
 import { ProductFormData } from "../../../shared/products/ProductForm/types";
 import { generateHeaders } from "../../headers";
+import fixData from "./renameKeys";
 
 export const editProductRequest = async ({
   productId,
@@ -12,11 +13,11 @@ export const editProductRequest = async ({
 }): Promise<any> => {
   const formData = objectToFormData(
     {
-      ...data,
+      ...fixData(data),
       image: data.image[0],
       tags: data.tags ? `[${data.tags.toString()}]` : undefined,
     },
-    { indices: true }
+    { indices: false }
   );
 
   // FIXME: This is a workaround for API issues

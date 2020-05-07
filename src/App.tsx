@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useQuery } from "react-query";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import {
   ExtendedStringifyOptions,
   QueryParamProvider,
@@ -65,72 +65,74 @@ const App: React.FC = () => {
         stringifyOptions={queryStringifyOptions}
       >
         <Layout>
-          <Route exact path="/">
-            <Products />
-          </Route>
-          <Route exact path="/login">
-            <Login />
-          </Route>
-          <Route exact path="/logout">
-            <Logout />
-          </Route>
-          <Route exact path="/password/reset/:uid/:token">
-            <PasswordSet />
-          </Route>
-          <Route exact path="/password/reset">
-            <PasswordReset />
-          </Route>
-          <Route exact path="/registration/:uid/:token">
-            <RegistrationConfirmPage />
-          </Route>
-          <Route exact path="/registration">
-            <Registration />
-          </Route>
-          <Route exact path="/products/:id">
-            <ProductDetail />
-          </Route>
-          <Route exact path="/sellers/:id">
-            <Seller />
-          </Route>
-          <Route exact path="/products">
-            <Products />
-          </Route>
-          <Route exact path="/seller/products/:id/edit">
-            <ProductEditPage />
-          </Route>
-          <Route exact path="/seller/products">
-            <SellerProductsListPage />
-          </Route>
-          <Route exact path="/seller/products/add">
-            <ProductAddPage />
-          </Route>
-          <Route exact path="/seller/products/:id">
-            <SellerProductDetailsPage />
-          </Route>
-          <Route exact path="/checkout">
-            <Checkout />
-          </Route>
-          <Route exact path="/checkout/summary">
-            <CheckoutSummaryPage />
-          </Route>
-          <Route exact path="/profile">
-            <ProfilePage />
-          </Route>
-          <Route exact path="/profile/company/deliveryAddress">
-            <DeliveryAddress />
-          </Route>
-          <Route exact path="/profile/company">
-            <CompanyProfile />
-          </Route>
-          <Route exact path="/profile/personal">
-            <PersonalProfile />
-          </Route>
-          <Route exact path="/profile/documents">
-            <CompanyDocuments />
-          </Route>
-          <Route exact path="/profile/password">
-            <PasswordChangePage />
-          </Route>
+          <Switch>
+            <Route exact path="/">
+              <Products />
+            </Route>
+            <Route exact path="/login">
+              <Login />
+            </Route>
+            <Route exact path="/logout">
+              <Logout />
+            </Route>
+            <Route exact path="/password/reset/:uid/:token">
+              <PasswordSet />
+            </Route>
+            <Route exact path="/password/reset">
+              <PasswordReset />
+            </Route>
+            <Route exact path="/registration/:uid/:token">
+              <RegistrationConfirmPage />
+            </Route>
+            <Route exact path="/registration">
+              <Registration />
+            </Route>
+            <Route exact path="/products/:id">
+              <ProductDetail />
+            </Route>
+            <Route exact path="/products">
+              <Products />
+            </Route>
+            <Route exact path="/seller/products/:id/edit">
+              <ProductEditPage />
+            </Route>
+            <Route exact path="/sellers/:id">
+              <Seller />
+            </Route>
+            <Route exact path="/seller/products">
+              <SellerProductsListPage />
+            </Route>
+            <Route exact path="/seller/products/add">
+              <ProductAddPage />
+            </Route>
+            <Route exact path="/seller/products/:id">
+              <SellerProductDetailsPage />
+            </Route>
+            <Route exact path="/checkout/summary">
+              <CheckoutSummaryPage />
+            </Route>
+            <Route exact path="/checkout">
+              <Checkout />
+            </Route>
+            <Route exact path="/profile">
+              <ProfilePage />
+            </Route>
+            <Route exact path="/profile/company/deliveryAddress">
+              <DeliveryAddress />
+            </Route>
+            <Route exact path="/profile/company">
+              <CompanyProfile />
+            </Route>
+            <Route exact path="/profile/personal">
+              <PersonalProfile />
+            </Route>
+            <Route exact path="/profile/documents">
+              <CompanyDocuments />
+            </Route>
+            <Route exact path="/profile/password">
+              <PasswordChangePage />
+            </Route>
+          </Switch>
         </Layout>
       </QueryParamProvider>
     </BrowserRouter>

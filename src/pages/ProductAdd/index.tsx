@@ -35,16 +35,11 @@ const ProductAddPage = () => {
     getTagsRequest
   );
 
-  const {
-    register,
-    handleSubmit,
-    errors,
-    setValue,
-    clearError,
-    watch,
-  } = useForm<any>({
-    validationSchema: addSchema,
-  });
+  const { register, handleSubmit, errors, setValue, clearError } = useForm<any>(
+    {
+      validationSchema: addSchema,
+    }
+  );
 
   useEffect(() => {
     register("categoryId");

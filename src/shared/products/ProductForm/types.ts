@@ -17,7 +17,7 @@ export type ProductFormData = {
   vat: number;
   amount: number;
   // Delivery
-  containerType: number;
+  containerTypeId: number;
   deliveryCharge: number;
   deliveryOptionsIds: number[];
   // Availability
