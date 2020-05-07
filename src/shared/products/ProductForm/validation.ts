@@ -41,7 +41,7 @@ const addSchema = yup.object().shape({
     .of(yup.number())
     .required(i18n.t("deliveryOptionsRequired")),
   // Availability
-  regionsIds: yup.array().of(yup.number()),
+  regions: yup.array().ensure().of(yup.number()),
   // Internal
   sellersProductIdentifier: yup.string().notRequired(),
   tags: yup.array().of(yup.string()).notRequired(),
@@ -49,7 +49,7 @@ const addSchema = yup.object().shape({
   ean13: yup.string().notRequired(),
 });
 
-const editSchema = yup.object().shape({
+const editSchema = addSchema.shape({
   image: yup.mixed(),
 });
 

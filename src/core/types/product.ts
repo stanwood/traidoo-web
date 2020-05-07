@@ -32,6 +32,7 @@ type Product = {
     image: string;
   };
   deliveryOptions: DeliveryOption[];
+  deliveryCharge: number;
   delivery: { [key: string]: number };
   region: Region;
   regions: Region[];

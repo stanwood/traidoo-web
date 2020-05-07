@@ -41,16 +41,11 @@ const ProductEditPage = () => {
     getTagsRequest
   );
 
-  const {
-    register,
-    handleSubmit,
-    errors,
-    setValue,
-    clearError,
-    watch,
-  } = useForm<any>({
-    validationSchema: editSchema,
-  });
+  const { register, handleSubmit, errors, setValue, clearError } = useForm<any>(
+    {
+      validationSchema: editSchema,
+    }
+  );
 
   useEffect(() => {
     register("categoryId");
@@ -59,7 +54,7 @@ const ProductEditPage = () => {
     register("vat");
     register("unit");
     register("deliveryOptionsIds");
-    register("regionIds");
+    register("regions");
   }, [register]);
 
   const onSubmit = (formData: any) => {

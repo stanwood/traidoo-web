@@ -53,7 +53,7 @@ const ProductAddPage = () => {
     register("vat");
     register("unit");
     register("deliveryOptionsIds");
-    register("regionIds");
+    register("regions");
   }, [register]);
 
   const onSubmit = (formData: any) => {

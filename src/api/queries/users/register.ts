@@ -13,7 +13,7 @@ export const confirmRegistrationRequest = async (
   token: string
 ) => {
   return await api
-    .post("auth/verify_email", {
+    .post("auth/verify-email", {
       json: { uid, token },
       headers: generateHeaders(false),
     })

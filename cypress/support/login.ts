@@ -5,7 +5,7 @@ Cypress.Commands.add("login", (email: string, password: string) => {
 
   cy.request({
     method: "POST",
-    url: `${Cypress.env("API")}/auth/login`,
+    url: `${Cypress.env("API")}/auth/token`,
     headers: {
       "Content-Type": "application/json",
       Region: Cypress.env("REGION"),
