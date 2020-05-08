@@ -47,9 +47,9 @@ const ProductDetail = ({
 
   const getDeliveryPrice = (deliveryId: number) => {
     const deliveries: { [key: number]: string } = {
-      0: t("logistics"),
-      1: t("seller"),
-      2: t("pickup"),
+      0: "logistics",
+      1: "seller",
+      2: "pickup",
     };
 
     return product.delivery ? product.delivery[deliveries[deliveryId]] : null;
