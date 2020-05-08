@@ -144,7 +144,7 @@ const CustomAppBar = ({
       (item) => item.link !== "/" && currentPath.startsWith(item.link)
     );
 
-    return index;
+    return index > -1 ? index : 0;
   };
 
   const renderTabs = () => {
