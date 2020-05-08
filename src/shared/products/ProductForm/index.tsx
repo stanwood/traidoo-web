@@ -72,7 +72,7 @@ const ProductForm = ({
   });
   const vat = [0, 7, 10.7, 19];
 
-  const [selectedVat, setSelectedVat] = useState<number | undefined>(undefined);
+  const [selectedVat, setSelectedVat] = useState<number | undefined>(vat[2]);
   const [unitValue, setUnitValue] = useState<string | unknown>(
     Object.keys(units)[0]
   );
@@ -90,7 +90,10 @@ const ProductForm = ({
 
   useEffect(() => {
     setValue("categoryId", defaultValues?.category.id);
-    setValue("vat", defaultValues?.vat);
+    setValue(
+      "vat",
+      defaultValues?.vat !== undefined ? defaultValues.vat : selectedVat
+    );
     setValue("unit", defaultValues?.unit || unitValue);
     setValue("containerTypeId", defaultValues?.containerType.id);
     setRegionsList(defaultValues?.regions.map((region) => region.id) || []);
@@ -444,7 +447,11 @@ const ProductForm = ({
               </InputLabel>
               <Select
                 labelId="vatLabelId"
-                value={selectedVat || defaultValues?.vat}
+                defaultValue={
+                  defaultValues?.vat !== undefined
+                    ? defaultValues.vat
+                    : selectedVat
+                }
                 id="vat"
                 name="vat"
                 variant="outlined"
