@@ -25,7 +25,7 @@ const DeliveryOption = (props: {
         </Grid>
       </Grid>
       <Grid item>
-        {props.price && (
+        {props.price !== null && (
           <Typography variant="subtitle1">{props.price.toFixed(2)}€</Typography>
         )}
       </Grid>
