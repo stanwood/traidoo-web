@@ -94,7 +94,7 @@ const ProductEditPage = () => {
         regions={regionsData.results}
         tags={tagsData}
         defaultValues={productData}
-        buttonName={t("edit")}
+        buttonName={t("save")}
       />
     </Container>
   );
