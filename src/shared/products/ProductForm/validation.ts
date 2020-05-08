@@ -20,12 +20,14 @@ const addSchema = yup.object().shape({
   price: yup
     .number()
     .transform((value: any) => (isNaN(value) ? undefined : value))
+    .positive(i18n.t("mustBeGreaterThanZero"))
     .required(i18n.t("priceRequired")),
   unit: yup.string().required(i18n.t("unitRequired")),
   vat: yup.number().required(i18n.t("vatRequired")),
   amount: yup
     .number()
     .transform((value: any) => (isNaN(value) ? undefined : value))
+    .positive(i18n.t("mustBeGreaterThanZero"))
     .required(i18n.t("amountRequired")),
   // Delivery
   containerTypeId: yup.number().required(i18n.t("containerTypeRequired")),
@@ -34,6 +36,7 @@ const addSchema = yup.object().shape({
     then: yup
       .number()
       .transform((value: any) => (isNaN(value) ? undefined : value))
+      .positive(i18n.t("mustBeGreaterThanZero"))
       .required(i18n.t("priceRequired")),
   }),
   deliveryOptionsIds: yup

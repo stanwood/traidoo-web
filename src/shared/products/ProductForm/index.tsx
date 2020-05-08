@@ -165,7 +165,7 @@ const ProductForm = ({
 
   const handleCategoryChange = (value: any) => {
     clearError("categoryId");
-    setValue("categoryId", value.id);
+    setValue("categoryId", value?.id);
   };
 
   const handleContainerChange = (value: any) => {
