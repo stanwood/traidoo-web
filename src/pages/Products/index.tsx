@@ -122,7 +122,7 @@ const Products = () => {
 
   return (
     <>
-      {user?.id && <Hello className={classes.hello} />}
+      {!user?.id && <Hello className={classes.hello} />}
 
       <ProductsList
         products={data}
