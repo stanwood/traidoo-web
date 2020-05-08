@@ -48,17 +48,18 @@ const ProductForm = ({
   const classes = useStyles();
   const { t } = useTranslation();
 
-  const units = [
-    t("kg"),
-    t("g"),
-    t("l"),
-    t("ml"),
-    t("piece"),
-    t("glass"),
-    t("net"),
-    t("bundle"),
-    t("bottle"),
-  ];
+  const units: Record<string, string> = {
+    kg: t("kg"),
+    g: t("g"),
+    l: t("l"),
+    ml: t("ml"),
+    piece: t("piece"),
+    glass: t("glass"),
+    net: t("net"),
+    bundle: t("bundle"),
+    bottle: t("bottle"),
+  };
+
   const deliveryMapping: Record<string, number> = {
     centralLogistic: 0,
     seller: 1,
@@ -72,7 +73,9 @@ const ProductForm = ({
   const vat = [0, 7, 10.7, 19];
 
   const [selectedVat, setSelectedVat] = useState<number | undefined>(undefined);
-  const [unitValue, setUnitValue] = useState<string | unknown>(t("kg"));
+  const [unitValue, setUnitValue] = useState<string | unknown>(
+    Object.keys(units)[0]
+  );
   const [image, setImage] = useState<string | undefined>("");
   const [regionsList, setRegionsList] = useState<number[]>([]);
 
@@ -80,9 +83,15 @@ const ProductForm = ({
   const [vatLabelWidth, setVatLabelWidth] = useState(0);
 
   useEffect(() => {
+    setVatLabelWidth(
+      vatInputLabel.current ? vatInputLabel.current!.offsetWidth : 0
+    );
+  }, [selectedVat]);
+
+  useEffect(() => {
     setValue("categoryId", defaultValues?.category.id);
     setValue("vat", defaultValues?.vat);
-    setValue("unit", defaultValues?.unit);
+    setValue("unit", defaultValues?.unit || unitValue);
     setValue("containerTypeId", defaultValues?.containerType.id);
     setRegionsList(defaultValues?.regions.map((region) => region.id) || []);
 
@@ -411,10 +420,10 @@ const ProductForm = ({
                     onChange={handleUnitChange}
                     defaultValue={defaultValues?.unit}
                   >
-                    {units.map((unit: string) => {
+                    {Object.entries(units).map(([key, name]) => {
                       return (
-                        <MenuItem value={unit} key={unit}>
-                          {unit}
+                        <MenuItem value={key} key={key}>
+                          {name}
                         </MenuItem>
                       );
                     })}
@@ -435,7 +444,7 @@ const ProductForm = ({
               </InputLabel>
               <Select
                 labelId="vatLabelId"
-                value={selectedVat || defaultValues?.vat || ""}
+                value={selectedVat || defaultValues?.vat}
                 id="vat"
                 name="vat"
                 variant="outlined"
