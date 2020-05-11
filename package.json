@@ -35,7 +35,7 @@
     "react": "^16.13.1",
     "react-device-detect": "^1.11.14",
     "react-dom": "^16.13.1",
-    "react-hook-form": "^5.5.1",
+    "react-hook-form": "^5.6.3",
     "react-i18next": "^11.4.0",
     "react-image": "^2.4.0",
     "react-lazyload": "^2.6.7",
