@@ -4,4 +4,8 @@ export default interface Configuration {
   themePalettePrimaryColor: string;
   themePaletteSecondaryColor: string;
   apiEndpoint: string;
+  features: {
+    routes: boolean;
+  };
+  googleMapsApiKey: string;
 }

@@ -2,10 +2,12 @@
 
 declare namespace NodeJS {
   interface ProcessEnv {
-    REACT_APP_CLIENT_ID: string;
-    REACT_APP_CLIENT_NAME: string;
-    REACT_APP_THEME_PALETTE_PRIMARY_COLOR: string;
-    REACT_APP_THEME_PALETTE_SECONDARY_COLOR: string;
-    REACT_APP_API_ENDPOINT: string;
+    CLIENT_ID: string;
+    CLIENT_NAME: string;
+    THEME_PALETTE_PRIMARY_COLOR: string;
+    THEME_PALETTE_SECONDARY_COLOR: string;
+    API_ENDPOINT: string;
+    FEATURE_ROUTES: boolean;
+    GOOGLE_MAPS_API_KEY: string;
   }
 }

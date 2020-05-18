@@ -1,4 +1,4 @@
-import { ProductFormData } from "../../../shared/products/ProductForm/types";
+import { ProductFormData } from "../../../shared/components/products/ProductForm/types";
 
 const replacements: { [key: string]: string } = {
   isOrganic: "is_organic",

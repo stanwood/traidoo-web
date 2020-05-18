@@ -3,7 +3,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { ReactQueryConfigProvider } from "react-query";
 import App from "./App";
-import { Provider as AppProvider } from "./core/context";
 import "./i18n";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
@@ -25,9 +24,7 @@ ReactDOM.render(
   <ThemeProvider theme={theme}>
     <CssBaseline />
     <ReactQueryConfigProvider config={queryConfig}>
-      <AppProvider>
-        <App />
-      </AppProvider>
+      <App />
     </ReactQueryConfigProvider>
   </ThemeProvider>,
   document.getElementById("root")

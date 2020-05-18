@@ -1,7 +1,7 @@
 import { Hidden } from "@material-ui/core";
 import Drawer from "@material-ui/core/Drawer";
 import React from "react";
-import Categories from "../../Categories";
+import Categories from "../../../Categories";
 import useStyles from "./DrawerLeft.styles";
 
 const DrawerLeft = ({ open, toolbarClassName }: any) => {
