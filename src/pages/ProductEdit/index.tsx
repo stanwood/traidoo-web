@@ -11,8 +11,8 @@ import { getProductRequest } from "../../api/queries/products";
 import { editProductRequest } from "../../api/queries/products/editProduct";
 import { getRegionsRequest } from "../../api/queries/regions";
 import { getTagsRequest } from "../../api/queries/tags";
-import ProductForm from "../../shared/products/ProductForm";
-import { editSchema } from "../../shared/products/ProductForm/validation";
+import ProductForm from "../../shared/components/products/ProductForm";
+import { editSchema } from "../../shared/components/products/ProductForm/validation";
 
 const ProductEditPage = () => {
   const { t } = useTranslation();

@@ -15,7 +15,7 @@ import Typography from "@material-ui/core/Typography";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Product from "../../../core/types/product";
+import Product from "../../../../core/types/product";
 import useStyles from "./styles";
 
 const ProductForm = ({
@@ -98,7 +98,7 @@ const ProductForm = ({
     setValue("containerTypeId", defaultValues?.containerType.id);
     setRegionsList(defaultValues?.regions.map((region) => region.id) || []);
 
-    let deliveryOptions: { [key: string]: boolean } = {};
+    const deliveryOptions: { [key: string]: boolean } = {};
     defaultValues?.deliveryOptions?.map((deliveryOption) => {
       switch (deliveryOption.id) {
         case 0:

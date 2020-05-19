@@ -1,7 +1,7 @@
 export default interface Props {
   handleDrawerLeft: any;
   handleDrawerRight: any;
-  hideCategories: boolean;
+  displayLeftMenuButton: boolean;
   tabs?: { name: string; link: string }[];
 }
 

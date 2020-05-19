@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import i18n from "../../../i18n";
+import i18n from "../../../../i18n";
 
 const addSchema = yup.object().shape({
   // General

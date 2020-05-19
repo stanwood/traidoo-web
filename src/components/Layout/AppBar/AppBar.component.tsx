@@ -17,10 +17,11 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useIsFetching } from "react-query";
+import { useIsFetching, useQuery } from "react-query";
 import { Link, useHistory, useLocation } from "react-router-dom";
+import { getCurrentUserRequest } from "../../../api/queries/users/user";
 import Config from "../../../config";
 import { Context } from "../../../core/context";
 import Props, { LinkTabProps } from "./AppBar.interfaces";
@@ -31,10 +32,12 @@ import {
   rightMenuSellerItems,
 } from "./menuItems";
 
+const inputBaseInputProps = { "aria-label": "search" };
+
 const CustomAppBar = ({
   handleDrawerLeft,
   handleDrawerRight,
-  hideCategories = false,
+  displayLeftMenuButton = false,
   tabs = [],
 }: Props) => {
   const classes = useStyles();
@@ -54,23 +57,50 @@ const CustomAppBar = ({
     null
   );
 
+  const inputBaseClasses = {
+    root: classes.inputRoot,
+    input: classes.inputInput,
+  } as const; // TODO: Can I use this to fix react-perf/jsx-no-new-object-as-prop?
+
+  useQuery("/users/profile/me", getCurrentUserRequest, {
+    onSuccess: (data: any) => {
+      context.dispatch({ type: "user", payload: data });
+    },
+  });
+
   useEffect(() => {
     setCartItemsQuantity(Object.keys(context.state.cart.items).length);
   }, [context.state.cart.items]);
 
-  const keyPressed = (event: any) => {
+  const keyPressed = useCallback((event: any) => {
     if (event.key === "Enter") {
       history.push(`/products?search=${event.target.value}`);
       event.stopPropagation();
       event.preventDefault();
     }
-  };
+  }, []);
 
   const a11yProps = (index: any) => {
     return {
       id: `nav-tab-${index}`,
       "aria-controls": `nav-tabpanel-${index}`,
     };
+  };
+
+  const [
+    userMenuElement,
+    setUserMenuElement,
+  ] = React.useState<null | HTMLElement>(null);
+
+  const handleUserMenuClick = useCallback(
+    (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+      setUserMenuElement(event.currentTarget);
+    },
+    []
+  );
+
+  const handleUserMenuClose = () => {
+    setUserMenuElement(null);
   };
 
   const LinkTab = (props: LinkTabProps) => {
@@ -122,20 +152,7 @@ const CustomAppBar = ({
     );
   };
 
-  const [
-    userMenuElement,
-    setUserMenuElement,
-  ] = React.useState<null | HTMLElement>(null);
-
-  const handleUserMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setUserMenuElement(event.currentTarget);
-  };
-
-  const handleUserMenuClose = () => {
-    setUserMenuElement(null);
-  };
-
-  const findTabIndex = (currentPath: string) => {
+  const findTabIndex = (currentPath: string): number => {
     if (currentPath === "/") {
       return 0;
     }
@@ -174,7 +191,7 @@ const CustomAppBar = ({
     <div className={classes.root}>
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          {!hideCategories && (
+          {displayLeftMenuButton && (
             <Hidden xlUp implementation="css">
               <IconButton
                 edge="start"
@@ -203,11 +220,8 @@ const CustomAppBar = ({
             </div>
             <InputBase
               placeholder={t("search")}
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ "aria-label": "search" }}
+              classes={inputBaseClasses}
+              inputProps={inputBaseInputProps}
               inputRef={inputRef}
               onKeyPress={keyPressed}
             />

@@ -1,110 +1,79 @@
 import IconButton from "@material-ui/core/IconButton";
 import Snackbar from "@material-ui/core/Snackbar";
 import CloseIcon from "@material-ui/icons/Close";
-import React, { useContext, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useLocation } from "react-router-dom";
 import { Context } from "../../core/context";
 import CustomAppBar from "./AppBar";
-import DrawerLeft from "./DrawerLeft";
+import { CategoriesMenu, RoutesMenu } from "./DrawerLeft";
 import DrawerRight from "./DrawerRight";
 import Props from "./Layout.interfaces";
 import { useStyles } from "./Layout.styles";
+import { tabs } from "./tabs";
+
+const snackbarAnchorOrigin: {
+  horizontal: "center" | "left" | "right";
+  vertical: "bottom" | "top";
+} = {
+  vertical: "bottom",
+  horizontal: "right",
+};
 
 const Layout = ({ children }: Props) => {
   const classes = useStyles();
   const AppContext = useContext(Context);
   const messages = AppContext.state.message;
-  const { t } = useTranslation();
 
   const location = useLocation();
-  const pagesWithCategories = ["/", "/products"];
-  const hideCategories = !pagesWithCategories.includes(location.pathname);
+  const pagesWithLeftMenu = [
+    "/",
+    "/products",
+    "/seller/logistic/routes",
+    "/seller/logistic/jobs",
+  ];
+  const displayLeftMenuButton = pagesWithLeftMenu.includes(location.pathname);
   const [tabsList, setTabsList] = useState<{ name: string; link: string }[]>(
     []
   );
 
+  const getTabs = useCallback((user: any, pathname: string) => {
+    if (!user?.id) {
+      setTabsList([]);
+    }
+
+    if (pathname.startsWith("/profile")) {
+      setTabsList(tabs.profile);
+    } else if (
+      user?.groups?.includes("seller") &&
+      !pathname.startsWith("/profile")
+    ) {
+      setTabsList(tabs.seller);
+    } else {
+      setTabsList([]);
+    }
+  }, []);
+
   useEffect(() => {
-    const tabs: { [key: string]: { name: string; link: string }[] } = {
-      profile: [
-        {
-          name: t("personal"),
-          link: "/profile/personal",
-        },
-        {
-          name: t("company"),
-          link: "/profile/company",
-        },
-        {
-          name: t("documents"),
-          link: "/profile/documents",
-        },
-      ],
-      seller: [
-        {
-          name: t("buy"),
-          link: "/",
-        },
-        {
-          name: t("sell"),
-          link: "/seller/products",
-        },
-        {
-          name: t("logistics"),
-          link: "/seller/logistics",
-        },
-      ],
-    };
-
-    const getTabs = (user: any, pathname: string) => {
-      if (!user?.id) {
-        setTabsList([]);
-      }
-
-      if (pathname.startsWith("/profile")) {
-        setTabsList(tabs.profile);
-      } else if (
-        user?.groups?.includes("seller") &&
-        !pathname.startsWith("/profile")
-      ) {
-        setTabsList(tabs.seller);
-      } else {
-        setTabsList([]);
-      }
-    };
-
     getTabs(AppContext.state.user, location.pathname);
-  }, [AppContext.state.user, location.pathname, t]);
+  }, [AppContext.state.user, location.pathname, getTabs]);
 
-  const closeMessage = () => {
+  const closeMessage = useCallback(() => {
     AppContext.dispatch({ type: "removeMessage" });
-  };
+  }, []);
 
   const [openLeftDrawer, setOpenLeftDrawer] = React.useState(false);
   const [openRightDrawer, setOpenRightDrawer] = React.useState(false);
 
-  useEffect(() => {
-    setOpenRightDrawer(false);
-  }, []);
-
-  const handleDrawerLeft = () => {
-    setOpenLeftDrawer(!openLeftDrawer);
-  };
-
-  const handleDrawerRight = () => {
-    setOpenRightDrawer(!openRightDrawer);
-  };
-
-  return (
-    <div>
-      <CustomAppBar
-        handleDrawerLeft={handleDrawerLeft}
-        handleDrawerRight={handleDrawerRight}
-        hideCategories={hideCategories}
-        tabs={tabsList}
-      />
-      {!hideCategories && (
-        <DrawerLeft
+  const leftMenu = useMemo(() => {
+    if (["/", "/products"].includes(location.pathname)) {
+      return (
+        <CategoriesMenu
           open={openLeftDrawer}
           toolbarClassName={
             tabsList.length > 0
@@ -112,10 +81,33 @@ const Layout = ({ children }: Props) => {
               : classes.toolbar
           }
         />
-      )}
+      );
+    } else if (location.pathname.startsWith("/seller/logistic")) {
+      return <RoutesMenu open={openLeftDrawer} />;
+    }
+    return null;
+  }, [location.pathname, openLeftDrawer]);
+
+  const handleDrawerLeft = useCallback(() => {
+    setOpenLeftDrawer(!openLeftDrawer);
+  }, [openLeftDrawer]);
+
+  const handleDrawerRight = useCallback(() => {
+    setOpenRightDrawer(!openRightDrawer);
+  }, [openRightDrawer]);
+
+  return (
+    <div>
+      <CustomAppBar
+        handleDrawerLeft={handleDrawerLeft}
+        handleDrawerRight={handleDrawerRight}
+        displayLeftMenuButton={displayLeftMenuButton}
+        tabs={tabsList}
+      />
+      {leftMenu}
       <main
         className={`${classes.content} ${
-          hideCategories ? "" : classes.contentPadding
+          displayLeftMenuButton ? classes.contentPadding : ""
         }`}
       >
         <div
@@ -140,10 +132,7 @@ const Layout = ({ children }: Props) => {
         autoHideDuration={6000}
         onClose={closeMessage}
         message={messages.message || AppContext.state.message.message}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "right",
-        }}
+        anchorOrigin={snackbarAnchorOrigin}
         action={
           <React.Fragment>
             <IconButton

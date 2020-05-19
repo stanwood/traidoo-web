@@ -1,6 +1,6 @@
 import api from "../../../core/ky";
 import { objectToFormData } from "../../../core/utils/objectToFormData";
-import { ProductFormData } from "../../../shared/products/ProductForm/types";
+import { ProductFormData } from "../../../shared/components/products/ProductForm/types";
 import { generateHeaders } from "../../headers";
 import fixData from "./renameKeys";
 

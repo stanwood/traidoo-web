@@ -43,7 +43,7 @@ const CategoryItems = ({ data }: any) => {
 
   return (
     <div>
-      {data.map((item: any) => {
+      {data?.map((item: any) => {
         return (
           <TreeItem
             label={renderLabel(item)}

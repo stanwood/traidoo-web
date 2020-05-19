@@ -1,3 +1,2 @@
-import DrawerLeft from "./DrawerLeft.component";
-
-export default DrawerLeft;
+export { default as CategoriesMenu } from "./Categories/DrawerLeft.component";
+export { default as RoutesMenu } from "./Routes";

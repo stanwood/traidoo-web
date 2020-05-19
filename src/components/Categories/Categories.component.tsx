@@ -3,7 +3,9 @@ import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import Skeleton from "@material-ui/lab/Skeleton";
 import TreeView from "@material-ui/lab/TreeView";
 import React, { useContext, useEffect } from "react";
+import { useQuery } from "react-query";
 import { StringParam, useQueryParams } from "use-query-params";
+import { getCategoriesRequest } from "../../api/queries/categories";
 import { Context } from "../../core/context";
 import { useStyles } from "./Categories.styles";
 import CategoryItems from "./CategoryItems.component";
@@ -18,14 +20,23 @@ export default function Categories() {
   });
 
   const context = useContext(Context);
-  const categories = context.state.categories;
+
+  const { data: categories, status } = useQuery(
+    ["/categories", false],
+    getCategoriesRequest,
+    {
+      onSuccess: (data: any) => {
+        context.dispatch({ type: "categories", payload: data });
+      },
+    }
+  );
 
   const handleChange = (event: React.ChangeEvent<{}>, nodes: string[]) => {
     setExpanded(nodes);
   };
 
   useEffect(() => {
-    if (categories.length > 0) {
+    if (categories && categories.length > 0) {
       setExpanded(
         findCategoryTreeById(
           categories,
@@ -35,7 +46,7 @@ export default function Categories() {
     }
   }, [categories, query.category]);
 
-  if (categories.length < 1) {
+  if (status === "loading") {
     return (
       <>
         {Array.from(Array(10).keys()).map((number) => (
