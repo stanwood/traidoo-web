@@ -4,21 +4,36 @@ import MenuItem from "@material-ui/core/MenuItem";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import React from "react";
+import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router-dom";
 import { frequency } from "../frequency";
 
-const Row = ({ route }: { route: any }) => {
+const Row = ({ route, onRouteDelete }: { route: any; onRouteDelete: any }) => {
   const { t } = useTranslation();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const history = useHistory();
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const handleClick = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      setAnchorEl(event.currentTarget);
+    },
+    [anchorEl]
+  );
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setAnchorEl(null);
-  };
+  }, [anchorEl]);
+
+  const goToEditPage = useCallback(() => {
+    setAnchorEl(null);
+    history.push(`/seller/logistic/routes/${route.id}/edit`);
+  }, [route.id]);
+
+  const deleteRoute = useCallback(() => {
+    setAnchorEl(null);
+    onRouteDelete({ id: route.id });
+  }, [route.id]);
 
   return (
     <TableRow key={route.id}>
@@ -40,14 +55,13 @@ const Row = ({ route }: { route: any }) => {
           <MoreVertIcon />
         </IconButton>
         <Menu
-          id="simple-menu"
           anchorEl={anchorEl}
           keepMounted
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem onClick={handleClose}>{t("Edit")}</MenuItem>
-          <MenuItem onClick={handleClose}>{t("Delete")}</MenuItem>
+          <MenuItem onClick={goToEditPage}>{t("Edit")}</MenuItem>
+          <MenuItem onClick={deleteRoute}>{t("Delete")}</MenuItem>
         </Menu>
       </TableCell>
     </TableRow>

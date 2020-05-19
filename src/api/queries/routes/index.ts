@@ -43,6 +43,23 @@ export const getRoutes = async (
     .json();
 };
 
+export const getRoute = async (
+  key: string,
+  id: number
+): Promise<{
+  id: number;
+  frequency: number[];
+  origin: string;
+  destination: string;
+  waypoints: string[];
+}> => {
+  return await api
+    .get(`routes/${id}`, {
+      headers: generateHeaders(true),
+    })
+    .json();
+};
+
 export const createRoute = async ({
   frequency,
   origin,
@@ -56,6 +73,30 @@ export const createRoute = async ({
 }) => {
   return await api.post("routes", {
     json: { frequency, origin, destination, waypoints },
+    headers: generateHeaders(true),
+  });
+};
+
+export const editRoute = async ({
+  id,
+  data: { frequency, origin, destination, waypoints },
+}: {
+  id: number;
+  data: {
+    frequency: number[];
+    origin: string;
+    destination: string;
+    waypoints: any[];
+  };
+}) => {
+  return await api.patch(`routes/${id}`, {
+    json: { frequency, origin, destination, waypoints },
+    headers: generateHeaders(true),
+  });
+};
+
+export const deleteRoute = async ({ id }: { id: number }) => {
+  return await api.delete(`routes/${id}`, {
     headers: generateHeaders(true),
   });
 };

@@ -16,11 +16,13 @@ const RoutesList = ({
   count,
   page,
   onPageChange,
+  onRouteDelete,
 }: {
   routes: any;
   count: number;
   page: number;
   onPageChange: any;
+  onRouteDelete: any;
 }) => {
   const classes = useTableListStyles();
   const { t } = useTranslation();
@@ -39,7 +41,7 @@ const RoutesList = ({
         </TableHead>
         <TableBody>
           {routes.map((route: any) => (
-            <Row key={route.id} route={route} />
+            <Row key={route.id} route={route} onRouteDelete={onRouteDelete} />
           ))}
         </TableBody>
       </Table>

@@ -18,7 +18,13 @@ import { frequency } from "../frequency";
 import PlacesField from "./PlacesField";
 import useAddRouteStyles from "./styles";
 
-const AddRoute = ({ onSubmit }: { onSubmit: any }) => {
+const RouteForm = ({
+  onSubmit,
+  defaultData,
+}: {
+  onSubmit: any;
+  defaultData?: any;
+}) => {
   const classes = useAddRouteStyles();
   const { t } = useTranslation();
 
@@ -28,6 +34,7 @@ const AddRoute = ({ onSubmit }: { onSubmit: any }) => {
     register,
     errors,
     control,
+    getValues,
   } = useFormContext();
 
   const [days, setDays] = useState<number[]>([]);
@@ -42,21 +49,26 @@ const AddRoute = ({ onSubmit }: { onSubmit: any }) => {
   };
 
   const updateFrequency = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let dayss = [...days];
+    let updatedDays = [...days];
 
     if (event.target.checked) {
-      dayss.push(Number(event.target.name));
+      updatedDays.push(Number(event.target.name));
     } else {
-      dayss = days.filter((day) => day !== Number(event.target.name));
+      updatedDays = days.filter((day) => day !== Number(event.target.name));
     }
 
-    setDays(dayss);
-    setValue("frequency", dayss);
+    setDays(updatedDays);
+    setValue("frequency", updatedDays);
   };
 
   useEffect(() => {
     register("frequency");
   }, []);
+
+  useEffect(() => {
+    defaultData?.frequency ? setDays(defaultData.frequency) : null;
+    defaultData?.waypoints ? append(defaultData.waypoints) : null;
+  }, [defaultData]);
 
   return (
     <Container component={Paper} className={classes.paper} maxWidth="md">
@@ -74,6 +86,8 @@ const AddRoute = ({ onSubmit }: { onSubmit: any }) => {
               onChange={setFormValue}
               control={control}
               errors={errors["origin"]}
+              register={register}
+              defaultValue={defaultData?.origin}
             />
           </Grid>
           <Grid item xs={12}>
@@ -83,6 +97,7 @@ const AddRoute = ({ onSubmit }: { onSubmit: any }) => {
               onChange={setFormValue}
               control={control}
               errors={errors["destination"]}
+              defaultValue={defaultData?.destination}
             />
           </Grid>
           <Grid item xs={12}>
@@ -103,6 +118,7 @@ const AddRoute = ({ onSubmit }: { onSubmit: any }) => {
                     control={control}
                     onChange={setFormValue}
                     errors={errors[`waypoints[${index}]`]}
+                    defaultValue={defaultData?.waypoints[index]}
                   />
                 </Grid>
                 <Grid item xs={1} className={classes.removeIcon}>
@@ -183,4 +199,4 @@ const AddRoute = ({ onSubmit }: { onSubmit: any }) => {
   );
 };
 
-export default AddRoute;
+export default RouteForm;

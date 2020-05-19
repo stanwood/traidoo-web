@@ -26,6 +26,7 @@ import PersonalProfile from "./pages/Profile/Personal";
 import Registration from "./pages/Registration";
 import RegistrationConfirmPage from "./pages/RegistrationConfirm";
 import AddRoutePage from "./pages/Routes/Add";
+import EditRoutePage from "./pages/Routes/Edit";
 import RoutesListPage from "./pages/Routes/List";
 import Seller from "./pages/Seller/Seller.component";
 import SellerProductDetailsPage from "./pages/SellerProductDetail";
@@ -71,6 +72,9 @@ const App: React.FC = () => {
               </Route>
               <Route exact path="/products">
                 <Products />
+              </Route>
+              <Route exact path="/seller/logistic/routes/:id/edit">
+                <EditRoutePage />
               </Route>
               <Route exact path="/seller/logistic/routes/add">
                 <AddRoutePage />

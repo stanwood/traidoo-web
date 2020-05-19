@@ -18,18 +18,22 @@ const PlacesField = ({
   label,
   errors,
   control,
+  register,
+  defaultValue,
 }: {
   fieldName: string;
   onChange?: any;
   label: any;
   errors?: any;
   control: any;
+  register?: any;
+  defaultValue?: string;
 }) => {
   const classes = usePlacesFieldStyles();
 
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState<PlaceType[]>([]);
-  const [value, setValue] = React.useState<PlaceType | null>(null);
+  const [value, setValue] = React.useState<PlaceType | null | string>(null);
 
   const fetch = useMemo(
     () =>
@@ -47,6 +51,13 @@ const PlacesField = ({
       ),
     []
   );
+
+  useEffect(() => {
+    if (defaultValue) {
+      setInputValue(defaultValue);
+      setValue(defaultValue);
+    }
+  }, [defaultValue]);
 
   useEffect(() => {
     let active = true;
@@ -104,6 +115,7 @@ const PlacesField = ({
           label={label}
           variant="outlined"
           name={fieldName}
+          inputRef={register}
           fullWidth
           control={control}
           error={errors ? true : false}
