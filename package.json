@@ -92,7 +92,7 @@
     "eslint-plugin-tsdoc": "^0.2.4",
     "http-server": "^0.12.3",
     "husky": "^4.2.5",
-    "i18next-parser": "^1.0.5",
+    "i18next-parser": "^1.0.6",
     "parcel-bundler": "^1.12.4",
     "prettier": "2.0.4",
     "redux-devtools-extension": "^2.13.8",
