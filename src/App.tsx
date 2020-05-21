@@ -10,6 +10,7 @@ import { Provider as AppProvider } from "./core/context";
 import Checkout from "./pages/Checkout";
 import CheckoutSummaryPage from "./pages/CheckoutSummary";
 import DeliveryAddress from "./pages/DeliveryAddress";
+import JobsPage from "./pages/Jobs";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
 import PasswordChangePage from "./pages/PasswordChange";
@@ -78,6 +79,9 @@ const App: React.FC = () => {
               </Route>
               <Route exact path="/seller/logistic/routes/add">
                 <AddRoutePage />
+              </Route>
+              <Route exact path="/seller/logistic/jobs">
+                <JobsPage />
               </Route>
               <Route exact path="/seller/logistic/routes">
                 <RoutesListPage />

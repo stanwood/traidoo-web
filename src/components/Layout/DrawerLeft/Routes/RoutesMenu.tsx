@@ -36,7 +36,7 @@ const RoutesMenu = ({
           </ListItemIcon>
           <ListItemText primary={t("myRoutes")} />
         </ListItem>
-        <ListItem button>
+        <ListItem button component={Link} to="/seller/logistic/jobs">
           <ListItemIcon>
             <FlightTakeoffIcon />
           </ListItemIcon>

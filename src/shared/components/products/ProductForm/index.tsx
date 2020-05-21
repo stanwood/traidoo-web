@@ -15,6 +15,7 @@ import Typography from "@material-ui/core/Typography";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import Config from "../../../../config";
 import Product from "../../../../core/types/product";
 import useStyles from "./styles";
 
@@ -585,6 +586,21 @@ const ProductForm = ({
                 }
                 label={t("byBuyer")}
               />
+              {Config.features.routes && delivery.seller && (
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      color="primary"
+                      name="thirdPartyDelivery"
+                      defaultChecked={defaultValues?.thirdPartyDelivery}
+                    />
+                  }
+                  label={t("thirdPartyDelivery")}
+                  id="thirdPartyDelivery"
+                  name="thirdPartyDelivery"
+                  inputRef={register}
+                />
+              )}
             </FormGroup>
             <FormHelperText className={classes.error}>
               {errors.deliveryOptionsIds

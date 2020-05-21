@@ -14,7 +14,7 @@ import Product from "../../core/types/product";
 import ProductForm from "../../shared/components/products/ProductForm";
 import { addSchema } from "../../shared/components/products/ProductForm/validation";
 
-const ProductAddPage = () => {
+const ProductAddPage: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const [addProduct] = useMutation(addProductRequest);
