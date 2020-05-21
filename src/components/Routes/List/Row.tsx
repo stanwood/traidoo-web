@@ -43,7 +43,7 @@ const Row = ({ route, onRouteDelete }: { route: any; onRouteDelete: any }) => {
         {route.frequency.map((day: any) => frequency[day]).join(", ")}
       </TableCell>
       <TableCell>
-        {route.length} {t("km")}
+        {(route.length / 1000).toFixed(1)} {t("km")}
       </TableCell>
       <TableCell>
         <IconButton
