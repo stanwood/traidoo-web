@@ -11,6 +11,7 @@ const replacements: { [key: string]: string } = {
   deliveryOptionsIds: "delivery_options_ids",
   sellersProductIdentifier: "sellers_product_identifier",
   categoryId: "category_id",
+  thirdPartyDelivery: "third_party_delivery",
 };
 
 // FIXME: https://github.com/vbabiy/djangorestframework-camel-case/issues/82
