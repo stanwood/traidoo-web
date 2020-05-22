@@ -1,9 +1,7 @@
 import MuiAlert from "@material-ui/lab/Alert";
-import Skeleton from "@material-ui/lab/Skeleton";
-import { GoogleMap, useLoadScript } from "@react-google-maps/api";
-import React from "react";
+import { GoogleMap } from "@react-google-maps/api";
+import React, { memo } from "react";
 import { useTranslation } from "react-i18next";
-import Config from "../../../config";
 import { RoutesDirectionsMemo } from "./Directions";
 
 const mapStyles = {
@@ -16,15 +14,15 @@ const mapCenter = {
   lng: 9.942744,
 };
 
-const googleMapsLibraries = ["places"];
-
-const RoutesMap = ({ routes }: { routes: any }) => {
+const RoutesMap = ({ routes, loadError }: { routes: any; loadError: any }) => {
   const { t } = useTranslation();
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: Config.googleMapsApiKey,
-    preventGoogleFontsLoading: true,
-    libraries: googleMapsLibraries,
-  });
+
+  const mapOptions = {
+    zoomControlOptions: {
+      // @ts-ignore
+      position: google.maps.ControlPosition.LEFT_BOTTOM,
+    },
+  } as const;
 
   if (loadError) {
     return (
@@ -34,17 +32,13 @@ const RoutesMap = ({ routes }: { routes: any }) => {
     );
   }
 
-  if (!isLoaded) {
-    return (
-      <>
-        {Array.from(Array(10).keys()).map((number) => (
-          <Skeleton key={number} />
-        ))}
-      </>
-    );
-  }
   return (
-    <GoogleMap mapContainerStyle={mapStyles} zoom={0} center={mapCenter}>
+    <GoogleMap
+      mapContainerStyle={mapStyles}
+      zoom={0}
+      center={mapCenter}
+      options={mapOptions}
+    >
       {routes.map((route: any) => (
         <RoutesDirectionsMemo
           key={route.id}
@@ -59,4 +53,4 @@ const RoutesMap = ({ routes }: { routes: any }) => {
   );
 };
 
-export default RoutesMap;
+export default memo(RoutesMap);

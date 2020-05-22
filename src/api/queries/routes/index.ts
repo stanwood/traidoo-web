@@ -72,7 +72,12 @@ export const createRoute = async ({
   waypoints: any[];
 }) => {
   return await api.post("routes", {
-    json: { frequency, origin, destination, waypoints },
+    json: {
+      frequency,
+      origin,
+      destination,
+      waypoints: waypoints.filter((waypoint: any) => waypoint),
+    },
     headers: generateHeaders(true),
   });
 };
@@ -90,7 +95,12 @@ export const editRoute = async ({
   };
 }) => {
   return await api.patch(`routes/${id}`, {
-    json: { frequency, origin, destination, waypoints },
+    json: {
+      frequency,
+      origin,
+      destination,
+      waypoints: waypoints.filter((waypoint: any) => waypoint),
+    },
     headers: generateHeaders(true),
   });
 };

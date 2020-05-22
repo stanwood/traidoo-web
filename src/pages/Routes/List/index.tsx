@@ -1,20 +1,30 @@
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import Skeleton from "@material-ui/lab/Skeleton";
+import { useLoadScript } from "@react-google-maps/api";
 import React, { useCallback } from "react";
 import { queryCache, useMutation, useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
 import { NumberParam, useQueryParams, withDefault } from "use-query-params";
 import { deleteRoute, getRoutes } from "../../../api/queries/routes";
 import RoutesList from "../../../components/Routes/List";
+import Config from "../../../config";
 import RoutesMap from "../Map";
 import useRouteListStyles from "./styles";
+
+const googleMapsLibraries = ["places"];
 
 const RoutesListPage = () => {
   const classes = useRouteListStyles();
   const history = useHistory();
   const [query, setQuery] = useQueryParams({
     page: withDefault(NumberParam, 0),
+  });
+
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: Config.googleMapsApiKey,
+    preventGoogleFontsLoading: true,
+    libraries: googleMapsLibraries,
   });
 
   const { status, data } = useQuery(["routes", Object(query)], getRoutes);
@@ -50,7 +60,9 @@ const RoutesListPage = () => {
         onPageChange={onPageChange}
         onRouteDelete={routeDelete}
       />
-      <RoutesMap routes={data.results} />
+      {data.results.length > 0 && isLoaded && (
+        <RoutesMap routes={data.results} loadError={loadError} />
+      )}
       <Fab
         aria-label="Add a new product"
         className={classes.fab}
