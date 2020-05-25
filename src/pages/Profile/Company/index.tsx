@@ -10,7 +10,7 @@ import {
 } from "../../../api/queries/users/profile";
 import CompanyProfileForm from "../../../components/Profile/Company";
 import { Context } from "../../../core/context";
-import { required } from "../../../utils";
+import { required } from "../../../utils/errors";
 import { CompanyData } from "./types";
 import { buyerValidationSchema, sellerValidationShema } from "./validation";
 

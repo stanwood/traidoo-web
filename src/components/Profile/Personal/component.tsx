@@ -10,7 +10,7 @@ import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import countries from "../../../data/Countries/de.json";
-import { required } from "../../../utils";
+import { required } from "../../../utils/errors";
 import useStyles from "./styles";
 
 const PersonalProfileForm = ({

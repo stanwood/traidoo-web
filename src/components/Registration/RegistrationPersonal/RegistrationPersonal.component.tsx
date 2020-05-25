@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { required } from "../../../utils";
+import { required } from "../../../utils/errors";
 import RegistrationPersonalForm from "../RegistrationPersonalForm";
 import { FormData } from "./interfaces";
 import validationSchema from "./RegistrationPersonal.validation";

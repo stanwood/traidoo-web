@@ -9,13 +9,17 @@ import Layout from "./components/Layout";
 import { Provider as AppProvider } from "./core/context";
 import Checkout from "./pages/Checkout";
 import CheckoutSummaryPage from "./pages/CheckoutSummary";
+import ContactPage from "./pages/Contact";
 import DeliveryAddress from "./pages/DeliveryAddress";
+import ImprintPage from "./pages/Imprint";
 import JobsPage from "./pages/Jobs";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
 import PasswordChangePage from "./pages/PasswordChange";
 import PasswordReset from "./pages/PasswordReset";
 import PasswordSet from "./pages/PasswordSet";
+import PricesPage from "./pages/Prices";
+import PrivacyPolicyPage from "./pages/PrivacyPolicy";
 import ProductAddPage from "./pages/ProductAdd";
 import ProductDetail from "./pages/ProductDetail";
 import ProductEditPage from "./pages/ProductEdit";
@@ -32,6 +36,7 @@ import RoutesListPage from "./pages/Routes/List";
 import Seller from "./pages/Seller/Seller.component";
 import SellerProductDetailsPage from "./pages/SellerProductDetail";
 import SellerProductsListPage from "./pages/SellerProducts";
+import TermsOfServicePage from "./pages/TermsOfServices";
 
 const queryStringifyOptions: ExtendedStringifyOptions = {
   transformSearchString: transformSearchStringJsonSafe,
@@ -124,6 +129,21 @@ const App: React.FC = () => {
               </Route>
               <Route exact path="/profile/password">
                 <PasswordChangePage />
+              </Route>
+              <Route exact path="/terms-of-services">
+                <TermsOfServicePage />
+              </Route>
+              <Route exact path="/contact">
+                <ContactPage />
+              </Route>
+              <Route exact path="/imprint">
+                <ImprintPage />
+              </Route>
+              <Route exact path="/prices">
+                <PricesPage />
+              </Route>
+              <Route exact path="/privacy-policy">
+                <PrivacyPolicyPage />
               </Route>
             </Switch>
           </Layout>

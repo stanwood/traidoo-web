@@ -1,10 +1,5 @@
 import i18n from "../../../i18n";
 
-const sellerItems = [
-  { name: i18n.t("sell"), path: "/sell" },
-  { name: i18n.t("logistics"), path: "/logistics" },
-];
-
 const buyerItems = [{ name: i18n.t("history"), path: "/history" }];
 
 const userItems = [
@@ -13,8 +8,10 @@ const userItems = [
 ];
 
 const globalItems = [
-  { name: i18n.t("termsAndConditions"), path: "/terms" },
-  { name: i18n.t("privacyPolicy"), path: "/privacy" },
+  { name: i18n.t("termsOfServices"), path: "/terms-of-services" },
+  { name: i18n.t("privacyPolicy"), path: "/privacy-policy" },
+  { name: i18n.t("prices"), path: "/prices" },
+  { name: i18n.t("imprint"), path: "/imprint" },
   { name: i18n.t("contact"), path: "/contact" },
 ];
 
@@ -25,11 +22,6 @@ const anonymousItems = [
 
 export const rightMenuAnonymousItems = [anonymousItems, globalItems];
 
-export const rightMenuSellerItems = [
-  sellerItems,
-  buyerItems,
-  userItems,
-  globalItems,
-];
+export const rightMenuSellerItems = [buyerItems, userItems, globalItems];
 
 export const rightMenuBuyerItems = [buyerItems, userItems, globalItems];
