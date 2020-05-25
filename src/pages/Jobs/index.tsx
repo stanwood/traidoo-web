@@ -29,10 +29,6 @@ const JobsPage: React.FC = () => {
     [query]
   );
 
-  const toggleJobs = useCallback(() => {
-    setQuery({ my: !query.my });
-  }, [query.my]);
-
   if (status === "loading" || !data) {
     return (
       <>
@@ -51,8 +47,6 @@ const JobsPage: React.FC = () => {
       onPageChange={onPageChange}
       onJobClaim={claim}
       onJobReturn={unclaim}
-      onToggleJobs={toggleJobs}
-      myJobs={query.my}
     />
   );
 };

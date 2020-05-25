@@ -1,5 +1,4 @@
 import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -20,8 +19,6 @@ const JobsList = ({
   onPageChange,
   onJobClaim,
   onJobReturn,
-  onToggleJobs,
-  myJobs,
 }: {
   jobs: any;
   count: number;
@@ -29,22 +26,12 @@ const JobsList = ({
   onPageChange: any;
   onJobClaim: any;
   onJobReturn: any;
-  onToggleJobs: any;
-  myJobs: boolean;
 }) => {
   const classes = useTableListStyles();
   const { t } = useTranslation();
 
   return (
     <Box className={classes.root}>
-      <Button
-        className={classes.button}
-        variant="contained"
-        color="primary"
-        onClick={() => onToggleJobs()}
-      >
-        {myJobs ? t("allJobs") : t("myJobs")}
-      </Button>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="routes table">
           <TableHead>
