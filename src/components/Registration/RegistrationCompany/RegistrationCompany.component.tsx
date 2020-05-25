@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { required } from "../../../utils";
+import { required } from "../../../utils/errors";
 import RegistrationCompanyForm from "../RegistrationCompanyForm";
 import { FormData } from "./interfaces";
 import validationSchema from "./RegistrationCompany.validation";
