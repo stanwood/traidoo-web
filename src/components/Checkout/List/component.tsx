@@ -4,6 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import React from "react";
+import { deliveryOptionsMapping } from "./deliveryMapping";
 import useStyles from "./styles";
 
 const CheckoutList: React.FC<{
@@ -34,7 +35,8 @@ const CheckoutList: React.FC<{
               >
                 {item.deliveryOptions.map((deliveryOption: any) => (
                   <MenuItem value={deliveryOption.id} key={deliveryOption.id}>
-                    {deliveryOption.name} {deliveryOption.value.toFixed(2)}€
+                    {deliveryOptionsMapping[deliveryOption.id]}{" "}
+                    {deliveryOption.value.toFixed(2)}€
                   </MenuItem>
                 ))}
               </Select>
