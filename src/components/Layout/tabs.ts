@@ -34,4 +34,14 @@ export const tabs: { [key: string]: { name: string; link: string }[] } = {
         ]
       : []),
   ],
+  history: [
+    {
+      name: i18n.t("orders"),
+      link: "/history/orders",
+    },
+    {
+      name: i18n.t("deliveries"),
+      link: "/history/deliveries",
+    },
+  ],
 };

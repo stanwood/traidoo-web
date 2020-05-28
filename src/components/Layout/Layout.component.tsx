@@ -49,6 +49,8 @@ const Layout = ({ children }: Props) => {
 
     if (pathname.startsWith("/profile")) {
       setTabsList(tabs.profile);
+    } else if (pathname.startsWith("/history")) {
+      setTabsList(tabs.history);
     } else if (
       user?.groups?.includes("seller") &&
       !pathname.startsWith("/profile")

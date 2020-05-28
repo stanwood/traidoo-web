@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Route, Router, Switch } from "react-router-dom";
 import {
   ExtendedStringifyOptions,
   QueryParamProvider,
@@ -7,14 +7,17 @@ import {
 } from "use-query-params";
 import Layout from "./components/Layout";
 import { Provider as AppProvider } from "./core/context";
+import history from "./core/history";
 import Checkout from "./pages/Checkout";
 import CheckoutSummaryPage from "./pages/CheckoutSummary";
 import ContactPage from "./pages/Contact";
+import DeliveriesPage from "./pages/Deliveries";
 import DeliveryAddress from "./pages/DeliveryAddress";
 import ImprintPage from "./pages/Imprint";
 import JobsPage from "./pages/Jobs";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
+import OrdersPage from "./pages/Orders";
 import PasswordChangePage from "./pages/PasswordChange";
 import PasswordReset from "./pages/PasswordReset";
 import PasswordSet from "./pages/PasswordSet";
@@ -44,7 +47,7 @@ const queryStringifyOptions: ExtendedStringifyOptions = {
 
 const App: React.FC = () => {
   return (
-    <BrowserRouter>
+    <Router history={history}>
       <QueryParamProvider
         ReactRouterRoute={Route}
         stringifyOptions={queryStringifyOptions}
@@ -145,11 +148,17 @@ const App: React.FC = () => {
               <Route exact path="/privacy-policy">
                 <PrivacyPolicyPage />
               </Route>
+              <Route exact path="/history/orders">
+                <OrdersPage />
+              </Route>
+              <Route exact path="/history/deliveries">
+                <DeliveriesPage />
+              </Route>
             </Switch>
           </Layout>
         </AppProvider>
       </QueryParamProvider>
-    </BrowserRouter>
+    </Router>
   );
 };
 

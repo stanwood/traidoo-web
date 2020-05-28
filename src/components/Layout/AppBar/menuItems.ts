@@ -1,6 +1,6 @@
 import i18n from "../../../i18n";
 
-const buyerItems = [{ name: i18n.t("history"), path: "/history" }];
+const buyerItems = [{ name: i18n.t("history"), path: "/history/orders" }];
 
 const userItems = [
   { name: i18n.t("profile"), path: "/profile/personal" },

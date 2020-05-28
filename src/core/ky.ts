@@ -2,10 +2,26 @@ import ky from "ky";
 import {
   getRefreshToken,
   needRefreshToken,
+  removeAccessToken,
   storeAccessToken,
 } from "../api/jwt";
 import { refreshTokenRequest } from "../api/queries/users/token";
 import Config from "../config";
+
+const routesWithoutAuth = [
+  "/registration",
+  "/refresh",
+  "/auth/verify-email",
+  "/auth/password-reset",
+  "/auth/password-set",
+  "/auth/token",
+  "/products",
+];
+
+const isTokenRequired = (url: string): boolean => {
+  const urlObject = new URL(url);
+  return routesWithoutAuth.includes(urlObject.pathname);
+};
 
 const api = ky.create({
   prefixUrl: Config.apiEndpoint,
@@ -13,12 +29,12 @@ const api = ky.create({
   retry: {
     limit: 1,
     methods: ["get", "post", "patch", "put", "delete"],
-    statusCodes: [401],
+    statusCodes: [408, 429, 502, 503, 504],
   },
   hooks: {
     beforeRequest: [
       async (request) => {
-        if (needRefreshToken()) {
+        if (isTokenRequired(request.url) && needRefreshToken()) {
           const refreshToken = getRefreshToken();
 
           if (refreshToken) {
@@ -35,6 +51,12 @@ const api = ky.create({
         if (response.status === 401) {
           // TODO: redirect to / if token does not exist
           const refreshToken = getRefreshToken();
+
+          if (!refreshToken) {
+            removeAccessToken();
+            // history.push("/");
+            return;
+          }
 
           if (refreshToken) {
             const { access } = await refreshTokenRequest(refreshToken);
