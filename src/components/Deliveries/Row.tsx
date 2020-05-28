@@ -24,8 +24,6 @@ const Row: React.FC<RowProps> = ({ delivery }: RowProps) => {
       <TableCell>{delivery.id}</TableCell>
       <TableCell>{formatDate(delivery.createdAt)}</TableCell>
       <TableCell>{statusMapping[delivery.status]}</TableCell>
-      <TableCell>-</TableCell>
-      <TableCell>-</TableCell>
       <TableCell>{delivery.totalPrice}</TableCell>
     </TableRow>
   );
