@@ -37,8 +37,6 @@ const DeliveriesList: React.FC<DeliveriesListProps> = ({
               <TableCell>{t("order")}</TableCell>
               <TableCell>{t("date")}</TableCell>
               <TableCell>{t("status")}</TableCell>
-              <TableCell>{t("from")}</TableCell>
-              <TableCell>{t("product")}</TableCell>
               <TableCell>{t("total")}</TableCell>
             </TableRow>
           </TableHead>
