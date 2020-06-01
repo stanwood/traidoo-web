@@ -8,69 +8,79 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Paper from "@material-ui/core/Paper";
 import Select from "@material-ui/core/Select";
 import Typography from "@material-ui/core/Typography";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import DeliveryAddress from "../../core/interfaces/deliveryAddress";
+import { CheckoutType } from "../../core/types/checkout";
 import CheckoutList from "./List";
 import useStyles from "./styles";
 
-const Checkout: React.FC<{
-  checkout: any;
+interface CheckoutProps {
+  checkout: CheckoutType;
   deliveryDays: string[];
-  deliveryAddresses: any;
+  deliveryAddresses: DeliveryAddress[];
   onDeliveryOptionUpdate: Function;
   onDeliveryDateUpdate: Function;
   onDeliveryAddressUpdate: Function;
   checkoutPath: string;
-  buttonDisabled: boolean;
-}> = (props) => {
+}
+
+const Checkout: React.FC<CheckoutProps> = (props: CheckoutProps) => {
   const classes = useStyles();
   const { t } = useTranslation();
+
+  const {
+    checkout,
+    deliveryDays,
+    deliveryAddresses,
+    onDeliveryOptionUpdate,
+    onDeliveryDateUpdate,
+    onDeliveryAddressUpdate,
+    checkoutPath,
+  } = props;
+
   const deliveryDateInputLabel = React.useRef<HTMLLabelElement>(null);
-  const deliveryAddressInputLabel = React.useRef<HTMLLabelElement>(null);
   const [deliveryDateLabelWidth, setDeliveryDateLabelWidth] = useState(0);
+  const deliveryAddressInputLabel = React.useRef<HTMLLabelElement>(null);
   const [deliveryAddressLabelWidth, setDeliveryAddressLabelWidth] = useState(0);
-  const [isDeliveryAddressSelected, setIsDeliveryAddressSelected] = useState<
-    boolean
-  >(false);
-  const [isSelfDelivery, setIsSelfDelivery] = useState<boolean>(false);
-  const [hasDeliveryAddress, setHasDeliveryAddress] = useState<boolean>(false);
-
-  const buttonDisabled = () =>
-    props.checkout?.items.length === 0 ||
-    props.buttonDisabled === true ||
-    (!hasDeliveryAddress && !isSelfDelivery) ||
-    (!isSelfDelivery && !isDeliveryAddressSelected);
-
-  React.useEffect(() => {
-    setDeliveryDateLabelWidth(
-      deliveryDateInputLabel.current
-        ? deliveryDateInputLabel.current!.offsetWidth
-        : 0
-    );
-    setDeliveryAddressLabelWidth(
-      deliveryAddressInputLabel.current
-        ? deliveryAddressInputLabel.current!.offsetWidth
-        : 0
-    );
-    setHasDeliveryAddress(props.deliveryAddresses.length > 0);
-    setIsDeliveryAddressSelected(!!props.checkout?.deliveryAddress);
-    setIsSelfDelivery(
-      !props.checkout?.items.some((item: any) => item.deliveryOption.id !== 2)
-    );
-  }, [props.checkout, props.deliveryAddresses.length]);
 
   const handleDateChange = (
     event: React.ChangeEvent<{ name?: string | undefined; value: unknown }>
-  ) => {
-    props.onDeliveryDateUpdate(event.target.value);
+  ): void => {
+    setDeliveryDateLabelWidth(
+      deliveryDateInputLabel.current
+        ? deliveryDateInputLabel.current.offsetWidth
+        : 0
+    );
+    onDeliveryDateUpdate(event.target.value);
   };
+
+  useEffect(() => {
+    setDeliveryDateLabelWidth(
+      deliveryDateInputLabel.current
+        ? deliveryDateInputLabel.current.offsetWidth
+        : 0
+    );
+
+    if (checkout?.deliveryAddress) {
+      setDeliveryAddressLabelWidth(
+        deliveryAddressInputLabel.current
+          ? deliveryAddressInputLabel.current.offsetWidth
+          : 0
+      );
+    }
+  }, []);
 
   const handleAddressChange = (
     event: React.ChangeEvent<{ name?: string | undefined; value: unknown }>
-  ) => {
-    props.onDeliveryAddressUpdate(event.target.value);
-    setIsDeliveryAddressSelected(true);
+  ): void => {
+    setDeliveryAddressLabelWidth(
+      deliveryAddressInputLabel.current
+        ? deliveryAddressInputLabel.current.offsetWidth
+        : 0
+    );
+    onDeliveryAddressUpdate(event.target.value);
   };
 
   return (
@@ -81,19 +91,18 @@ const Checkout: React.FC<{
         </Typography>
 
         <CheckoutList
-          items={props.checkout?.items}
-          onDeliveryOptionUpdate={props.onDeliveryOptionUpdate}
+          items={checkout?.items}
+          onDeliveryOptionUpdate={onDeliveryOptionUpdate}
         />
 
         <Grid item xs={12} className={classes.totalDelivery}>
           <Typography>
-            {t("totalDeliveryCost")} {props.checkout?.deliveryFeeNet.toFixed(2)}
-            €
+            {t("totalDeliveryCost")} {checkout?.deliveryFeeNet.toFixed(2)}€
           </Typography>
         </Grid>
         <Grid container item className={classes.selects}>
           <Grid item xs={12} md={6}>
-            {props.checkout && (
+            {checkout && (
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel
                   shrink
@@ -106,14 +115,11 @@ const Checkout: React.FC<{
                 <Select
                   labelWidth={deliveryDateLabelWidth}
                   id="deliveryDate"
-                  defaultValue={
-                    props.checkout?.earliestDeliveryDate ||
-                    props.deliveryDays[0]
-                  }
+                  defaultValue={checkout.earliestDeliveryDate}
                   onChange={(event) => handleDateChange(event)}
                   fullWidth
                 >
-                  {props.deliveryDays.map((day) => (
+                  {deliveryDays.map((day) => (
                     <MenuItem value={day} key={day}>
                       {day}
                     </MenuItem>
@@ -123,7 +129,7 @@ const Checkout: React.FC<{
             )}
           </Grid>
           <Grid item xs={12} md={6} className={classes.address}>
-            {!isSelfDelivery && !hasDeliveryAddress && (
+            {deliveryAddresses.length < 1 && (
               <Button
                 variant="contained"
                 color="primary"
@@ -134,7 +140,7 @@ const Checkout: React.FC<{
                 {t("addDeliveryAddress")}
               </Button>
             )}
-            {!isSelfDelivery && hasDeliveryAddress && (
+            {deliveryAddresses.length > 0 && (
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel
                   shrink
@@ -147,9 +153,11 @@ const Checkout: React.FC<{
                   id="deliveryAddress"
                   labelWidth={deliveryAddressLabelWidth}
                   onChange={(event) => handleAddressChange(event)}
-                  defaultValue={props.checkout?.deliveryAddress || ""}
+                  defaultValue={
+                    checkout.deliveryAddress ? checkout.deliveryAddress : ""
+                  }
                 >
-                  {props.deliveryAddresses?.map((deliveryAddress: any) => (
+                  {deliveryAddresses?.map((deliveryAddress: any) => (
                     <MenuItem
                       key={deliveryAddress.id}
                       value={deliveryAddress.id}
@@ -174,8 +182,8 @@ const Checkout: React.FC<{
               color="primary"
               className={classes.proceed}
               component={Link}
-              to={props.checkoutPath}
-              disabled={buttonDisabled()}
+              to={checkoutPath}
+              disabled={!checkout.deliveryAddress}
             >
               {t("proceed")}
             </Button>

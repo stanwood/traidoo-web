@@ -1,3 +1,4 @@
+import DeliveryAddress from "../../../core/interfaces/deliveryAddress";
 import api from "../../../core/ky";
 import { generateHeaders } from "../../headers";
 
@@ -31,7 +32,9 @@ export const updateUserCompanyProfileRequest = async (data: any) => {
     .json();
 };
 
-export const getUserDeliveryAddressesRequest = async () => {
+export const getUserDeliveryAddressesRequest = async (): Promise<
+  DeliveryAddress[]
+> => {
   return await api
     .get("delivery_addresses", { headers: generateHeaders() })
     .json();
