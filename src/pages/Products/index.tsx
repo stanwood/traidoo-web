@@ -1,6 +1,7 @@
-import Container from "@material-ui/core/Container";
 import Skeleton from "@material-ui/lab/Skeleton";
 import React, { useContext, useState } from "react";
+import { Helmet } from "react-helmet";
+import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 import {
   BooleanParam,
@@ -24,6 +25,7 @@ import useStyles from "./styles";
 
 const Products = () => {
   const classes = useStyles();
+  const { t } = useTranslation();
 
   const context = useContext(Context);
   const user = context.state.user;
@@ -110,32 +112,32 @@ const Products = () => {
     refetchCart();
   };
 
-  if (!data || status === "loading") {
-    return (
-      <Container maxWidth="md">
-        {Array.from(Array(10).keys()).map((number) => (
-          <Skeleton key={number} />
-        ))}
-      </Container>
-    );
-  }
-
   return (
     <>
-      {!user?.id && <Hello className={classes.hello} />}
+      <Helmet>
+        <title>{t("products")}</title>
+      </Helmet>
 
-      <ProductsList
-        products={data}
-        page={calculatePage(query.page)}
-        onPageChange={onPageChange}
-        onFilterChange={onFilterChange}
-        onSortChange={onSortChange}
-        order={order}
-        orderBy={orderBy}
-        filterBy={filterBy}
-        addToCart={addToCart}
-        removeFromCart={removeFromCart}
-      />
+      {!data || status === "loading" ? (
+        Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
+      ) : (
+        <>
+          {!user?.id && <Hello className={classes.hello} />}
+
+          <ProductsList
+            products={data}
+            page={calculatePage(query.page)}
+            onPageChange={onPageChange}
+            onFilterChange={onFilterChange}
+            onSortChange={onSortChange}
+            order={order}
+            orderBy={orderBy}
+            filterBy={filterBy}
+            addToCart={addToCart}
+            removeFromCart={removeFromCart}
+          />
+        </>
+      )}
     </>
   );
 };

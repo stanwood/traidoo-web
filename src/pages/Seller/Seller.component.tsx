@@ -1,6 +1,7 @@
-import Container from "@material-ui/core/Container";
 import Skeleton from "@material-ui/lab/Skeleton";
 import React, { useContext, useState } from "react";
+import { Helmet } from "react-helmet";
+import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import {
@@ -22,9 +23,10 @@ import { Order } from "../../components/Products/types";
 import SellerComponent from "../../components/Seller";
 import { Context } from "../../core/context";
 
-const Seller = () => {
+const Seller: React.FC = () => {
   const context = useContext(Context);
   const { id } = useParams();
+  const { t } = useTranslation();
 
   const [query, setQuery] = useQueryParams({
     limit: NumberParam,
@@ -118,33 +120,33 @@ const Seller = () => {
     refetchCart();
   };
 
-  if (!productsData || productsStatus === "loading") {
-    return (
-      <Container maxWidth="md">
-        {Array.from(Array(10).keys()).map((number) => (
-          <Skeleton key={number} />
-        ))}
-      </Container>
-    );
-  }
-
   return (
-    <SellerComponent
-      products={productsData}
-      productsError={productsError}
-      seller={sellerData}
-      sellerPending={sellerStatus === "loading"}
-      sellerError={sellerError}
-      page={calculatePage(query!.page)}
-      onPageChange={onPageChange}
-      onFilterChange={onFilterChange}
-      onSortChange={onSortChange}
-      order={order}
-      orderBy={orderBy}
-      filterBy={filterBy}
-      addToCart={addToCart}
-      removeFromCart={removeFromCart}
-    />
+    <>
+      <Helmet>
+        <title>{t("sellerDetails")}</title>
+      </Helmet>
+
+      {!productsData || productsStatus === "loading" ? (
+        Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
+      ) : (
+        <SellerComponent
+          products={productsData}
+          productsError={productsError}
+          seller={sellerData}
+          sellerPending={sellerStatus === "loading"}
+          sellerError={sellerError}
+          page={calculatePage(query!.page)}
+          onPageChange={onPageChange}
+          onFilterChange={onFilterChange}
+          onSortChange={onSortChange}
+          order={order}
+          orderBy={orderBy}
+          filterBy={filterBy}
+          addToCart={addToCart}
+          removeFromCart={removeFromCart}
+        />
+      )}
+    </>
   );
 };
 

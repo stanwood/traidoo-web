@@ -2,6 +2,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { useLoadScript } from "@react-google-maps/api";
 import React from "react";
+import { Helmet } from "react-helmet";
 import { FormContext, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useMutation } from "react-query";
@@ -39,20 +40,20 @@ const AddRoutePage = () => {
     );
   }
 
-  if (!isLoaded) {
-    return (
-      <>
-        {Array.from(Array(10).keys()).map((number) => (
-          <Skeleton key={number} />
-        ))}
-      </>
-    );
-  }
-
   return (
-    <FormContext {...form}>
-      <RouteForm onSubmit={onSubmit} />
-    </FormContext>
+    <>
+      <Helmet>
+        <title>{t("addRoute")}</title>
+      </Helmet>
+
+      {!isLoaded ? (
+        Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
+      ) : (
+        <FormContext {...form}>
+          <RouteForm onSubmit={onSubmit} />
+        </FormContext>
+      )}
+    </>
   );
 };
 

@@ -1,6 +1,8 @@
 import Skeleton from "@material-ui/lab/Skeleton";
 import React, { useContext, useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import {
   deleteUserDeliveryAddressRequest,
@@ -15,6 +17,7 @@ import { CompanyData } from "./types";
 import { buyerValidationSchema, sellerValidationShema } from "./validation";
 
 const CompanyProfile = () => {
+  const { t } = useTranslation();
   const context = useContext(Context);
   const user = context.state.user;
   const [registrationErrors, setRegistrationErrors] = useState({});
@@ -91,6 +94,10 @@ const CompanyProfile = () => {
 
   return (
     <>
+      <Helmet>
+        <title>{t("companyProfile")}</title>
+      </Helmet>
+
       {!data && (
         <>
           {Array.from(Array(10).keys()).map((number: number) => (

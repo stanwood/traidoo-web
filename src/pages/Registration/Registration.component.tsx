@@ -4,6 +4,7 @@ import StepLabel from "@material-ui/core/StepLabel";
 import Stepper from "@material-ui/core/Stepper";
 import Alert from "@material-ui/lab/Alert";
 import React, { useState } from "react";
+import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import { registerRequest } from "../../api/queries/users/register";
 import RegistrationCompany from "../../components/Registration/RegistrationCompany";
@@ -44,7 +45,7 @@ const documentsFormFields = [
   "termAndConditions",
 ];
 
-const Registration = () => {
+const Registration: React.FC = () => {
   const classes = useStyles();
   const { t } = useTranslation();
 
@@ -164,6 +165,10 @@ const Registration = () => {
 
   return (
     <>
+      <Helmet>
+        <title>{t("Registration")}</title>
+      </Helmet>
+
       {activeStep === steps.length ? (
         <Container component="main" maxWidth="md">
           <Alert severity="info">{t("thankYouForRegistration")}</Alert>

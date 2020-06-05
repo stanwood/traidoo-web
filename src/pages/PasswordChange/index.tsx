@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
@@ -56,16 +57,21 @@ const PasswordChangePage = () => {
   };
 
   return (
-    <PasswordUpdateForm
-      apiErrors={passwordChangeErrors}
-      errors={errors}
-      register={register}
-      handleSubmit={handleSubmit}
-      setValue={setValue}
-      setError={setError}
-      clearError={clearError}
-      onSubmit={onSubmit}
-    />
+    <>
+      <Helmet>
+        <title>{t("passwordChange")}</title>
+      </Helmet>
+      <PasswordUpdateForm
+        apiErrors={passwordChangeErrors}
+        errors={errors}
+        register={register}
+        handleSubmit={handleSubmit}
+        setValue={setValue}
+        setError={setError}
+        clearError={clearError}
+        onSubmit={onSubmit}
+      />
+    </>
   );
 };
 
