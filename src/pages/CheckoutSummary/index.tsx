@@ -1,5 +1,6 @@
 import Skeleton from "@material-ui/lab/Skeleton";
 import React, { useContext } from "react";
+import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
@@ -79,24 +80,24 @@ const CheckoutSummaryPage = () => {
     history.push("/");
   };
 
-  if (checkoutStatus === "loading") {
-    return (
-      <>
-        {Array.from(Array(10).keys()).map((number: number) => (
-          <Skeleton key={number} />
-        ))}
-      </>
-    );
-  }
-
   return (
-    <CheckoutSummary
-      checkout={checkoutData}
-      summaryLeft={summaryLeft}
-      summaryRight={summaryRight}
-      isProceedDisabled={buttonDisabled}
-      onSubmit={onSubmit}
-    />
+    <>
+      <Helmet>
+        <title>{t("checkoutSummary")}</title>
+      </Helmet>
+
+      {checkoutStatus === "loading" ? (
+        Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
+      ) : (
+        <CheckoutSummary
+          checkout={checkoutData}
+          summaryLeft={summaryLeft}
+          summaryRight={summaryRight}
+          isProceedDisabled={buttonDisabled}
+          onSubmit={onSubmit}
+        />
+      )}
+    </>
   );
 };
 

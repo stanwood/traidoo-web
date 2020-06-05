@@ -1,13 +1,16 @@
 import React, { useState } from "react";
+import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 import { createUserDeliveryAddressRequest } from "../../api/queries/users/profile";
 import DeliveryAddressForm from "../../components/DeliveryAddress";
 import { DeliveryAddressData } from "./types";
 import validationSchema from "./validation";
 
-const DeliveryAddress = () => {
+const DeliveryAddress: React.FC = () => {
   const history = useHistory();
+  const { t } = useTranslation();
   const [registrationErrors, setRegistrationErrors] = useState({});
 
   const { register, handleSubmit, errors, setError } = useForm<
@@ -39,14 +42,19 @@ const DeliveryAddress = () => {
   };
 
   return (
-    <DeliveryAddressForm
-      apiErrors={registrationErrors}
-      errors={errors}
-      register={register}
-      handleSubmit={handleSubmit}
-      setError={setError}
-      onSubmit={onSubmit}
-    />
+    <>
+      <Helmet>
+        <title>{t("addDeliveryAddress")}</title>
+      </Helmet>
+      <DeliveryAddressForm
+        apiErrors={registrationErrors}
+        errors={errors}
+        register={register}
+        handleSubmit={handleSubmit}
+        setError={setError}
+        onSubmit={onSubmit}
+      />
+    </>
   );
 };
 

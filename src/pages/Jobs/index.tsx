@@ -1,5 +1,7 @@
 import Skeleton from "@material-ui/lab/Skeleton";
 import React, { useCallback } from "react";
+import { Helmet } from "react-helmet";
+import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 import {
   BooleanParam,
@@ -13,6 +15,7 @@ import { returnJobRequest } from "../../api/queries/jobs/return";
 import JobsList from "../../components/Jobs";
 
 const JobsPage: React.FC = () => {
+  const { t } = useTranslation();
   const [query, setQuery] = useQueryParams({
     page: withDefault(NumberParam, 0),
     my: withDefault(BooleanParam, false),
@@ -29,25 +32,25 @@ const JobsPage: React.FC = () => {
     [query]
   );
 
-  if (status === "loading" || !data) {
-    return (
-      <>
-        {Array.from(Array(10).keys()).map((number) => (
-          <Skeleton key={number} />
-        ))}
-      </>
-    );
-  }
-
   return (
-    <JobsList
-      jobs={data.results}
-      count={data.count}
-      page={query.page}
-      onPageChange={onPageChange}
-      onJobClaim={claim}
-      onJobReturn={unclaim}
-    />
+    <>
+      <Helmet>
+        <title>{t("jobs")}</title>
+      </Helmet>
+
+      {status === "loading" || !data ? (
+        Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
+      ) : (
+        <JobsList
+          jobs={data.results}
+          count={data.count}
+          page={query.page}
+          onPageChange={onPageChange}
+          onJobClaim={claim}
+          onJobReturn={unclaim}
+        />
+      )}
+    </>
   );
 };
 

@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
@@ -63,12 +64,17 @@ const Login = () => {
   };
 
   return (
-    <LoginForm
-      errors={errors}
-      register={register}
-      handleSubmit={handleSubmit}
-      onSubmit={onSubmit}
-    />
+    <>
+      <Helmet>
+        <title>{t("login")}</title>
+      </Helmet>
+      <LoginForm
+        errors={errors}
+        register={register}
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+      />
+    </>
   );
 };
 

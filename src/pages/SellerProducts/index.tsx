@@ -1,8 +1,9 @@
-import Container from "@material-ui/core/Container";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import Skeleton from "@material-ui/lab/Skeleton";
 import React, { useState } from "react";
+import { Helmet } from "react-helmet";
+import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
 import {
@@ -21,6 +22,7 @@ import useStyles from "./styles";
 const SellerProductsListPage = () => {
   const classes = useStyles();
   const history = useHistory();
+  const { t } = useTranslation();
 
   const [query, setQuery] = useQueryParams({
     limit: NumberParam,
@@ -62,36 +64,36 @@ const SellerProductsListPage = () => {
     return page ? +page : 0;
   };
 
-  if (!data || status === "loading") {
-    return (
-      <Container maxWidth="md">
-        {Array.from(Array(10).keys()).map((number) => (
-          <Skeleton key={number} />
-        ))}
-      </Container>
-    );
-  }
-
   return (
     <>
-      <ProductsList
-        products={data}
-        page={calculatePage(query.page)}
-        onPageChange={onPageChange}
-        onSortChange={onSortChange}
-        order={order}
-        orderBy={orderBy}
-        sellerView={true}
-      />
+      <Helmet>
+        <title>{t("products")}</title>
+      </Helmet>
 
-      <Fab
-        aria-label="Add a new product"
-        className={classes.fab}
-        color="primary"
-        onClick={() => history.push("/seller/products/add")}
-      >
-        <AddIcon />
-      </Fab>
+      {!data || status === "loading" ? (
+        Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
+      ) : (
+        <>
+          <ProductsList
+            products={data}
+            page={calculatePage(query.page)}
+            onPageChange={onPageChange}
+            onSortChange={onSortChange}
+            order={order}
+            orderBy={orderBy}
+            sellerView={true}
+          />
+
+          <Fab
+            aria-label="Add a new product"
+            className={classes.fab}
+            color="primary"
+            onClick={() => history.push("/seller/products/add")}
+          >
+            <AddIcon />
+          </Fab>
+        </>
+      )}
     </>
   );
 };

@@ -1,11 +1,14 @@
 import Skeleton from "@material-ui/lab/Skeleton";
 import React, { useCallback } from "react";
+import { Helmet } from "react-helmet";
+import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import { NumberParam, useQueryParams, withDefault } from "use-query-params";
 import { getOrdersRequest } from "../../api/queries/orders";
 import OrdersList from "../../components/Orders";
 
 const OrdersPage: React.FC = () => {
+  const { t } = useTranslation();
   const [query, setQuery] = useQueryParams({
     page: withDefault(NumberParam, 0),
   });
@@ -22,22 +25,23 @@ const OrdersPage: React.FC = () => {
     [query]
   );
 
-  if (status === "loading" || !data) {
-    return (
-      <>
-        {Array.from(Array(10).keys()).map((number) => (
-          <Skeleton key={number} />
-        ))}
-      </>
-    );
-  }
   return (
-    <OrdersList
-      orders={data.results}
-      count={data.count}
-      page={query.page}
-      onPageChange={onPageChange}
-    />
+    <>
+      <Helmet>
+        <title>{t("orders")}</title>
+      </Helmet>
+
+      {status === "loading" || !data ? (
+        Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
+      ) : (
+        <OrdersList
+          orders={data.results}
+          count={data.count}
+          page={query.page}
+          onPageChange={onPageChange}
+        />
+      )}
+    </>
   );
 };
 

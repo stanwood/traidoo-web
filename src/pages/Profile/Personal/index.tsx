@@ -1,7 +1,9 @@
 import Skeleton from "@material-ui/lab/Skeleton";
 import { format } from "date-fns";
 import React, { useState } from "react";
+import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import {
   getUserPersonalProfileRequest,
@@ -11,9 +13,10 @@ import PersonalProfileForm from "../../../components/Profile/Personal";
 import { FormData } from "./interfaces";
 import validationSchema from "./validation";
 
-const PersonalProfile = () => {
+const PersonalProfile: React.FC = () => {
   const [registrationErrors, setRegistrationErrors] = useState({});
   const [editMode, setEditMode] = React.useState(false);
+  const { t } = useTranslation();
 
   const { data, refetch } = useQuery(
     "/users/profile/personal",
@@ -61,6 +64,10 @@ const PersonalProfile = () => {
 
   return (
     <>
+      <Helmet>
+        <title>{t("personalProfile")}</title>
+      </Helmet>
+
       {!data && (
         <>
           {Array.from(Array(10).keys()).map((number: number) => (

@@ -1,8 +1,8 @@
-import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { format } from "date-fns";
 import React, { useState } from "react";
+import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
@@ -95,46 +95,44 @@ const SellerProductDetailsPage = () => {
     validationSchema,
   });
 
-  if (
-    !product ||
-    !productItems ||
-    productStatus === "loading" ||
-    productItemsStatus === "loading"
-  ) {
-    return (
-      <Container maxWidth="md">
-        {Array.from(Array(10).keys()).map((number) => (
-          <Skeleton key={number} />
-        ))}
-      </Container>
-    );
-  }
-
   return (
-    <Grid container spacing={3}>
-      <Grid item xs={12} md={9}>
-        <ProductDetail
-          product={product}
-          error={productError}
-          showEditButton={true}
-        />
-      </Grid>
-      <Grid item xs={12} md={3}>
-        <ProductItems
-          items={productItems}
-          onDelete={deleteItem}
-          register={register}
-          errors={errors}
-          setValue={setValue}
-          clearError={clearError}
-          handleSubmit={handleSubmit}
-          onSubmit={onSubmit}
-          openDialog={openDialog}
-          handleDialogOpen={handleDialogOpen}
-          handleDialogClose={handleDialogClose}
-        />
-      </Grid>
-    </Grid>
+    <>
+      <Helmet>
+        <title>{t("productDetail")}</title>
+      </Helmet>
+
+      {!product ||
+      !productItems ||
+      productStatus === "loading" ||
+      productItemsStatus === "loading" ? (
+        Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
+      ) : (
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={9}>
+            <ProductDetail
+              product={product}
+              error={productError}
+              showEditButton={true}
+            />
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <ProductItems
+              items={productItems}
+              onDelete={deleteItem}
+              register={register}
+              errors={errors}
+              setValue={setValue}
+              clearError={clearError}
+              handleSubmit={handleSubmit}
+              onSubmit={onSubmit}
+              openDialog={openDialog}
+              handleDialogOpen={handleDialogOpen}
+              handleDialogClose={handleDialogClose}
+            />
+          </Grid>
+        </Grid>
+      )}
+    </>
   );
 };
 

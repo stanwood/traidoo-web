@@ -3,12 +3,10 @@ import addDays from "date-fns/addDays";
 import eachDayOfInterval from "date-fns/eachDayOfInterval";
 import formatISO from "date-fns/formatISO";
 import React, { useCallback } from "react";
+import { Helmet } from "react-helmet";
+import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
-import {
-  cartDeliveryAddressRequest,
-  cartDeliveryDateRequest,
-  cartItemDeliveryOptionRequest,
-} from "../../api/queries/cart";
+import { cartDeliveryAddressRequest, cartDeliveryDateRequest, cartItemDeliveryOptionRequest } from "../../api/queries/cart";
 import { getCheckoutRequest } from "../../api/queries/checkout";
 import { getUserDeliveryAddressesRequest } from "../../api/queries/users/profile";
 import CheckoutDelivery from "../../components/Checkout";
@@ -21,6 +19,7 @@ const deliveryDays = eachDayOfInterval({
 }).map((day) => formatISO(day, { representation: "date" }));
 
 const Checkout: React.FC = () => {
+  const { t } = useTranslation();
   const [updateDeliveryOptionMutation] = useMutation(
     cartItemDeliveryOptionRequest
   );
@@ -62,26 +61,26 @@ const Checkout: React.FC = () => {
     });
   }, []);
 
-  if (deliveryAddresses === undefined || checkoutData === undefined) {
-    return (
-      <>
-        {Array.from(Array(10).keys()).map((number: number) => (
-          <Skeleton key={number} />
-        ))}
-      </>
-    );
-  }
-
   return (
-    <CheckoutDelivery
-      checkout={checkoutData}
-      deliveryDays={deliveryDays}
-      deliveryAddresses={deliveryAddresses}
-      onDeliveryOptionUpdate={updateDeliveryOption}
-      onDeliveryDateUpdate={updateDeliveryDate}
-      onDeliveryAddressUpdate={updateDeliveryAddress}
-      checkoutPath={"/checkout/summary"}
-    />
+    <>
+      <Helmet>
+        <title>{t("checkout")}</title>
+      </Helmet>
+
+      {deliveryAddresses === undefined || checkoutData === undefined ? (
+        Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
+      ) : (
+        <CheckoutDelivery
+          checkout={checkoutData}
+          deliveryDays={deliveryDays}
+          deliveryAddresses={deliveryAddresses}
+          onDeliveryOptionUpdate={updateDeliveryOption}
+          onDeliveryDateUpdate={updateDeliveryDate}
+          onDeliveryAddressUpdate={updateDeliveryAddress}
+          checkoutPath={"/checkout/summary"}
+        />
+      )}
+    </>
   );
 };
 

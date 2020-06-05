@@ -1,6 +1,7 @@
 import { Button, Container } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import React, { useState } from "react";
+import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
@@ -58,13 +59,18 @@ const PasswordSet = () => {
   }
 
   return (
-    <SetForm
-      errors={errors}
-      register={register}
-      handleSubmit={handleSubmit}
-      onSubmit={onSubmit}
-      isPending={pending}
-    />
+    <>
+      <Helmet>
+        <title>{t("setPassword")}</title>
+      </Helmet>
+      <SetForm
+        errors={errors}
+        register={register}
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        isPending={pending}
+      />
+    </>
   );
 };
 

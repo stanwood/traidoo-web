@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import { Route, Router, Switch } from "react-router-dom";
 import {
   ExtendedStringifyOptions,
@@ -6,6 +7,7 @@ import {
   transformSearchStringJsonSafe,
 } from "use-query-params";
 import Layout from "./components/Layout";
+import Config from "./config";
 import { Provider as AppProvider } from "./core/context";
 import history from "./core/history";
 import Checkout from "./pages/Checkout";
@@ -54,6 +56,12 @@ const App: React.FC = () => {
       >
         <AppProvider>
           <Layout>
+            <Helmet
+              titleTemplate={`%s - ${Config.clientName}`}
+              defaultTitle={`${Config.clientName}`}
+            >
+              <html lang="de" />
+            </Helmet>
             <Switch>
               <Route exact path="/">
                 <Products />

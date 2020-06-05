@@ -1,5 +1,7 @@
 import Skeleton from "@material-ui/lab/Skeleton";
 import React, { useContext } from "react";
+import { Helmet } from "react-helmet";
+import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import {
   getUserCompanyProfileRequest,
@@ -15,6 +17,7 @@ import requiredDocuments from "../../../core/utils/requiredDocuments";
 const CompanyDocuments = () => {
   const context = useContext(Context);
   const user = context.state.user;
+  const { t } = useTranslation();
 
   const { data: company } = useQuery(
     "/users/profile/company",
@@ -38,28 +41,28 @@ const CompanyDocuments = () => {
     updateUserMangopayDocumentRequest(name, file);
   };
 
-  if (!documents || !mangopayDocuments || !company || !user) {
-    return (
-      <>
-        {Array.from(Array(10).keys()).map((number: number) => (
-          <Skeleton key={number} />
-        ))}
-      </>
-    );
-  }
-
   return (
-    <CompanyDocumentsForm
-      documentUpload={documentUpload}
-      mangopayDocumentUpload={mangopayDocumentUpload}
-      documents={documents}
-      mangopayDocuments={mangopayDocuments}
-      requiredFields={requiredDocuments(
-        user?.groups?.includes("seller") || false, // TODO: is it correct? false default?
-        // @ts-ignore
-        company.companyType
+    <>
+      <Helmet>
+        <title>{t("documents")}</title>
+      </Helmet>
+
+      {!documents || !mangopayDocuments || !company || !user ? (
+        Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
+      ) : (
+        <CompanyDocumentsForm
+          documentUpload={documentUpload}
+          mangopayDocumentUpload={mangopayDocumentUpload}
+          documents={documents}
+          mangopayDocuments={mangopayDocuments}
+          requiredFields={requiredDocuments(
+            user?.groups?.includes("seller") || false, // TODO: is it correct? false default?
+            // @ts-ignore
+            company.companyType
+          )}
+        />
       )}
-    />
+    </>
   );
 };
 

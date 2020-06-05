@@ -1,6 +1,7 @@
 import Container from "@material-ui/core/Container";
 import Skeleton from "@material-ui/lab/Skeleton";
 import React, { useEffect } from "react";
+import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
@@ -63,40 +64,38 @@ const ProductEditPage = () => {
     });
   };
 
-  if (
-    productStatus === "loading" ||
-    containersStatus === "loading" ||
-    regionsStatus === "loading" ||
-    categoriesStatus === "loading" ||
-    tagsStatus === "loading"
-  ) {
-    return (
-      <Container maxWidth="md">
-        {Array.from(Array(10).keys()).map((number) => (
-          <Skeleton key={number} />
-        ))}
-      </Container>
-    );
-  }
-
   return (
-    <Container maxWidth="md">
-      <ProductForm
-        onSubmit={onSubmit}
-        handleSubmit={handleSubmit}
-        register={register}
-        errors={errors}
-        setValue={setValue}
-        clearError={clearError}
-        categories={categoriesData}
-        containers={containersData}
-        // @ts-ignore
-        regions={regionsData.results}
-        tags={tagsData}
-        defaultValues={productData}
-        buttonName={t("save")}
-      />
-    </Container>
+    <>
+      <Helmet>
+        <title>{t("editProduct")}</title>
+      </Helmet>
+
+      {productStatus === "loading" ||
+      containersStatus === "loading" ||
+      regionsStatus === "loading" ||
+      categoriesStatus === "loading" ||
+      tagsStatus === "loading" ? (
+        Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
+      ) : (
+        <Container maxWidth="md">
+          <ProductForm
+            onSubmit={onSubmit}
+            handleSubmit={handleSubmit}
+            register={register}
+            errors={errors}
+            setValue={setValue}
+            clearError={clearError}
+            categories={categoriesData}
+            containers={containersData}
+            // @ts-ignore
+            regions={regionsData.results}
+            tags={tagsData}
+            defaultValues={productData}
+            buttonName={t("save")}
+          />
+        </Container>
+      )}
+    </>
   );
 };
 

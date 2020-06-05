@@ -1,6 +1,7 @@
-import Container from "@material-ui/core/Container";
 import Skeleton from "@material-ui/lab/Skeleton";
 import React, { useContext } from "react";
+import { Helmet } from "react-helmet";
+import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import {
@@ -12,7 +13,8 @@ import { getProductRequest } from "../../api/queries/products";
 import ProductDetail from "../../components/Product";
 import { Context } from "../../core/context";
 
-const Product = () => {
+const Product: React.FC = () => {
+  const { t } = useTranslation();
   const context = useContext(Context);
   const { id } = useParams<{ id: string }>();
   const { status, data, error } = useQuery(
@@ -45,23 +47,23 @@ const Product = () => {
     refetchCart();
   };
 
-  if (!data || status === "loading") {
-    return (
-      <Container maxWidth="md">
-        {Array.from(Array(10).keys()).map((number) => (
-          <Skeleton key={number} />
-        ))}
-      </Container>
-    );
-  }
-
   return (
-    <ProductDetail
-      product={data}
-      error={error}
-      addToCart={addToCart}
-      removeFromCart={removeFromCart}
-    />
+    <>
+      <Helmet>
+        <title>{t("productDetail")}</title>
+      </Helmet>
+
+      {!data || status === "loading" ? (
+        Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
+      ) : (
+        <ProductDetail
+          product={data}
+          error={error}
+          addToCart={addToCart}
+          removeFromCart={removeFromCart}
+        />
+      )}
+    </>
   );
 };
 
