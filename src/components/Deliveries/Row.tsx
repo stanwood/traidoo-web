@@ -2,17 +2,11 @@ import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import { format, parseISO } from "date-fns";
 import React from "react";
-import i18n from "../../i18n";
+import statusMapping from "../../core/utils/statusMapping";
 
 interface RowProps {
   delivery: any;
 }
-
-const statusMapping = {
-  0: i18n.t("Cart"),
-  1: i18n.t("Paid"),
-  2: i18n.t("Ordered"),
-};
 
 const Row: React.FC<RowProps> = ({ delivery }: RowProps) => {
   const formatDate = (date: string): string => {

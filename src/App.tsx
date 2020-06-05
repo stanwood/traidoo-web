@@ -19,6 +19,7 @@ import ImprintPage from "./pages/Imprint";
 import JobsPage from "./pages/Jobs";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
+import OrderPage from "./pages/Order";
 import OrdersPage from "./pages/Orders";
 import PasswordChangePage from "./pages/PasswordChange";
 import PasswordReset from "./pages/PasswordReset";
@@ -155,6 +156,9 @@ const App: React.FC = () => {
               </Route>
               <Route exact path="/privacy-policy">
                 <PrivacyPolicyPage />
+              </Route>
+              <Route exact path="/history/orders/:id">
+                <OrderPage />
               </Route>
               <Route exact path="/history/orders">
                 <OrdersPage />
