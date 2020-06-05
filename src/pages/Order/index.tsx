@@ -18,8 +18,12 @@ const OrderPage: React.FC = () => {
   );
 
   const downloadFile = useCallback(() => {
-    getDocumentFileRequest(order.id, order.documentId).then((data: any) => {
-      console.log(data);
+    getDocumentFileRequest(order.id).then((data: any) => {
+      const link = document.createElement("a");
+      link.href = data.url;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     });
   }, [order]);
 
