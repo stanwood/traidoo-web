@@ -2,6 +2,8 @@
 
 declare namespace NodeJS {
   interface ProcessEnv {
+    DEBUG: boolean;
+    ENVIRONMENT: string;
     CLIENT_ID: string;
     CLIENT_NAME: string;
     THEME_PALETTE_PRIMARY_COLOR: string;
@@ -9,5 +11,6 @@ declare namespace NodeJS {
     API_ENDPOINT: string;
     FEATURE_ROUTES: boolean;
     GOOGLE_MAPS_API_KEY: string;
+    SENTRY_DSN: string;
   }
 }
