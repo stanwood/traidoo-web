@@ -82,7 +82,7 @@
     "@types/react-query": "^1.1.2",
     "@types/react-router-dom": "^5.1.4",
     "@types/sanitize-html": "^1.23.0",
-    "@types/yup": "^0.26.37",
+    "@types/yup": "^0.29.2",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
     "commitizen": "^4.0.4",
