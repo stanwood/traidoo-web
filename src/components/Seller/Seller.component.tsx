@@ -18,8 +18,6 @@ const Seller = ({
   order,
   orderBy,
   filterBy,
-  addToCart,
-  removeFromCart,
 }: any) => {
   const classes = useStyles();
 
@@ -51,8 +49,6 @@ const Seller = ({
             order={order}
             orderBy={orderBy}
             filterBy={filterBy}
-            addToCart={addToCart}
-            removeFromCart={removeFromCart}
           />
         </Grid>
       </Grid>

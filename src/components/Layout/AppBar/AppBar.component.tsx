@@ -17,12 +17,13 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useIsFetching, useQuery } from "react-query";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { getCurrentUserRequest } from "../../../api/queries/users/user";
 import Config from "../../../config";
+import { CartContext } from "../../../contexts/CartContext";
 import { Context } from "../../../core/context";
 import Props, { LinkTabProps } from "./AppBar.interfaces";
 import useStyles from "./AppBar.styles";
@@ -34,7 +35,7 @@ import {
 
 const inputBaseInputProps = { "aria-label": "search" };
 
-const CustomAppBar = ({
+const CustomAppBar: React.FC<Props> = ({
   handleDrawerLeft,
   handleDrawerRight,
   displayLeftMenuButton = false,
@@ -46,16 +47,13 @@ const CustomAppBar = ({
   const { t } = useTranslation();
 
   const context = useContext(Context);
+  const { cart } = useContext(CartContext);
   const user = context.state.user;
 
   const inputRef = React.useRef(null);
 
   const location = useLocation();
   const currentPath = location.pathname;
-
-  const [cartItemsQuantity, setCartItemsQuantity] = useState<number | null>(
-    null
-  );
 
   const inputBaseClasses = {
     root: classes.inputRoot,
@@ -67,10 +65,6 @@ const CustomAppBar = ({
       context.dispatch({ type: "user", payload: data });
     },
   });
-
-  useEffect(() => {
-    setCartItemsQuantity(Object.keys(context.state.cart.items).length);
-  }, [context.state.cart.items]);
 
   const keyPressed = useCallback((event: any) => {
     if (event.key === "Enter") {
@@ -235,7 +229,7 @@ const CustomAppBar = ({
               onClick={handleDrawerRight}
               className={classes.cartButton}
             >
-              <Badge badgeContent={cartItemsQuantity} color="secondary">
+              <Badge badgeContent={cart.products.length} color="secondary">
                 <ShoppingCartOutlinedIcon />
               </Badge>
             </IconButton>

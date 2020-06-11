@@ -1,17 +1,17 @@
 import SvgIcon from "@material-ui/core/SvgIcon";
 import React from "react";
-import { ReactComponent as Gluten } from "../../images/product/gluten.svg";
-import { ReactComponent as Gmo } from "../../images/product/gmo.svg";
-import { ReactComponent as Organic } from "../../images/product/organic.svg";
-import { ReactComponent as Range } from "../../images/product/range.svg";
-import { ReactComponent as Vegan } from "../../images/product/vegan.svg";
+import Gluten from "../../images/product/gluten.svg";
+import Gmo from "../../images/product/gmo.svg";
+import Organic from "../../images/product/organic.svg";
+import Range from "../../images/product/range.svg";
+import Vegan from "../../images/product/vegan.svg";
 
 const icons: { [key: string]: any } = {
   vegan: Vegan,
   range: Range,
   gmo: Gmo,
   organic: Organic,
-  gluten: Gluten
+  gluten: Gluten,
 };
 
 export const ProductIcon = ({ iconName, className, active }: any) => {

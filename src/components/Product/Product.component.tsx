@@ -10,7 +10,7 @@ import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import Img from "react-image";
 import LazyLoad from "react-lazyload";
-import { Context } from "../../core/context";
+import { CartContext } from "../../contexts/CartContext";
 import { default as DeliveryOptionType } from "../../core/types/deliveryOption";
 import Product from "../../core/types/product";
 import { ProductIcon } from "../ProductIcon/ProductIcon.component";
@@ -21,8 +21,6 @@ import useStyles from "./Product.styles";
 const ProductDetail = ({
   product,
   error,
-  addToCart,
-  removeFromCart,
   showEditButton = false,
 }: {
   product: Product;
@@ -32,12 +30,10 @@ const ProductDetail = ({
   showEditButton?: boolean;
 }) => {
   const classes = useStyles();
-  const context = useContext(Context);
+  const { isProductInCart, addProduct, removeProduct } = useContext(
+    CartContext
+  );
   const { t } = useTranslation();
-
-  const isProductInCart = (productId: number) => {
-    return Object.keys(context.state.cart.items).includes(productId.toString());
-  };
 
   const grossPrice = (price: number, vat: number): number => {
     return (
@@ -68,7 +64,7 @@ const ProductDetail = ({
           variant="contained"
           color="primary"
           className={classes.addToCart}
-          onClick={() => removeFromCart && removeFromCart(productId)}
+          onClick={() => removeProduct(productId)}
         >
           {t("removeFromCart")}
         </Button>
@@ -81,7 +77,7 @@ const ProductDetail = ({
         color="primary"
         className={classes.addToCart}
         onClick={() =>
-          addToCart && addToCart(productId, price, unit, name, amount)
+          addProduct({ id: productId, amount, name, price, unit, quantity: 1 })
         }
       >
         {t("addToCart")}
@@ -293,7 +289,7 @@ const ProductDetail = ({
                 {t("glutenFree")}
               </Typography>
             </Box>
-            {addToCart && removeFromCart && product?.price && (
+            {product?.price && (
               <Box className={classes.actions}>
                 {cartButton(
                   product.id,

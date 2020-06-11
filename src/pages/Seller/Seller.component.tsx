@@ -1,8 +1,8 @@
 import Skeleton from "@material-ui/lab/Skeleton";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
-import { useMutation, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import {
   BooleanParam,
@@ -11,27 +11,20 @@ import {
   useQueryParams,
   withDefault,
 } from "use-query-params";
-import {
-  getCartRequest,
-  modifyCartRequest,
-  removeFromCartRequest,
-} from "../../api/queries/cart";
 import { getProductsRequest } from "../../api/queries/products";
 import { getSellerByIdRequest } from "../../api/queries/users/user";
 import { TableColumnsWithSorting } from "../../components/Products/interfaces";
 import { Order } from "../../components/Products/types";
 import SellerComponent from "../../components/Seller";
-import { Context } from "../../core/context";
 
 const Seller: React.FC = () => {
-  const context = useContext(Context);
   const { id } = useParams();
   const { t } = useTranslation();
 
   const [query, setQuery] = useQueryParams({
     limit: NumberParam,
     offset: NumberParam,
-    isAvailable: BooleanParam,
+    isAvailable: withDefault(BooleanParam, true),
     category: NumberParam,
     search: StringParam,
     page: withDefault(NumberParam, 0),
@@ -49,13 +42,6 @@ const Seller: React.FC = () => {
     ["products", { ...Object(query), seller: Number(id) }],
     getProductsRequest
   );
-  const [cartAdd] = useMutation(modifyCartRequest);
-  const [cartDelete] = useMutation(removeFromCartRequest);
-  const { refetch: refetchCart } = useQuery("/cart", getCartRequest, {
-    onSuccess: (data: any) => {
-      context.dispatch({ type: "cart", payload: data });
-    },
-  });
 
   const {
     status: sellerStatus,
@@ -104,22 +90,6 @@ const Seller: React.FC = () => {
     return page ? +page : 0;
   };
 
-  const addToCart = async (
-    productId: number,
-    price: number,
-    unit: string,
-    name: string,
-    amount: number
-  ) => {
-    await cartAdd({ productId, quantity: amount });
-    refetchCart();
-  };
-
-  const removeFromCart = async (productId: number) => {
-    await cartDelete({ productId });
-    refetchCart();
-  };
-
   return (
     <>
       <Helmet>
@@ -142,8 +112,6 @@ const Seller: React.FC = () => {
           order={order}
           orderBy={orderBy}
           filterBy={filterBy}
-          addToCart={addToCart}
-          removeFromCart={removeFromCart}
         />
       )}
     </>

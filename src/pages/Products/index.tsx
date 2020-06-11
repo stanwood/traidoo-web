@@ -2,7 +2,7 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import React, { useContext, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
-import { useMutation, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import {
   BooleanParam,
   NumberParam,
@@ -10,11 +10,6 @@ import {
   useQueryParams,
   withDefault,
 } from "use-query-params";
-import {
-  getCartRequest,
-  modifyCartRequest,
-  removeFromCartRequest,
-} from "../../api/queries/cart";
 import { getProductsRequest } from "../../api/queries/products";
 import Hello from "../../components/Hello";
 import ProductsList from "../../components/Products";
@@ -23,7 +18,7 @@ import { Order } from "../../components/Products/types";
 import { Context } from "../../core/context";
 import useStyles from "./styles";
 
-const Products = () => {
+const Products: React.FC = () => {
   const classes = useStyles();
   const { t } = useTranslation();
 
@@ -47,16 +42,6 @@ const Products = () => {
     ["products", Object(query)],
     getProductsRequest
   );
-
-  const [cartAdd] = useMutation(modifyCartRequest);
-
-  const [cartDelete] = useMutation(removeFromCartRequest);
-
-  const { refetch: refetchCart } = useQuery("/cart", getCartRequest, {
-    onSuccess: (data: any) => {
-      context.dispatch({ type: "cart", payload: data });
-    },
-  });
 
   const [filterBy, setFilterBy] = useState<string>("");
   const [order, setOrder] = useState<Order>("asc");
@@ -96,22 +81,6 @@ const Products = () => {
     return page ? +page : 0;
   };
 
-  const addToCart = async (
-    productId: number,
-    price: number,
-    unit: string,
-    name: string,
-    amount: number
-  ) => {
-    await cartAdd({ productId, quantity: amount });
-    refetchCart();
-  };
-
-  const removeFromCart = async (productId: number) => {
-    await cartDelete({ productId });
-    refetchCart();
-  };
-
   return (
     <>
       <Helmet>
@@ -133,8 +102,6 @@ const Products = () => {
             order={order}
             orderBy={orderBy}
             filterBy={filterBy}
-            addToCart={addToCart}
-            removeFromCart={removeFromCart}
           />
         </>
       )}

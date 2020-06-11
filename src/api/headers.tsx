@@ -2,12 +2,11 @@ import Config from "../config";
 import { getAccessToken } from "./jwt";
 
 export const generateHeaders = (
-  addAccessToken: boolean = true,
-  isFormData: boolean = false
-) => {
+  addAccessToken = true,
+  isFormData = false
+): { [key: string]: string } => {
   // TODO: use new Headers()?
-  // TODO: support FormData
-  let headers: { [key: string]: string } = {
+  const headers: { [key: string]: string } = {
     Region: Config.clientId,
   };
 

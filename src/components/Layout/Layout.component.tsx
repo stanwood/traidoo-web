@@ -25,7 +25,7 @@ const snackbarAnchorOrigin: {
   horizontal: "right",
 };
 
-const Layout = ({ children }: Props) => {
+const Layout: React.FC<Props> = ({ children }: Props) => {
   const classes = useStyles();
   const AppContext = useContext(Context);
   const messages = AppContext.state.message;

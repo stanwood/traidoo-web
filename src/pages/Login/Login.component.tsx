@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
 import { storeAccessToken, storeRefreshToken } from "../../api/jwt";
-import { getCartRequest } from "../../api/queries/cart";
 import { getTokenRequest } from "../../api/queries/users/token";
 import { getCurrentUserRequest } from "../../api/queries/users/user";
 import LoginForm from "../../components/Login/LoginForm";
@@ -13,19 +12,13 @@ import { Context } from "../../core/context";
 import { FormData } from "./interfaces";
 import validationSchema from "./Login.validation";
 
-const Login = () => {
+const Login: React.FC = () => {
   const context = useContext(Context);
   const history = useHistory();
   const { t } = useTranslation();
 
   const { register, handleSubmit, errors, setError } = useForm<FormData>({
     validationSchema: validationSchema,
-  });
-
-  const { refetch: refetchCart } = useQuery("/cart", getCartRequest, {
-    onSuccess: (data: any) => {
-      context.dispatch({ type: "cart", payload: data });
-    },
   });
 
   const { refetch: refetchProfile } = useQuery(
@@ -45,7 +38,6 @@ const Login = () => {
       storeRefreshToken(data.refresh);
       storeAccessToken(data.access);
       refetchProfile();
-      refetchCart();
     },
     onError: (error: any) => {
       if (error.status === 401) {
