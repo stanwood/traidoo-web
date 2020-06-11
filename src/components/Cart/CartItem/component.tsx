@@ -4,32 +4,27 @@ import {
   Grid,
   IconButton,
   ListItem,
-  Typography
+  Typography,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import ClearIcon from "@material-ui/icons/Clear";
 import RemoveIcon from "@material-ui/icons/Remove";
 import Dinero from "dinero.js";
-import React from "react";
+import React, { useContext } from "react";
+import { CartContext, CartProduct } from "../../../contexts/CartContext";
 import useStyles from "./styles";
 
 const CartItem: React.FC<{
-  id: string;
-  title: string;
-  onRemove: Function;
-  onIncrease: Function;
-  onDecrease: Function;
-  totalPrice: number;
-  quantity: number;
-  price: number;
-  unit: string;
-}> = props => {
+  product: CartProduct;
+}> = (props: { product: CartProduct }) => {
+  const { product } = props;
+  const { removeProduct, setProductQuantity } = useContext(CartContext);
   const classes = useStyles();
   const totalPrice = Dinero({
-    amount: Math.round(props.price * 100),
-    currency: "EUR"
+    amount: Math.round(product.price * 100),
+    currency: "EUR",
   })
-    .multiply(props.quantity)
+    .multiply(product.quantity)
     .toUnit();
 
   return (
@@ -45,11 +40,11 @@ const CartItem: React.FC<{
           >
             <Grid key={1} item xs={10}>
               <Typography variant="h6" className={classes.title}>
-                {props.title}
+                {product.name}
               </Typography>
             </Grid>
             <Grid key={2} item xs={2} className={classes.removeButton}>
-              <IconButton onClick={() => props.onRemove(props.id)}>
+              <IconButton onClick={() => removeProduct(product.id)}>
                 <ClearIcon />
               </IconButton>
             </Grid>
@@ -61,8 +56,8 @@ const CartItem: React.FC<{
             alignItems="center"
           >
             <Grid key={1} item>
-              {props.quantity} {props.unit} a {props.price.toFixed(2)}€ /{" "}
-              {props.unit}
+              {product.quantity} {product.unit} a {product.price.toFixed(2)}€ /{" "}
+              {product.unit}
             </Grid>
           </Grid>
           <Grid
@@ -79,11 +74,19 @@ const CartItem: React.FC<{
                 color="primary"
                 aria-label="outlined primary button group"
               >
-                <Button onClick={() => props.onDecrease(props.id)}>
+                <Button
+                  onClick={() =>
+                    setProductQuantity(product.id, product.quantity - 1)
+                  }
+                >
                   <RemoveIcon />
                 </Button>
-                <Button disabled>{props.quantity}</Button>
-                <Button onClick={() => props.onIncrease(props.id)}>
+                <Button disabled>{product.quantity}</Button>
+                <Button
+                  onClick={() =>
+                    setProductQuantity(product.id, product.quantity + 1)
+                  }
+                >
                   <AddIcon />
                 </Button>
               </ButtonGroup>

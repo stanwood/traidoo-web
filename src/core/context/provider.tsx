@@ -7,15 +7,13 @@ const defaultState: State = {
   message: { message: null, open: false },
   user: { id: undefined, groups: undefined },
   categories: [],
-  cart: { earliestDeliveryDate: null, items: {} },
 };
 
-const Provider = ({ children }: ProviderProps) => {
+const Provider: React.FC<ProviderProps> = ({ children }: ProviderProps) => {
   const [state, dispatch] = React.useReducer(reducer, defaultState);
+  const value = { state, dispatch };
 
-  return (
-    <Context.Provider value={{ state, dispatch }}>{children}</Context.Provider>
-  );
+  return <Context.Provider value={value}>{children}</Context.Provider>;
 };
 
 export default Provider;

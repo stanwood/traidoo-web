@@ -10,7 +10,5 @@ export default interface ProductsListProps {
   orderBy: string;
   onFilterChange?: any;
   filterBy?: string;
-  addToCart?: Function;
-  removeFromCart?: Function;
   sellerView?: boolean;
 }

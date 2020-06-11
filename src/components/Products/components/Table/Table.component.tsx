@@ -11,10 +11,11 @@ import TableRow from "@material-ui/core/TableRow";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import RemoveShoppingCartIcon from "@material-ui/icons/RemoveShoppingCart";
 import Skeleton from "@material-ui/lab/Skeleton";
-import React, { useContext } from "react";
+import React, { ReactElement, useContext } from "react";
 import Img from "react-image";
 import LazyLoad from "react-lazyload";
 import { Link as RouterLink } from "react-router-dom";
+import { CartContext } from "../../../../contexts/CartContext";
 import { Context } from "../../../../core/context";
 import TablePaginationActions from "../Pagination/Pagination.component";
 import TableHead from "../TableHead";
@@ -22,7 +23,7 @@ import TableToolbar from "../TableToolbar";
 import ProductsListProps from "./interfaces";
 import useStyles from "./Table.styles";
 
-const ProductsList = ({
+const ProductsList: React.FC<ProductsListProps> = ({
   products,
   onPageChange,
   onFilterChange,
@@ -31,17 +32,14 @@ const ProductsList = ({
   order,
   orderBy,
   filterBy,
-  addToCart,
-  removeFromCart,
   sellerView,
 }: ProductsListProps) => {
   const classes = useStyles();
   const context = useContext(Context);
+  const { isProductInCart, addProduct, removeProduct } = useContext(
+    CartContext
+  );
   const user = context.state.user;
-
-  const isProductInCart = (productId: number) => {
-    return Object.keys(context.state.cart.items).includes(productId.toString());
-  };
 
   const cartButton = (
     productId: number,
@@ -49,13 +47,13 @@ const ProductsList = ({
     unit: string,
     name: string,
     amount: number
-  ) => {
+  ): ReactElement => {
     if (isProductInCart(productId)) {
       return (
         <IconButton
           color="primary"
           aria-label="add to cart"
-          onClick={() => removeFromCart && removeFromCart(productId)}
+          onClick={() => removeProduct(productId)}
         >
           <RemoveShoppingCartIcon />
         </IconButton>
@@ -67,7 +65,7 @@ const ProductsList = ({
         color="primary"
         aria-label="add to cart"
         onClick={() =>
-          addToCart && addToCart(productId, price, unit, name, amount)
+          addProduct({ id: productId, amount, name, price, unit, quantity: 1 })
         }
       >
         <AddShoppingCartIcon />
@@ -78,10 +76,10 @@ const ProductsList = ({
   const loggedInData = (
     productId: number,
     name: string,
-    price: number = 0,
-    unit: string = "",
+    price = 0,
+    unit = "",
     amount: number
-  ) => {
+  ): ReactElement | undefined => {
     if (user?.id) {
       if (sellerView) {
         return (

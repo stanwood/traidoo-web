@@ -27,12 +27,6 @@ const reducer = (state: State, action: Actions): State => {
         categories: arrayToTree(action.payload, { parentProperty: "parent" }),
       };
     }
-    case "cart": {
-      return {
-        ...state,
-        cart: action.payload,
-      };
-    }
     default:
       return state;
   }

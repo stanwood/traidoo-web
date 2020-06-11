@@ -11,8 +11,12 @@ const refreshTokenName = "jwt-refresh-token";
 export const getRefreshToken = (): string | undefined =>
   Cookies.get(refreshTokenName);
 
-export const storeRefreshToken = (refreshToken: string) => {
-  Cookies.set(refreshTokenName, refreshToken, { path: "/" });
+export const storeRefreshToken = (refreshToken: string): void => {
+  Cookies.set(refreshTokenName, refreshToken, {
+    path: "/",
+    secure: true,
+    sameSite: "Lax",
+  });
 };
 
 export const removeRefreshToken = (): void => {
@@ -22,15 +26,19 @@ export const removeRefreshToken = (): void => {
 export const getAccessToken = (): string | undefined =>
   Cookies.get(accessTokenName);
 
-export const storeAccessToken = (accessToken: string) => {
-  Cookies.set(accessTokenName, accessToken, { path: "/" });
+export const storeAccessToken = (accessToken: string): void => {
+  Cookies.set(accessTokenName, accessToken, {
+    path: "/",
+    secure: true,
+    sameSite: "Lax",
+  });
 };
 
 export const removeAccessToken = (): void => {
   Cookies.remove(accessTokenName);
 };
 
-export const needRefreshToken = () => {
+export const needRefreshToken = (): boolean => {
   const accessToken = getAccessToken();
 
   if (!accessToken) {
