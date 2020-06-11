@@ -66,7 +66,7 @@ const OrderItem: React.FC<OrderItemProps> = (props: OrderItemProps) => {
           </TableRow>
           <TableRow>
             <TableCell className={classes.infoValue}>
-              {format(parseISO(order.date), "yyyy-dd-MM")}
+              {format(parseISO(order.createdAt), "yyyy-dd-MM")}
             </TableCell>
             <TableCell className={classes.infoValue}>
               {statusMapping[order.status]}
