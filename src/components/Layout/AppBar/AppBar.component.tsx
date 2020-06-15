@@ -39,6 +39,7 @@ const CustomAppBar: React.FC<Props> = ({
   handleDrawerLeft,
   handleDrawerRight,
   displayLeftMenuButton = false,
+  displayCartIcon,
   tabs = [],
 }: Props) => {
   const classes = useStyles();
@@ -220,7 +221,7 @@ const CustomAppBar: React.FC<Props> = ({
               onKeyPress={keyPressed}
             />
           </div>
-          {user?.id && (
+          {user?.id && displayCartIcon && (
             <IconButton
               aria-label="shopping cart"
               edge="end"
