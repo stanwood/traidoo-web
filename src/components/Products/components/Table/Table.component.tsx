@@ -15,7 +15,7 @@ import React, { ReactElement, useContext } from "react";
 import Img from "react-image";
 import LazyLoad from "react-lazyload";
 import { Link as RouterLink } from "react-router-dom";
-import { CartContext } from "../../../../contexts/CartContext";
+import { CartContext } from "../../../../contexts/CartContext/context";
 import { Context } from "../../../../core/context";
 import TablePaginationActions from "../Pagination/Pagination.component";
 import TableHead from "../TableHead";

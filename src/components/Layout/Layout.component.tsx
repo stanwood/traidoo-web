@@ -29,6 +29,7 @@ const Layout: React.FC<Props> = ({ children }: Props) => {
   const classes = useStyles();
   const AppContext = useContext(Context);
   const messages = AppContext.state.message;
+  const [displayCartIcon, setDisplayCartIcon] = useState<boolean>(false);
 
   const location = useLocation();
   const pagesWithLeftMenu = [
@@ -37,6 +38,18 @@ const Layout: React.FC<Props> = ({ children }: Props) => {
     "/seller/logistic/routes",
     "/seller/logistic/jobs",
   ];
+
+  useEffect(() => {
+    if (
+      location.pathname === "/" ||
+      location.pathname.startsWith("/products")
+    ) {
+      setDisplayCartIcon(true);
+    } else {
+      setDisplayCartIcon(false);
+    }
+  }, [location.pathname]);
+
   const displayLeftMenuButton = pagesWithLeftMenu.includes(location.pathname);
   const [tabsList, setTabsList] = useState<{ name: string; link: string }[]>(
     []
@@ -98,12 +111,17 @@ const Layout: React.FC<Props> = ({ children }: Props) => {
     setOpenRightDrawer(!openRightDrawer);
   }, [openRightDrawer]);
 
+  useEffect(() => {
+    setOpenRightDrawer(false);
+  }, [location.pathname]);
+
   return (
     <div>
       <CustomAppBar
         handleDrawerLeft={handleDrawerLeft}
         handleDrawerRight={handleDrawerRight}
         displayLeftMenuButton={displayLeftMenuButton}
+        displayCartIcon={displayCartIcon}
         tabs={tabsList}
       />
       {leftMenu}

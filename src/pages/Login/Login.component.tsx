@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useCallback, useContext } from "react";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -8,12 +8,14 @@ import { storeAccessToken, storeRefreshToken } from "../../api/jwt";
 import { getTokenRequest } from "../../api/queries/users/token";
 import { getCurrentUserRequest } from "../../api/queries/users/user";
 import LoginForm from "../../components/Login/LoginForm";
+import { CartContext } from "../../contexts/CartContext/context";
 import { Context } from "../../core/context";
 import { FormData } from "./interfaces";
 import validationSchema from "./Login.validation";
 
 const Login: React.FC = () => {
   const context = useContext(Context);
+  const { refetch: refetchCart } = useContext(CartContext);
   const history = useHistory();
   const { t } = useTranslation();
 
@@ -51,9 +53,10 @@ const Login: React.FC = () => {
     },
   });
 
-  const onSubmit = async (formData: FormData) => {
+  const onSubmit = useCallback(async (formData: FormData): Promise<void> => {
     await mutate({ email: formData.email, password: formData.password });
-  };
+    refetchCart();
+  }, []);
 
   return (
     <>

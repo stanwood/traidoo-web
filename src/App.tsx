@@ -8,7 +8,7 @@ import {
 } from "use-query-params";
 import Layout from "./components/Layout";
 import Config from "./config";
-import { CartProvider } from "./contexts/CartContext";
+import CartProvider from "./contexts/CartContext";
 import { Provider as AppProvider } from "./core/context";
 import history from "./core/history";
 import Checkout from "./pages/Checkout";
