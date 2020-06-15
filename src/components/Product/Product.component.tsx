@@ -10,7 +10,7 @@ import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import Img from "react-image";
 import LazyLoad from "react-lazyload";
-import { CartContext } from "../../contexts/CartContext";
+import { CartContext } from "../../contexts/CartContext/context";
 import { default as DeliveryOptionType } from "../../core/types/deliveryOption";
 import Product from "../../core/types/product";
 import { ProductIcon } from "../ProductIcon/ProductIcon.component";

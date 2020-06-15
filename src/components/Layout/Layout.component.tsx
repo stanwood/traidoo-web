@@ -98,6 +98,10 @@ const Layout: React.FC<Props> = ({ children }: Props) => {
     setOpenRightDrawer(!openRightDrawer);
   }, [openRightDrawer]);
 
+  useEffect(() => {
+    setOpenRightDrawer(false);
+  }, [location.pathname]);
+
   return (
     <div>
       <CustomAppBar

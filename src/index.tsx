@@ -16,7 +16,7 @@ const queryConfig = {
 
   // useQuery
   retry: 0,
-  staleTime: 0,
+  staleTime: 1,
   cacheTime: 1 * 60 * 1000, // 1min
   // refetchInterval: false,
 };

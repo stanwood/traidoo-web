@@ -1,5 +1,5 @@
 import Skeleton from "@material-ui/lab/Skeleton";
-import React, { useContext } from "react";
+import React, { useCallback, useContext } from "react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
@@ -9,11 +9,13 @@ import {
   getCheckoutRequest,
 } from "../../api/queries/checkout";
 import CheckoutSummary from "../../components/CheckoutSummary";
+import { CartContext } from "../../contexts/CartContext/context";
 import { Context } from "../../core/context";
 
-const CheckoutSummaryPage = () => {
+const CheckoutSummaryPage: React.FC = () => {
   const history = useHistory();
   const context = useContext(Context);
+  const { initialState } = useContext(CartContext);
   const { t } = useTranslation();
 
   const { data: checkoutData, status: checkoutStatus } = useQuery(
@@ -67,18 +69,15 @@ const CheckoutSummaryPage = () => {
     },
   ];
 
-  const onSubmit = async () => {
+  const onSubmit = useCallback(async () => {
     await checkoutMutation();
     context.dispatch({
       type: "addMessage",
       payload: { message: t("orderCreated") },
     });
-    context.dispatch({
-      type: "cart",
-      payload: { earliestDeliveryDate: null, items: {} }, // TODO: add deleteCart action
-    });
+    initialState();
     history.push("/");
-  };
+  }, []);
 
   return (
     <>

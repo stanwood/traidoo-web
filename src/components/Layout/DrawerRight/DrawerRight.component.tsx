@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Link as RouterLink } from "react-router-dom";
-import { CartContext } from "../../../contexts/CartContext";
+import { CartContext } from "../../../contexts/CartContext/context";
 import Cart from "../../Cart/Cart/component";
 import CartItem from "../../Cart/CartItem/component";
 import useStyles from "./DrawerRight.styles";

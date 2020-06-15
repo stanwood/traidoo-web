@@ -11,7 +11,8 @@ import ClearIcon from "@material-ui/icons/Clear";
 import RemoveIcon from "@material-ui/icons/Remove";
 import Dinero from "dinero.js";
 import React, { useContext } from "react";
-import { CartContext, CartProduct } from "../../../contexts/CartContext";
+import { CartContext } from "../../../contexts/CartContext/context";
+import { CartProduct } from "../../../contexts/CartContext/interfaces";
 import useStyles from "./styles";
 
 const CartItem: React.FC<{

@@ -23,7 +23,7 @@ import { useIsFetching, useQuery } from "react-query";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { getCurrentUserRequest } from "../../../api/queries/users/user";
 import Config from "../../../config";
-import { CartContext } from "../../../contexts/CartContext";
+import { CartContext } from "../../../contexts/CartContext/context";
 import { Context } from "../../../core/context";
 import Props, { LinkTabProps } from "./AppBar.interfaces";
 import useStyles from "./AppBar.styles";
