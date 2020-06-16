@@ -5,7 +5,7 @@ import TableRow from "@material-ui/core/TableRow";
 import { format, parseISO } from "date-fns";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Context } from "../../core/context";
+import { UserContext } from "../../contexts/UserContext/context";
 
 const Row = ({
   job,
@@ -18,11 +18,11 @@ const Row = ({
 }) => {
   const { t } = useTranslation();
 
-  const appContext = useContext(Context);
+  const { user } = useContext(UserContext);
   const [claimed, setClaimed] = useState(false);
 
   useEffect(() => {
-    if (job?.user === appContext.state.user.id) {
+    if (job?.user === user.id) {
       setClaimed(true);
     }
   }, [job]);

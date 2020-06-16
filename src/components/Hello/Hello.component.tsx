@@ -9,13 +9,16 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import useStyles from "./Hello.styles";
 
-export default function Hello(props: any) {
-  // TODO: add type
+const Hello: React.FC<{ className: string }> = ({
+  className,
+}: {
+  className: string;
+}) => {
   const classes = useStyles();
   const { t } = useTranslation();
 
   return (
-    <Card className={props.className}>
+    <Card className={className}>
       <CardMedia
         component="img"
         className={classes.media}
@@ -51,4 +54,6 @@ export default function Hello(props: any) {
       </CardActions>
     </Card>
   );
-}
+};
+
+export default Hello;

@@ -15,15 +15,13 @@ import Hello from "../../components/Hello";
 import ProductsList from "../../components/Products";
 import { TableColumnsWithSorting } from "../../components/Products/interfaces";
 import { Order } from "../../components/Products/types";
-import { Context } from "../../core/context";
+import { UserContext } from "../../contexts/UserContext/context";
 import useStyles from "./styles";
 
 const Products: React.FC = () => {
   const classes = useStyles();
   const { t } = useTranslation();
-
-  const context = useContext(Context);
-  const user = context.state.user;
+  const { user } = useContext(UserContext);
 
   const [query, setQuery] = useQueryParams({
     limit: NumberParam,
@@ -39,8 +37,13 @@ const Products: React.FC = () => {
   });
 
   const { status, data } = useQuery(
-    ["products", Object(query)],
-    getProductsRequest
+    [`products-${user.id}-${user.groups.join("-")}`, Object(query)],
+    getProductsRequest,
+    {
+      refetchInterval: 1000 * 30,
+      refetchIntervalInBackground: true,
+      refetchOnWindowFocus: true,
+    }
   );
 
   const [filterBy, setFilterBy] = useState<string>("");
@@ -87,11 +90,11 @@ const Products: React.FC = () => {
         <title>{t("products")}</title>
       </Helmet>
 
-      {!data || status === "loading" ? (
+      {status === "loading" ? (
         Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
       ) : (
         <>
-          {!user?.id && <Hello className={classes.hello} />}
+          {!user.id && <Hello className={classes.hello} />}
 
           <ProductsList
             products={data}

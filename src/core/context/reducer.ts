@@ -15,12 +15,6 @@ const reducer = (state: State, action: Actions): State => {
         message: { message: null, open: false },
       };
     }
-    case "user": {
-      return {
-        ...state,
-        user: action.payload,
-      };
-    }
     case "categories": {
       return {
         ...state,

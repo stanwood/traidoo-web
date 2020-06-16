@@ -5,7 +5,6 @@ import { ProviderProps, State } from "./types";
 
 const defaultState: State = {
   message: { message: null, open: false },
-  user: { id: undefined, groups: undefined },
   categories: [],
 };
 

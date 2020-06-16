@@ -9,6 +9,7 @@ import React, {
   useState,
 } from "react";
 import { useLocation } from "react-router-dom";
+import { UserContext } from "../../contexts/UserContext/context";
 import { Context } from "../../core/context";
 import CustomAppBar from "./AppBar";
 import { CategoriesMenu, RoutesMenu } from "./DrawerLeft";
@@ -28,6 +29,7 @@ const snackbarAnchorOrigin: {
 const Layout: React.FC<Props> = ({ children }: Props) => {
   const classes = useStyles();
   const AppContext = useContext(Context);
+  const { user } = useContext(UserContext);
   const messages = AppContext.state.message;
   const [displayCartIcon, setDisplayCartIcon] = useState<boolean>(false);
 
@@ -75,8 +77,8 @@ const Layout: React.FC<Props> = ({ children }: Props) => {
   }, []);
 
   useEffect(() => {
-    getTabs(AppContext.state.user, location.pathname);
-  }, [AppContext.state.user, location.pathname, getTabs]);
+    getTabs(user, location.pathname);
+  }, [user, location.pathname, getTabs]);
 
   const closeMessage = useCallback(() => {
     AppContext.dispatch({ type: "removeMessage" });

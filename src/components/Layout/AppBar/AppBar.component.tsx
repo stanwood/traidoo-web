@@ -17,21 +17,22 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
-import React, { useCallback, useContext } from "react";
+import React, {
+  ReactElement,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
-import { useIsFetching, useQuery } from "react-query";
+import { useIsFetching } from "react-query";
 import { Link, useHistory, useLocation } from "react-router-dom";
-import { getCurrentUserRequest } from "../../../api/queries/users/user";
 import Config from "../../../config";
 import { CartContext } from "../../../contexts/CartContext/context";
-import { Context } from "../../../core/context";
+import { UserContext } from "../../../contexts/UserContext/context";
 import Props, { LinkTabProps } from "./AppBar.interfaces";
 import useStyles from "./AppBar.styles";
-import {
-  rightMenuAnonymousItems,
-  rightMenuBuyerItems,
-  rightMenuSellerItems,
-} from "./menuItems";
+import { getRightMenuItems, MenuItem as IMenuItem } from "./menuItems";
 
 const inputBaseInputProps = { "aria-label": "search" };
 
@@ -42,14 +43,18 @@ const CustomAppBar: React.FC<Props> = ({
   displayCartIcon,
   tabs = [],
 }: Props) => {
+  const { cart } = useContext(CartContext);
+  const { user, canBuy } = useContext(UserContext);
+
   const classes = useStyles();
   const history = useHistory();
   const showLoadingIndicator = useIsFetching();
   const { t } = useTranslation();
+  const [rightMenuItems, setRightMenuItems] = useState<IMenuItem[][]>([]);
 
-  const context = useContext(Context);
-  const { cart } = useContext(CartContext);
-  const user = context.state.user;
+  useEffect(() => {
+    setRightMenuItems(getRightMenuItems(user));
+  }, [user]);
 
   const inputRef = React.useRef(null);
 
@@ -60,12 +65,6 @@ const CustomAppBar: React.FC<Props> = ({
     root: classes.inputRoot,
     input: classes.inputInput,
   } as const; // TODO: Can I use this to fix react-perf/jsx-no-new-object-as-prop?
-
-  useQuery("/users/profile/me", getCurrentUserRequest, {
-    onSuccess: (data: any) => {
-      context.dispatch({ type: "user", payload: data });
-    },
-  });
 
   const keyPressed = useCallback((event: any) => {
     if (event.key === "Enter") {
@@ -102,17 +101,7 @@ const CustomAppBar: React.FC<Props> = ({
     return <Tab component={Link} to={props.link} {...props} />;
   };
 
-  const renderRightMenu = () => {
-    let items: any = [];
-
-    if (user?.groups?.includes("seller")) {
-      items = rightMenuSellerItems;
-    } else if (user?.groups?.includes("buyer")) {
-      items = rightMenuBuyerItems;
-    } else {
-      items = rightMenuAnonymousItems;
-    }
-
+  const renderRightMenu = (): ReactElement => {
     return (
       <Menu
         id="simple-menu"
@@ -121,7 +110,7 @@ const CustomAppBar: React.FC<Props> = ({
         open={Boolean(userMenuElement)}
         onClose={handleUserMenuClose}
       >
-        {items.map((itemsGroup: any, index: number, elements: any) => {
+        {rightMenuItems.map((itemsGroup: any, index: number, elements: any) => {
           const divider = elements[index + 1] ? <Divider /> : null;
 
           return (
@@ -221,7 +210,7 @@ const CustomAppBar: React.FC<Props> = ({
               onKeyPress={keyPressed}
             />
           </div>
-          {user?.id && displayCartIcon && (
+          {canBuy && displayCartIcon && (
             <IconButton
               aria-label="shopping cart"
               edge="end"
