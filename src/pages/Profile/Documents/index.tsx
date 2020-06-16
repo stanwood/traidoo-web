@@ -11,12 +11,11 @@ import {
   updateUserMangopayDocumentRequest,
 } from "../../../api/queries/users/profile";
 import CompanyDocumentsForm from "../../../components/Profile/Documents";
-import { Context } from "../../../core/context";
+import { UserContext } from "../../../contexts/UserContext/context";
 import requiredDocuments from "../../../core/utils/requiredDocuments";
 
-const CompanyDocuments = () => {
-  const context = useContext(Context);
-  const user = context.state.user;
+const CompanyDocuments: React.FC = () => {
+  const { user } = useContext(UserContext);
   const { t } = useTranslation();
 
   const { data: company } = useQuery(

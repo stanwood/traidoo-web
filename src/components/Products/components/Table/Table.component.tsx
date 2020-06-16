@@ -16,7 +16,7 @@ import Img from "react-image";
 import LazyLoad from "react-lazyload";
 import { Link as RouterLink } from "react-router-dom";
 import { CartContext } from "../../../../contexts/CartContext/context";
-import { Context } from "../../../../core/context";
+import { UserContext } from "../../../../contexts/UserContext/context";
 import TablePaginationActions from "../Pagination/Pagination.component";
 import TableHead from "../TableHead";
 import TableToolbar from "../TableToolbar";
@@ -35,11 +35,10 @@ const ProductsList: React.FC<ProductsListProps> = ({
   sellerView,
 }: ProductsListProps) => {
   const classes = useStyles();
-  const context = useContext(Context);
+  const { canBuy } = useContext(UserContext);
   const { isProductInCart, addProduct, removeProduct } = useContext(
     CartContext
   );
-  const user = context.state.user;
 
   const cartButton = (
     productId: number,
@@ -76,11 +75,11 @@ const ProductsList: React.FC<ProductsListProps> = ({
   const loggedInData = (
     productId: number,
     name: string,
-    price = 0,
+    price: number | undefined,
     unit = "",
     amount: number
   ): ReactElement | undefined => {
-    if (user?.id) {
+    if (price) {
       if (sellerView) {
         return (
           <TableCell align="right">
@@ -191,13 +190,14 @@ const ProductsList: React.FC<ProductsListProps> = ({
                     {sellerView && row.itemsAvailable}
                   </TableCell>
                 </Hidden>
-                {loggedInData(
-                  row.id,
-                  row.name,
-                  row.price,
-                  row.unit,
-                  row.amount
-                )}
+                {canBuy &&
+                  loggedInData(
+                    row.id,
+                    row.name,
+                    row.price,
+                    row.unit,
+                    row.amount
+                  )}
               </TableRow>
             ))}
           </TableBody>

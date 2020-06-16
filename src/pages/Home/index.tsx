@@ -1,9 +1,8 @@
 import React, { useContext } from "react";
-import { Context } from "../../core/context";
+import { UserContext } from "../../contexts/UserContext/context";
 
-const Home = () => {
-  const context = useContext(Context);
-  const user = context.state.user;
+const Home: React.FC = () => {
+  const { user } = useContext(UserContext);
 
   return <>Hello {user?.id}!</>;
 };

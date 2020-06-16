@@ -5,21 +5,10 @@ import ReactDOM from "react-dom";
 import { ReactQueryConfigProvider } from "react-query";
 import App from "./App";
 import Config from "./config";
+import ReactQueryConfig from "./core/reactQueryConfig";
 import "./i18n";
 import "./index.css";
 import theme from "./theme";
-
-const queryConfig = {
-  // Global
-  suspense: false,
-  refetchAllOnWindowFocus: false,
-
-  // useQuery
-  retry: 0,
-  staleTime: 1,
-  cacheTime: 1 * 60 * 1000, // 1min
-  // refetchInterval: false,
-};
 
 Sentry.init({
   // TODO: disable for local environment
@@ -31,7 +20,7 @@ Sentry.init({
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <CssBaseline />
-    <ReactQueryConfigProvider config={queryConfig}>
+    <ReactQueryConfigProvider config={ReactQueryConfig}>
       <App />
     </ReactQueryConfigProvider>
   </ThemeProvider>,

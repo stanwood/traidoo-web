@@ -1,13 +1,21 @@
+import { UserState } from "../../../contexts/UserContext/interfaces";
 import i18n from "../../../i18n";
 
-const buyerItems = [{ name: i18n.t("history"), path: "/history/orders" }];
+export interface MenuItem {
+  name: string;
+  path: string;
+}
 
-const userItems = [
+const userItems: MenuItem[] = [
   { name: i18n.t("profile"), path: "/profile/personal" },
   { name: i18n.t("logout"), path: "/logout" },
 ];
 
-const globalItems = [
+const buyerItems: MenuItem[] = [
+  { name: i18n.t("history"), path: "/history/orders" },
+];
+
+const globalItems: MenuItem[] = [
   { name: i18n.t("termsOfServices"), path: "/terms-of-services" },
   { name: i18n.t("privacyPolicy"), path: "/privacy-policy" },
   { name: i18n.t("prices"), path: "/prices" },
@@ -15,13 +23,19 @@ const globalItems = [
   { name: i18n.t("contact"), path: "/contact" },
 ];
 
-const anonymousItems = [
+const anonymousItems: MenuItem[] = [
   { name: i18n.t("login"), path: "/login" },
   { name: i18n.t("registration"), path: "/registration" },
 ];
 
-export const rightMenuAnonymousItems = [anonymousItems, globalItems];
+export const getRightMenuItems = (user: UserState): MenuItem[][] => {
+  if (!user.id) {
+    return [anonymousItems, globalItems];
+  }
 
-export const rightMenuSellerItems = [buyerItems, userItems, globalItems];
+  if (user.groups.length === 0) {
+    return [userItems, globalItems];
+  }
 
-export const rightMenuBuyerItems = [buyerItems, userItems, globalItems];
+  return [buyerItems, userItems, globalItems];
+};

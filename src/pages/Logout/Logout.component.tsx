@@ -2,18 +2,18 @@ import { useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { removeAccessToken, removeRefreshToken } from "../../api/jwt";
 import { CartContext } from "../../contexts/CartContext/context";
-import { Context } from "../../core/context";
+import { UserContext } from "../../contexts/UserContext/context";
 
 export const Logout: React.FC = () => {
   const history = useHistory();
-  const context = useContext(Context);
+  const { logout } = useContext(UserContext);
   const { initialState } = useContext(CartContext);
 
   useEffect(() => {
     removeAccessToken();
     removeRefreshToken();
     initialState();
-    context.dispatch({ type: "user", payload: null });
+    logout();
     history.push("/");
   });
 

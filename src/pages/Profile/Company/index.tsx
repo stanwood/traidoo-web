@@ -11,15 +11,14 @@ import {
   updateUserCompanyProfileRequest,
 } from "../../../api/queries/users/profile";
 import CompanyProfileForm from "../../../components/Profile/Company";
-import { Context } from "../../../core/context";
+import { UserContext } from "../../../contexts/UserContext/context";
 import { required } from "../../../utils/errors";
 import { CompanyData } from "./types";
 import { buyerValidationSchema, sellerValidationShema } from "./validation";
 
 const CompanyProfile: React.FC = () => {
   const { t } = useTranslation();
-  const context = useContext(Context);
-  const user = context.state.user;
+  const { user } = useContext(UserContext);
   const [registrationErrors, setRegistrationErrors] = useState({});
   const [editMode, setEditMode] = React.useState(false);
   const [

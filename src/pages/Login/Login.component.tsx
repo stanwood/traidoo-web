@@ -2,20 +2,19 @@ import React, { useCallback, useContext } from "react";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { useMutation, useQuery } from "react-query";
+import { useMutation } from "react-query";
 import { useHistory } from "react-router-dom";
 import { storeAccessToken, storeRefreshToken } from "../../api/jwt";
 import { getTokenRequest } from "../../api/queries/users/token";
-import { getCurrentUserRequest } from "../../api/queries/users/user";
 import LoginForm from "../../components/Login/LoginForm";
 import { CartContext } from "../../contexts/CartContext/context";
-import { Context } from "../../core/context";
+import { UserContext } from "../../contexts/UserContext/context";
 import { FormData } from "./interfaces";
 import validationSchema from "./Login.validation";
 
 const Login: React.FC = () => {
-  const context = useContext(Context);
   const { refetch: refetchCart } = useContext(CartContext);
+  const { refetch: fetchUser } = useContext(UserContext);
   const history = useHistory();
   const { t } = useTranslation();
 
@@ -23,23 +22,12 @@ const Login: React.FC = () => {
     validationSchema: validationSchema,
   });
 
-  const { refetch: refetchProfile } = useQuery(
-    "/users/profile/me",
-    getCurrentUserRequest,
-    {
-      manual: true,
-      onSuccess: (data: any) => {
-        context.dispatch({ type: "user", payload: data });
-        history.push("/");
-      },
-    }
-  );
-
   const [mutate] = useMutation(getTokenRequest, {
-    onSuccess: (data: any) => {
+    onSuccess: async (data: any) => {
       storeRefreshToken(data.refresh);
       storeAccessToken(data.access);
-      refetchProfile();
+      await fetchUser();
+      history.push("/");
     },
     onError: (error: any) => {
       if (error.status === 401) {

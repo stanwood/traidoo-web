@@ -3,9 +3,9 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Context } from "../../../../core/context";
+import { UserContext } from "../../../../contexts/UserContext/context";
 import { TableColumns, TableHeadCell, TableProps } from "../../interfaces";
 import { Order } from "../../types";
 import { anoynmousHeadCells, headCells, sellerHeadCells } from "./cells";
@@ -13,10 +13,8 @@ import useStyles from "./TableHead.styles";
 
 const TableHeader = (props: TableProps) => {
   const classes = useStyles();
-  const context = useContext(Context);
+  const { canBuy, isSeller } = useContext(UserContext);
   const { t } = useTranslation();
-  const user = context.state.user;
-  const [cells, setCells] = useState<any>();
   const { order, orderBy, onRequestSort } = props;
   const sortHandler = (property: keyof TableColumns) => (
     event: React.MouseEvent<unknown>
@@ -24,15 +22,15 @@ const TableHeader = (props: TableProps) => {
     onRequestSort(event, property);
   };
 
-  useEffect(() => {
-    if (user?.id && props.sellerView) {
-      setCells(sellerHeadCells);
-    } else if (user?.id) {
-      setCells(headCells);
+  const cells = useMemo(() => {
+    if (canBuy) {
+      return headCells;
+    } else if (isSeller) {
+      return sellerHeadCells;
     } else {
-      setCells(anoynmousHeadCells);
+      return anoynmousHeadCells;
     }
-  }, [user, props.sellerView]);
+  }, [canBuy, isSeller]);
 
   // TODO: move CustomTableCellProps and CustomTableCell to separate files
   interface CustomTableCellProps {
