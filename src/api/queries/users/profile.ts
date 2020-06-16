@@ -17,7 +17,20 @@ export const updateUserPersonalProfileRequest = async (data: any) => {
     .json();
 };
 
-export const getUserCompanyProfileRequest = async () => {
+export const getUserCompanyProfileRequest = async (): Promise<{
+  companyName: string;
+  companyType: string;
+  iban: string;
+  companyRegistrationId: string;
+  vatId: string;
+  taxId: string;
+  isCertifiedOrganicProducer: boolean;
+  organicControlBody: string;
+  description: string;
+  zip: string;
+  street: string;
+  city: string;
+}> => {
   return await api
     .get("users/profile/company", { headers: generateHeaders() })
     .json();
