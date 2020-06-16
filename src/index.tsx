@@ -22,6 +22,7 @@ const queryConfig = {
 };
 
 Sentry.init({
+  // TODO: disable for local environment
   dsn: Config.sentryDSN,
   debug: Config.debug,
   environment: `${Config.environment}-${Config.clientId}`,

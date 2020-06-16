@@ -16,7 +16,7 @@ import { required } from "../../../utils/errors";
 import { CompanyData } from "./types";
 import { buyerValidationSchema, sellerValidationShema } from "./validation";
 
-const CompanyProfile = () => {
+const CompanyProfile: React.FC = () => {
   const { t } = useTranslation();
   const context = useContext(Context);
   const user = context.state.user;
@@ -38,7 +38,7 @@ const CompanyProfile = () => {
     refetch: refetchDeliveryAddresses,
   } = useQuery("/delivery_addresses", getUserDeliveryAddressesRequest);
 
-  const isSeller = () => {
+  const isSeller = (): boolean | undefined => {
     return user?.groups?.includes("seller");
   };
 
@@ -59,10 +59,11 @@ const CompanyProfile = () => {
 
   useEffect(() => {
     register({ name: "companyType" }, { validate: required("Company type") });
-  }, [register, setError]);
+    setValue("companyType", data?.companyType || "");
+  }, [register, setError, setValue, data]);
 
   async function handleError(error: any) {
-    let errors: any = {};
+    const errors: any = {};
 
     const errorResponse = await error.response.json();
 

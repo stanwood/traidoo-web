@@ -11,7 +11,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import companyTypes from "../../../data/CompanyTypes/de.json";
 import DeliveryAddresses from "../DeliveryAddresses";
@@ -67,12 +67,13 @@ const CompanyProfileForm = ({
     onCancel();
   };
 
-  const handleCompanyTypeChange = (
-    event: React.ChangeEvent<{ value: unknown }>
-  ) => {
-    setValue("companyType", event.target.value as string);
-    clearError("companyType");
-  };
+  const handleCompanyTypeChange = useCallback(
+    (event: React.ChangeEvent<{ value: unknown }>): void => {
+      setValue("companyType", event.target.value as string);
+      clearError("companyType");
+    },
+    []
+  );
 
   return (
     <Container component="main" maxWidth="md">
@@ -118,7 +119,8 @@ const CompanyProfileForm = ({
                 </InputLabel>
                 <Select
                   labelId="companyTypeLabelId"
-                  value={profile.companyType}
+                  // TODO: Pass API response to form default values and use it instead of profile
+                  defaultValue={profile.companyType}
                   required
                   id="companyType"
                   name="companyType"
