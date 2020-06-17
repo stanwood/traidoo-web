@@ -64,7 +64,7 @@ const validationSchema = yup.object().shape({
     is: true,
     then: yup
       .mixed()
-      .test("image", "companyLogoRequired", (value) => value.length > 0)
+      .test("image", i18n.t("companyLogoRequired"), (value) => value.length > 0)
       .test(
         "fileSize",
         i18n.t("fileTooLarge"),
