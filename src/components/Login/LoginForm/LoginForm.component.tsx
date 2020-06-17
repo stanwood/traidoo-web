@@ -1,10 +1,14 @@
 import Button from "@material-ui/core/Button";
+import Collapse from "@material-ui/core/Collapse";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
+import IconButton from "@material-ui/core/IconButton";
 import Link from "@material-ui/core/Link";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import React from "react";
+import CloseIcon from "@material-ui/icons/Close";
+import Alert from "@material-ui/lab/Alert";
+import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Link as RouterLink } from "react-router-dom";
 import useStyles from "./LoginForm.styles";
@@ -15,9 +19,15 @@ const LoginForm = ({
   handleSubmit,
   onSubmit,
   isPending,
+  loginError,
+  setLoginError,
 }: any) => {
   const classes = useStyles();
   const { t } = useTranslation();
+
+  const hideErrorMessage = useCallback(() => {
+    setLoginError(false);
+  }, [setLoginError]);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -58,6 +68,24 @@ const LoginForm = ({
             error={errors.password ? true : false}
             helperText={errors.password ? errors.password.message : ""}
           />
+          <Collapse in={loginError}>
+            <Alert
+              severity="warning"
+              className={classes.alert}
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={hideErrorMessage}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+            >
+              {t("incorrectEmailOrPassword")}
+            </Alert>
+          </Collapse>
           <Button
             type="submit"
             fullWidth

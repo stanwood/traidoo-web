@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -15,6 +15,7 @@ import validationSchema from "./Login.validation";
 const Login: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
+  const [loginError, setLoginError] = useState<boolean>(false);
 
   const { refetch: refetchCart } = useContext(CartContext);
   const { refetch: fetchUser } = useContext(UserContext);
@@ -32,12 +33,15 @@ const Login: React.FC = () => {
       history.push("/");
     },
     onError: () => {
-      setError("email", "incorrectData", t("incorrectEmailOrPassword"));
+      setError("email", "incorrectData", "");
+      setError("password", "incorrectData", "");
+      setLoginError(true);
     },
   });
 
   const onSubmit = useCallback(
     async (formData: FormData): Promise<void> => {
+      setLoginError(false);
       await mutate({ email: formData.email, password: formData.password });
     },
     [mutate]
@@ -53,6 +57,8 @@ const Login: React.FC = () => {
         register={register}
         handleSubmit={handleSubmit}
         onSubmit={onSubmit}
+        loginError={loginError}
+        setLoginError={setLoginError}
       />
     </>
   );
