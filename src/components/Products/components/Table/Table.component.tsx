@@ -12,7 +12,7 @@ import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import RemoveShoppingCartIcon from "@material-ui/icons/RemoveShoppingCart";
 import Skeleton from "@material-ui/lab/Skeleton";
 import React, { ReactElement, useContext } from "react";
-import Img from "react-image";
+import { Img } from "react-image";
 import LazyLoad from "react-lazyload";
 import { Link as RouterLink } from "react-router-dom";
 import { CartContext } from "../../../../contexts/CartContext/context";

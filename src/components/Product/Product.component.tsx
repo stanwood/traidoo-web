@@ -8,7 +8,7 @@ import Alert from "@material-ui/lab/Alert";
 import Skeleton from "@material-ui/lab/Skeleton";
 import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
-import Img from "react-image";
+import { Img } from "react-image";
 import LazyLoad from "react-lazyload";
 import { CartContext } from "../../contexts/CartContext/context";
 import { default as DeliveryOptionType } from "../../core/types/deliveryOption";
