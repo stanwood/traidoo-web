@@ -9,7 +9,7 @@ export const getTokenRequest = async ({
 }: {
   email: string;
   password: string;
-}) => {
+}): Promise<{ refresh: string; access: string }> => {
   return await api
     .post("auth/token", {
       json: { email, password },

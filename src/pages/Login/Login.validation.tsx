@@ -6,10 +6,7 @@ const schema = yup.object().shape({
     .string()
     .email(i18n.t("incorrectFormat"))
     .required(i18n.t("emailRequired")),
-  password: yup
-    .string()
-    .required(i18n.t("passwordRequired"))
-    .min(4, i18n.t("​incorrectPasswordFormat")),
+  password: yup.string().required(i18n.t("passwordRequired")),
 });
 
 export default schema;

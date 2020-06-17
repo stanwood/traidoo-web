@@ -6,6 +6,7 @@ import React, {
   useState,
 } from "react";
 import { useQuery } from "react-query";
+import { getAccessToken } from "../../api/jwt";
 import { getCurrentUserRequest } from "../../api/queries/users/user";
 import { UserContext } from "./context";
 import { UserProviderProps, UserState } from "./interfaces";
@@ -19,14 +20,15 @@ const UserProvider = (props: UserProviderProps): ReactElement => {
   const [user, setUser] = useState<UserState>(initialState);
 
   const { refetch } = useQuery("/users/profile/me", getCurrentUserRequest, {
+    manual: true,
     onSuccess: (data) => {
       setUser(data);
     },
   });
 
   useEffect(() => {
-    refetch();
-  }, []);
+    if (getAccessToken()) refetch();
+  }, [refetch]);
 
   const logout = useCallback(() => {
     setUser(initialState);

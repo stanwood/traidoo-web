@@ -12,7 +12,12 @@ const Product: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { status, data, error } = useQuery(
     ["/product", Number(id)],
-    getProductRequest
+    getProductRequest,
+    {
+      refetchInterval: 1000 * 60,
+      refetchIntervalInBackground: true,
+      refetchOnWindowFocus: true,
+    }
   );
 
   return (

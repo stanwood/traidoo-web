@@ -40,7 +40,7 @@ const Products: React.FC = () => {
     [`products-${user.id}-${user.groups.join("-")}`, Object(query)],
     getProductsRequest,
     {
-      refetchInterval: 1000 * 30,
+      refetchInterval: 1000 * 60,
       refetchIntervalInBackground: true,
       refetchOnWindowFocus: true,
     }
