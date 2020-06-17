@@ -13,38 +13,35 @@ import { FormData } from "./interfaces";
 import validationSchema from "./Login.validation";
 
 const Login: React.FC = () => {
+  const { t } = useTranslation();
+  const history = useHistory();
+
   const { refetch: refetchCart } = useContext(CartContext);
   const { refetch: fetchUser } = useContext(UserContext);
-  const history = useHistory();
-  const { t } = useTranslation();
 
   const { register, handleSubmit, errors, setError } = useForm<FormData>({
     validationSchema: validationSchema,
   });
 
   const [mutate] = useMutation(getTokenRequest, {
-    onSuccess: async (data: any) => {
+    onSuccess: async (data) => {
       storeRefreshToken(data.refresh);
       storeAccessToken(data.access);
       await fetchUser();
+      refetchCart();
       history.push("/");
     },
-    onError: (error: any) => {
-      if (error.status === 401) {
-        setError("email", "incorrectData", t("incorrectEmailOrPassword"));
-      } else if (error.status === 400) {
-        // TODO: make reusable
-        // TODO: should we parse all error or only the first one?
-        const [field, data]: any = Object.entries(error.message)[0];
-        setError(field, data[0].code, data[0].message);
-      }
+    onError: () => {
+      setError("email", "incorrectData", t("incorrectEmailOrPassword"));
     },
   });
 
-  const onSubmit = useCallback(async (formData: FormData): Promise<void> => {
-    await mutate({ email: formData.email, password: formData.password });
-    refetchCart();
-  }, []);
+  const onSubmit = useCallback(
+    async (formData: FormData): Promise<void> => {
+      await mutate({ email: formData.email, password: formData.password });
+    },
+    [mutate]
+  );
 
   return (
     <>
