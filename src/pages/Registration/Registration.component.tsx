@@ -56,9 +56,9 @@ const Registration: React.FC = () => {
   const [registrationErrors, setRegistrationErrors] = useState({});
   const steps = [t("personal"), t("company"), t("documents")];
 
-  const handleNext = () =>
+  const handleNext = (): void =>
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  const handleBack = () =>
+  const handleBack = (): void =>
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
 
   function handlePersonalSubmit(evt: any) {
@@ -72,7 +72,7 @@ const Registration: React.FC = () => {
   }
 
   async function handleError(error: any) {
-    let errors: any = {};
+    const errors: any = {};
 
     const errorResponse = await error.response.json();
 
@@ -82,7 +82,7 @@ const Registration: React.FC = () => {
 
     setRegistrationErrors(errors);
 
-    for (let field of Object.keys(errors)) {
+    for (const field of Object.keys(errors)) {
       if (personalFormFields.includes(field)) {
         setActiveStep(0);
         break;
@@ -99,7 +99,7 @@ const Registration: React.FC = () => {
   function handleDocumentsSubmit(evt: any) {
     setDocumentsData(evt);
 
-    let data = new FormData();
+    const data = new FormData();
 
     const combinedData = {
       ...personalData,

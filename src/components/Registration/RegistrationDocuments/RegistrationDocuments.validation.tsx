@@ -27,12 +27,17 @@ const validationSchema = yup.object().shape({
         i18n.t("businessLicenseRequired"),
         (value) => value.length > 0
       )
-      .test("fileSize", i18n.t("fileTooLarge"), (value) => {
-        return value[0].size <= FILE_SIZE;
-      })
-      .test("fileType", i18n.t("incorrectFileFormat"), (value) => {
-        return SUPPORTED_DOCUMENTS.includes(value[0].type);
-      }),
+      .test(
+        "fileSize",
+        i18n.t("fileTooLarge"),
+        (value) => value.length > 0 && value[0].size <= FILE_SIZE
+      )
+      .test(
+        "fileType",
+        i18n.t("incorrectFileFormat"),
+        (value) =>
+          value.length > 0 && SUPPORTED_DOCUMENTS.includes(value[0].type)
+      ),
   }),
   identityProof: yup.mixed().when("companyType", {
     is: (value) => requiredDocuments(false, value)?.includes("identityProof"),
@@ -46,10 +51,13 @@ const validationSchema = yup.object().shape({
       .test(
         "fileSize",
         i18n.t("fileTooLarge"),
-        (value) => value[0].size <= FILE_SIZE
+        (value) => value.length > 0 && value[0].size <= FILE_SIZE
       )
-      .test("fileType", i18n.t("incorrectFileFormat"), (value) =>
-        SUPPORTED_DOCUMENTS.includes(value[0].type)
+      .test(
+        "fileType",
+        i18n.t("incorrectFileFormat"),
+        (value) =>
+          value.length > 0 && SUPPORTED_DOCUMENTS.includes(value[0].type)
       ),
   }),
   image: yup.mixed().when("declaredAsSeller", {
@@ -60,10 +68,12 @@ const validationSchema = yup.object().shape({
       .test(
         "fileSize",
         i18n.t("fileTooLarge"),
-        (value) => value[0].size <= FILE_SIZE
+        (value) => value.length > 0 && value[0].size <= FILE_SIZE
       )
-      .test("fileType", i18n.t("incorrectFileFormat"), (value) =>
-        SUPPORTED_IMAGES.includes(value[0].type)
+      .test(
+        "fileType",
+        i18n.t("incorrectFileFormat"),
+        (value) => value.length > 0 && SUPPORTED_IMAGES.includes(value[0].type)
       ),
   }),
   registrationProof: yup.mixed().when("companyType", {
@@ -79,10 +89,13 @@ const validationSchema = yup.object().shape({
       .test(
         "fileSize",
         i18n.t("fileTooLarge"),
-        (value) => value[0].size <= FILE_SIZE
+        (value) => value.length > 0 && value[0].size <= FILE_SIZE
       )
-      .test("fileType", i18n.t("incorrectFileFormat"), (value) =>
-        SUPPORTED_DOCUMENTS.includes(value[0].type)
+      .test(
+        "fileType",
+        i18n.t("incorrectFileFormat"),
+        (value) =>
+          value.length > 0 && SUPPORTED_DOCUMENTS.includes(value[0].type)
       ),
   }),
   articlesOfAssociation: yup.mixed().when("companyType", {
@@ -98,10 +111,13 @@ const validationSchema = yup.object().shape({
       .test(
         "fileSize",
         i18n.t("fileTooLarge"),
-        (value) => value[0].size <= FILE_SIZE
+        (value) => value.length > 0 && value[0].size <= FILE_SIZE
       )
-      .test("fileType", i18n.t("incorrectFileFormat"), (value) =>
-        SUPPORTED_DOCUMENTS.includes(value[0].type)
+      .test(
+        "fileType",
+        i18n.t("incorrectFileFormat"),
+        (value) =>
+          value.length > 0 && SUPPORTED_DOCUMENTS.includes(value[0].type)
       ),
   }),
 });

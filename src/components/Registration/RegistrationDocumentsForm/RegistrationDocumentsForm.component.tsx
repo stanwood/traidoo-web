@@ -8,6 +8,9 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import useStyles from "./RegistrationDocumentsForm.styles";
 
+const ACCEPT_IMAGE_AND_PDF = { accept: "image/*,application/pdf" };
+const ACCEPT_IMAGE = { accept: "image/*" };
+
 const RegistrationDocumentsForm = ({
   errors,
   register,
@@ -47,7 +50,7 @@ const RegistrationDocumentsForm = ({
                 className={classes.input}
                 id="businessLicense"
                 name="businessLicense"
-                inputProps={{ accept: "image/*,application/pdf" }}
+                inputProps={ACCEPT_IMAGE_AND_PDF}
                 type="file"
                 required
                 inputRef={register}
@@ -76,7 +79,7 @@ const RegistrationDocumentsForm = ({
                 className={classes.input}
                 id="identityProof"
                 name="identityProof"
-                inputProps={{ accept: "image/*,application/pdf" }}
+                inputProps={ACCEPT_IMAGE_AND_PDF}
                 type="file"
                 inputRef={register}
               />
@@ -102,7 +105,7 @@ const RegistrationDocumentsForm = ({
                 className={classes.input}
                 id="image"
                 name="image"
-                inputProps={{ accept: "image/*" }}
+                inputProps={ACCEPT_IMAGE}
                 type="file"
                 inputRef={register}
               />
@@ -128,7 +131,7 @@ const RegistrationDocumentsForm = ({
                 className={classes.input}
                 id="registrationProof"
                 name="registrationProof"
-                inputProps={{ accept: "image/*,application/pdf" }}
+                inputProps={ACCEPT_IMAGE_AND_PDF}
                 type="file"
                 inputRef={register}
               />
@@ -156,7 +159,7 @@ const RegistrationDocumentsForm = ({
                 className={classes.input}
                 id="articlesOfAssociation"
                 name="articlesOfAssociation"
-                inputProps={{ accept: "image/*,application/pdf" }}
+                inputProps={ACCEPT_IMAGE_AND_PDF}
                 type="file"
                 inputRef={register}
               />
