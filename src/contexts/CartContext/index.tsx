@@ -1,5 +1,6 @@
 import React, { ReactElement, useCallback, useEffect, useReducer } from "react";
 import { useMutation, useQuery } from "react-query";
+import { getAccessToken } from "../../api/jwt";
 import {
   deleteCartRequest,
   getCartRequest,
@@ -24,6 +25,7 @@ const CartProvider = (props: CartProviderProps): ReactElement => {
   const [removeCart] = useMutation(deleteCartRequest);
 
   const { refetch } = useQuery("/cart", getCartRequest, {
+    manual: true,
     onSuccess: (data: any) => {
       dispatch({
         type: CART_INITIALIZE,
@@ -33,8 +35,8 @@ const CartProvider = (props: CartProviderProps): ReactElement => {
   });
 
   useEffect(() => {
-    refetch();
-  }, []);
+    if (getAccessToken()) refetch();
+  }, [refetch]);
 
   const addProduct = useCallback(
     (product: CartProduct) => {
@@ -44,7 +46,7 @@ const CartProvider = (props: CartProviderProps): ReactElement => {
       });
       updateCart({ productId: product.id, quantity: 1 });
     },
-    [dispatch]
+    [dispatch, updateCart]
   );
 
   const removeProduct = useCallback(
@@ -55,7 +57,7 @@ const CartProvider = (props: CartProviderProps): ReactElement => {
       });
       removeFromCart({ productId });
     },
-    [dispatch]
+    [dispatch, removeFromCart]
   );
 
   const setProductQuantity = useCallback(
@@ -67,7 +69,7 @@ const CartProvider = (props: CartProviderProps): ReactElement => {
 
       updateCart({ productId, quantity });
     },
-    [dispatch]
+    [dispatch, updateCart]
   );
 
   const clear = useCallback(() => {
@@ -75,7 +77,7 @@ const CartProvider = (props: CartProviderProps): ReactElement => {
       type: CART_CLEAN,
     });
     removeCart();
-  }, [dispatch]);
+  }, [dispatch, removeCart]);
 
   const initialState = useCallback(() => {
     dispatch({
