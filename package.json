@@ -71,7 +71,7 @@
     "@testing-library/user-event": "^10.0.2",
     "@types/autosuggest-highlight": "^3.1.0",
     "@types/dinero.js": "^1.6.2",
-    "@types/jest": "^25.2.1",
+    "@types/jest": "^26.0.0",
     "@types/js-cookie": "^2.2.6",
     "@types/jwt-decode": "^2.2.1",
     "@types/node": "^13.13.1",
