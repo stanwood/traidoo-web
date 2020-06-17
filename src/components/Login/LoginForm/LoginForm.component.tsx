@@ -70,7 +70,7 @@ const LoginForm = ({
           />
           <Collapse in={loginError}>
             <Alert
-              severity="warning"
+              severity="error"
               className={classes.alert}
               action={
                 <IconButton
