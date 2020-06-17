@@ -1,7 +1,13 @@
 module.exports = {
   root: true,
   parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint", "react", "eslint-plugin-tsdoc", "react-perf"],
+  plugins: [
+    "@typescript-eslint",
+    "react",
+    "eslint-plugin-tsdoc",
+    "react-perf",
+    "react-hooks",
+  ],
   parserOptions: {
     ecmaFeatures: {
       ecmaVersion: 2020,
@@ -11,6 +17,8 @@ module.exports = {
   },
   rules: {
     semi: "error",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
   },
   settings: { react: { version: "detect" } },
   extends: [
