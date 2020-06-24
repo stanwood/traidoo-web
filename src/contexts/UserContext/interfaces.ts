@@ -3,6 +3,8 @@ import { ReactChild } from "react";
 export interface UserState {
   id: number | undefined;
   groups: string[];
+  isCooperativeMember: boolean;
+  isEmailVerified: boolean;
 }
 
 export interface UserStateContext {

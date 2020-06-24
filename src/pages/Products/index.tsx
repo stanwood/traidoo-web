@@ -11,15 +11,13 @@ import {
   withDefault,
 } from "use-query-params";
 import { getProductsRequest } from "../../api/queries/products";
-import Hello from "../../components/Hello";
+import Overlay from "../../components/Overlay";
 import ProductsList from "../../components/Products";
 import { TableColumnsWithSorting } from "../../components/Products/interfaces";
 import { Order } from "../../components/Products/types";
 import { UserContext } from "../../contexts/UserContext/context";
-import useStyles from "./styles";
 
 const Products: React.FC = () => {
-  const classes = useStyles();
   const { t } = useTranslation();
   const { user } = useContext(UserContext);
 
@@ -94,7 +92,7 @@ const Products: React.FC = () => {
         Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
       ) : (
         <>
-          {!user.id && <Hello className={classes.hello} />}
+          <Overlay />
 
           <ProductsList
             products={data}
