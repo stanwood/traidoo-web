@@ -42,6 +42,8 @@ const ProductAddPage: React.FC = () => {
     }
   );
 
+  console.log("errors", errors);
+
   useEffect(() => {
     register("categoryId");
     register("containerTypeId");
@@ -53,6 +55,7 @@ const ProductAddPage: React.FC = () => {
   }, [register]);
 
   const onSubmit = (formData: any) => {
+    console.log("submit", formData);
     addProduct(formData).then((product: Product) =>
       history.push(`/seller/products/${product.id}`)
     );
