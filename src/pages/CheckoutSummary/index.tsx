@@ -55,7 +55,7 @@ const CheckoutSummaryPage: React.FC = () => {
       return {
         name: `vat ${Math.trunc(Number(key))}%`,
         // @ts-ignore
-        value: roundPrice(value),
+        value: value,
       };
     });
 
@@ -65,7 +65,7 @@ const CheckoutSummaryPage: React.FC = () => {
     { name: t("totalVat"), value: roundPrice(checkoutData?.vatTotal) },
     {
       name: t("totalGross"),
-      value: roundPrice(checkoutData?.productTotal),
+      value: roundPrice(checkoutData?.grossTotal),
     },
   ];
 

@@ -56,9 +56,7 @@ const CheckoutSummary: React.FC<{
                 <TableCell align="right">
                   {item.product.amount} {item.product.unit}
                 </TableCell>
-                <TableCell align="right">
-                  {item.priceGross.toFixed(2)}€
-                </TableCell>
+                <TableCell align="right">{item.priceNet.toFixed(2)}€</TableCell>
                 <TableCell align="right">{item.product.vat}%</TableCell>
               </TableRow>
             ))}

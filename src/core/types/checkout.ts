@@ -8,6 +8,7 @@ export type CheckoutType = {
   platformFeeGross: number;
   platformFeeNet: number;
   productTotal: number;
+  grossTotal: number;
   totalContainerDeposit: number;
   vatTotal: number;
   vatBreakdown: { [key: string]: number };
@@ -21,6 +22,7 @@ export type CheckoutItemType = {
   latestDeliveryDate: string;
   platformFeeGross: number;
   priceGross: number;
+  priceNet: number;
   quantity: number;
   deliveryOption: CheckoutDeliveryOptionType;
   deliveryOptions: ProductDeliveryOptionType[];

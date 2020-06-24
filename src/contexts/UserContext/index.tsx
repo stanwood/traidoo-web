@@ -14,6 +14,8 @@ import { UserProviderProps, UserState } from "./interfaces";
 const initialState: UserState = {
   id: undefined,
   groups: [],
+  isCooperativeMember: false,
+  isEmailVerified: false,
 };
 
 const UserProvider = (props: UserProviderProps): ReactElement => {
