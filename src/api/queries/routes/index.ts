@@ -52,6 +52,7 @@ export const getRoute = async (
   origin: string;
   destination: string;
   waypoints: string[];
+  length: number;
 }> => {
   return await api
     .get(`routes/${id}`, {
@@ -105,7 +106,7 @@ export const editRoute = async ({
   });
 };
 
-export const deleteRoute = async ({ id }: { id: number }) => {
+export const deleteRouteRequest = async ({ id }: { id: number }) => {
   return await api.delete(`routes/${id}`, {
     headers: generateHeaders(true),
   });
