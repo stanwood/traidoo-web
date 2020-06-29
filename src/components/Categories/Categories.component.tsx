@@ -2,38 +2,28 @@ import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import Skeleton from "@material-ui/lab/Skeleton";
 import TreeView from "@material-ui/lab/TreeView";
-import React, { useContext, useEffect } from "react";
-import { useQuery } from "react-query";
+import React, { useCallback, useContext, useEffect } from "react";
 import { StringParam, useQueryParams } from "use-query-params";
-import { getCategoriesRequest } from "../../api/queries/categories";
-import { Context } from "../../core/context";
+import { CategoriesContext } from "../../contexts/CategoryContext/context";
 import { useStyles } from "./Categories.styles";
 import CategoryItems from "./CategoryItems.component";
 import { findCategoryTreeById } from "./uitls";
 
-export default function Categories() {
+const Categories: React.FC = () => {
   const classes = useStyles();
+  const { categories } = useContext(CategoriesContext);
   const [expanded, setExpanded] = React.useState<string[]>([]);
 
   const [query] = useQueryParams({
     category: StringParam,
   });
 
-  const context = useContext(Context);
-
-  const { data: categories, status } = useQuery(
-    ["/categories", false],
-    getCategoriesRequest,
-    {
-      onSuccess: (data: any) => {
-        context.dispatch({ type: "categories", payload: data });
-      },
-    }
+  const handleChange = useCallback(
+    (event: React.ChangeEvent<{}>, nodes: string[]) => {
+      setExpanded(nodes);
+    },
+    []
   );
-
-  const handleChange = (event: React.ChangeEvent<{}>, nodes: string[]) => {
-    setExpanded(nodes);
-  };
 
   useEffect(() => {
     if (categories && categories.length > 0) {
@@ -46,7 +36,7 @@ export default function Categories() {
     }
   }, [categories, query.category]);
 
-  if (status === "loading") {
+  if (categories.length < 1) {
     return (
       <>
         {Array.from(Array(10).keys()).map((number) => (
@@ -68,4 +58,6 @@ export default function Categories() {
       <CategoryItems data={categories} />
     </TreeView>
   );
-}
+};
+
+export default Categories;

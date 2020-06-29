@@ -1,8 +1,7 @@
 import Container from "@material-ui/core/Container";
 import Skeleton from "@material-ui/lab/Skeleton";
-import React, { useEffect } from "react";
+import React, { useCallback } from "react";
 import { Helmet } from "react-helmet";
-import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 import { useHistory, useParams } from "react-router-dom";
@@ -13,56 +12,56 @@ import { editProductRequest } from "../../api/queries/products/editProduct";
 import { getRegionsRequest } from "../../api/queries/regions";
 import { getTagsRequest } from "../../api/queries/tags";
 import ProductForm from "../../shared/components/products/ProductForm";
-import { editSchema } from "../../shared/components/products/ProductForm/validation";
+import { ProductFormData } from "../../shared/components/products/ProductForm/types";
+import { convertFormDataToProduct } from "../../shared/components/products/ProductForm/utils";
 
 const ProductEditPage = () => {
   const { t } = useTranslation();
   const { id: productId } = useParams<{ id: string }>();
   const history = useHistory();
-  const { data: productData, status: productStatus } = useQuery(
+
+  const [editProduct] = useMutation(editProductRequest);
+
+  const { data: product } = useQuery(
     ["/product", Number(productId)],
     getProductRequest
   );
 
-  const [editProduct] = useMutation(editProductRequest);
-  const { data: categoriesData, status: categoriesStatus } = useQuery(
+  const { data: categories } = useQuery(
     ["/categories", false],
     getCategoriesRequest
   );
-  const { data: containersData, status: containersStatus } = useQuery(
+  const { data: containers } = useQuery(
     "/container_types",
     getContainersRequest
   );
-  const { data: regionsData, status: regionsStatus } = useQuery(
-    "/regions",
-    getRegionsRequest
-  );
-  const { data: tagsData, status: tagsStatus } = useQuery(
-    "/tags",
-    getTagsRequest
+  const { data: regions } = useQuery("/regions", getRegionsRequest);
+  const { data: tags } = useQuery("/tags", getTagsRequest);
+
+  const onSubmit = useCallback(
+    (formData: ProductFormData) => {
+      editProduct({
+        productId: Number(productId),
+        data: convertFormDataToProduct(formData),
+      }).then(() => {
+        history.push(`/seller/products/${productId}`);
+      });
+    },
+    [editProduct, history, productId]
   );
 
-  const { register, handleSubmit, errors, setValue, clearError } = useForm<any>(
-    {
-      validationSchema: editSchema,
-    }
-  );
-
-  useEffect(() => {
-    register("categoryId");
-    register("containerTypeId");
-    register("tags");
-    register("vat");
-    register("unit");
-    register("deliveryOptionsIds");
-    register("regions");
-  }, [register]);
-
-  const onSubmit = (formData: any) => {
-    editProduct({ productId: Number(productId), data: formData }).then(() => {
-      history.push(`/seller/products/${productId}`);
-    });
-  };
+  if (!product || !categories || !containers || !regions || !tags) {
+    return (
+      <>
+        <Helmet>
+          <title>{t("editProduct")}</title>
+        </Helmet>
+        {Array.from(Array(10).keys()).map((number) => (
+          <Skeleton key={number} />
+        ))}
+      </>
+    );
+  }
 
   return (
     <>
@@ -70,31 +69,17 @@ const ProductEditPage = () => {
         <title>{t("editProduct")}</title>
       </Helmet>
 
-      {productStatus === "loading" ||
-      containersStatus === "loading" ||
-      regionsStatus === "loading" ||
-      categoriesStatus === "loading" ||
-      tagsStatus === "loading" ? (
-        Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
-      ) : (
-        <Container maxWidth="md">
-          <ProductForm
-            onSubmit={onSubmit}
-            handleSubmit={handleSubmit}
-            register={register}
-            errors={errors}
-            setValue={setValue}
-            clearError={clearError}
-            categories={categoriesData}
-            containers={containersData}
-            // @ts-ignore
-            regions={regionsData.results}
-            tags={tagsData}
-            defaultValues={productData}
-            buttonName={t("save")}
-          />
-        </Container>
-      )}
+      <Container maxWidth="md">
+        <ProductForm
+          onSubmit={onSubmit}
+          categories={categories}
+          containers={containers}
+          regions={regions?.results}
+          tags={tags}
+          product={product}
+          buttonName={t("save")}
+        />
+      </Container>
     </>
   );
 };

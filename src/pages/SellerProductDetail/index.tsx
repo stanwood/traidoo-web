@@ -18,7 +18,7 @@ import ProductItems from "../../components/ProductItems";
 import { ProductItemFormData } from "./types";
 import validationSchema from "./validation";
 
-const SellerProductDetailsPage = () => {
+const SellerProductDetailsPage: React.FC = () => {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
 

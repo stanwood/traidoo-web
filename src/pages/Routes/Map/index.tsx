@@ -14,7 +14,7 @@ const mapCenter = {
   lng: 9.942744,
 };
 
-const RoutesMap = ({ routes, loadError }: { routes: any; loadError: any }) => {
+const RouteMap = ({ route, loadError }: { route: any; loadError: any }) => {
   const { t } = useTranslation();
 
   const mapOptions = {
@@ -39,18 +39,16 @@ const RoutesMap = ({ routes, loadError }: { routes: any; loadError: any }) => {
       center={mapCenter}
       options={mapOptions}
     >
-      {routes.map((route: any) => (
-        <RoutesDirectionsMemo
-          key={route.id}
-          destination={route.destination}
-          origin={route.origin}
-          waypoints={route.waypoints.map((waypoint: string) => {
-            return { location: waypoint };
-          })}
-        />
-      ))}
+      <RoutesDirectionsMemo
+        key={route.id}
+        destination={route.destination}
+        origin={route.origin}
+        waypoints={route.waypoints.map((waypoint: string) => {
+          return { location: waypoint };
+        })}
+      />
     </GoogleMap>
   );
 };
 
-export default memo(RoutesMap);
+export default memo(RouteMap);

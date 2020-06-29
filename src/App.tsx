@@ -39,6 +39,7 @@ import PersonalProfile from "./pages/Profile/Personal";
 import Registration from "./pages/Registration";
 import RegistrationConfirmPage from "./pages/RegistrationConfirm";
 import AddRoutePage from "./pages/Routes/Add";
+import RouteDetailsPage from "./pages/Routes/Details";
 import EditRoutePage from "./pages/Routes/Edit";
 import RoutesListPage from "./pages/Routes/List";
 import Seller from "./pages/Seller/Seller.component";
@@ -103,6 +104,9 @@ const App: React.FC = () => {
                   </Route>
                   <Route exact path="/seller/logistic/jobs">
                     <JobsPage />
+                  </Route>
+                  <Route exact path="/seller/logistic/routes/:id">
+                    <RouteDetailsPage />
                   </Route>
                   <Route exact path="/seller/logistic/routes">
                     <RoutesListPage />

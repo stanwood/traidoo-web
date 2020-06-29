@@ -5,7 +5,6 @@ import { ProviderProps, State } from "./types";
 
 const defaultState: State = {
   message: { message: null, open: false },
-  categories: [],
 };
 
 const Provider: React.FC<ProviderProps> = ({ children }: ProviderProps) => {

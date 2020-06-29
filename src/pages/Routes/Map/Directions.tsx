@@ -13,15 +13,12 @@ export const RoutesDirections = ({
   const [directions, setDirections] = useState();
   const count = useRef(0);
 
-  const directionsCallback = useCallback(
-    (result: any, status: any) => {
-      if (status === "OK" && count.current === 0) {
-        count.current++;
-        setDirections(result);
-      }
-    },
-    [origin, destination, waypoints]
-  );
+  const directionsCallback = useCallback((result: any, status: any) => {
+    if (status === "OK" && count.current === 0) {
+      count.current++;
+      setDirections(result);
+    }
+  }, []);
 
   const options = {
     destination: destination,
