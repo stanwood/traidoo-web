@@ -12,7 +12,7 @@ const editRouteRequest = async ({
         frequency,
         origin,
         destination,
-        waypoints: waypoints.filter((waypoint) => waypoint),
+        waypoints: waypoints ? waypoints.filter((waypoint) => waypoint) : [],
       },
       headers: generateHeaders(true),
     })
