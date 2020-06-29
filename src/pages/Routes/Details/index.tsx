@@ -10,11 +10,14 @@ import MuiAlert from "@material-ui/lab/Alert";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { useLoadScript } from "@react-google-maps/api";
 import React, { useCallback } from "react";
-import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
-import { useMutation, useQuery } from "react-query";
+import { queryCache, useMutation, useQuery } from "react-query";
 import { Link, useHistory, useParams } from "react-router-dom";
-import { deleteRouteRequest, getRoute } from "../../../api/queries/routes";
+import {
+  deleteRouteRequest,
+  getRouteRequest,
+} from "../../../api/queries/routes";
+import Page from "../../../components/Common/Page";
 import { frequency } from "../../../components/Routes/frequency";
 import Config from "../../../config";
 import RouteMap from "../Map";
@@ -23,23 +26,27 @@ import { useRouteDetailsStyles } from "./styles";
 const googleMapsLibraries = ["places"];
 
 const RouteDetailsPage: React.FC = () => {
-  const { id: routeId } = useParams<{ id: string }>();
-  const { t } = useTranslation();
-  const history = useHistory();
   const classes = useRouteDetailsStyles();
-  const { data: routeData, status: routeStatus } = useQuery(
-    ["/route", Number(routeId)],
-    getRoute
+  const history = useHistory();
+  const { id: routeId } = useParams<{ id: string }>();
+
+  const { t } = useTranslation();
+  const { pageTitle } = t("routeDetails");
+
+  const { data, status } = useQuery(
+    ["route", Number(routeId)],
+    getRouteRequest
   );
 
-  const [routeDelete] = useMutation(deleteRouteRequest);
+  const [routeDelete] = useMutation(deleteRouteRequest, {
+    onSuccess: () =>
+      queryCache.invalidateQueries((query) => query.queryKey[0] === "routes"),
+  });
 
-  const deleteRoute = useCallback(
-    (id: number) => {
-      routeDelete({ id }).then(() => history.push("/seller/logistic/routes"));
-    },
-    [routeDelete, history]
-  );
+  const deleteRoute = useCallback(async () => {
+    await routeDelete({ id: Number(routeId) });
+    history.push("/seller/logistic/routes");
+  }, [routeDelete, history, routeId]);
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: Config.googleMapsApiKey,
@@ -55,72 +62,67 @@ const RouteDetailsPage: React.FC = () => {
     );
   }
 
-  return (
-    <>
-      <Helmet>
-        <title>{t("routeDetails")}</title>
-      </Helmet>
+  if (status === "loading" || !data || !isLoaded) {
+    return (
+      <Page title={pageTitle}>
+        {Array.from(Array(10).keys()).map((number) => (
+          <Skeleton key={number} />
+        ))}
+      </Page>
+    );
+  }
 
-      {!isLoaded || routeStatus === "loading" ? (
-        Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
-      ) : (
-        <>
-          <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="routes table">
-              <TableBody>
-                <TableRow>
-                  <TableCell>{t("Start")}</TableCell>
-                  <TableCell>{routeData?.origin}</TableCell>
-                </TableRow>
-                {routeData?.waypoints.map((waypoint, index) => (
-                  <TableRow key={index}>
-                    <TableCell>
-                      {t("Waypoint")} #{index + 1}
-                    </TableCell>
-                    <TableCell>{waypoint}</TableCell>
-                  </TableRow>
-                ))}
-                <TableRow>
-                  <TableCell>{t("End")}</TableCell>
-                  <TableCell>{routeData?.destination}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>{t("Frequency")}</TableCell>
-                  <TableCell>
-                    {routeData?.frequency
-                      .map((day: any) => frequency[day])
-                      .join(", ")}
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>{t("Length")}</TableCell>
-                  <TableCell>
-                    {(routeData?.length / 1000).toFixed(1)} {t("km")}
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <Box className={classes.actions}>
-            <Button
-              variant="contained"
-              color="primary"
-              component={Link}
-              to={`/seller/logistic/routes/${routeData.id}/edit`}
-            >
-              {t("Edit")}
-            </Button>
-            <Button
-              variant="contained"
-              onClick={() => deleteRoute(routeData.id)}
-            >
-              {t("Delete")}
-            </Button>
-          </Box>
-          <RouteMap route={routeData} loadError={loadError} />
-        </>
-      )}
-    </>
+  return (
+    <Page title={pageTitle}>
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="routes table">
+          <TableBody>
+            <TableRow>
+              <TableCell>{t("Start")}</TableCell>
+              <TableCell>{data.origin}</TableCell>
+            </TableRow>
+            {data?.waypoints.map((waypoint, index) => (
+              <TableRow key={index}>
+                <TableCell>
+                  {t("Waypoint")} #{index + 1}
+                </TableCell>
+                <TableCell>{waypoint}</TableCell>
+              </TableRow>
+            ))}
+            <TableRow>
+              <TableCell>{t("End")}</TableCell>
+              <TableCell>{data.destination}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>{t("Frequency")}</TableCell>
+              <TableCell>
+                {data.frequency.map((day) => frequency[day]).join(", ")}
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>{t("Length")}</TableCell>
+              <TableCell>
+                {(data.length / 1000).toFixed(1)} {t("km")}
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Box className={classes.actions}>
+        <Button
+          variant="contained"
+          color="primary"
+          component={Link}
+          to={`/seller/logistic/routes/${data.id}/edit`}
+        >
+          {t("Edit")}
+        </Button>
+        <Button variant="contained" onClick={deleteRoute}>
+          {t("Delete")}
+        </Button>
+      </Box>
+      <RouteMap route={data} loadError={loadError} />
+    </Page>
   );
 };
 

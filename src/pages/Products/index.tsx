@@ -1,6 +1,5 @@
 import Skeleton from "@material-ui/lab/Skeleton";
-import React, { useContext, useState } from "react";
-import { Helmet } from "react-helmet";
+import React, { useCallback, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import {
@@ -11,6 +10,7 @@ import {
   withDefault,
 } from "use-query-params";
 import { getProductsRequest } from "../../api/queries/products";
+import Page from "../../components/Common/Page";
 import Overlay from "../../components/Overlay";
 import ProductsList from "../../components/Products";
 import { TableColumnsWithSorting } from "../../components/Products/interfaces";
@@ -18,8 +18,10 @@ import { Order } from "../../components/Products/types";
 import { UserContext } from "../../contexts/UserContext/context";
 
 const Products: React.FC = () => {
-  const { t } = useTranslation();
   const { user } = useContext(UserContext);
+
+  const { t } = useTranslation();
+  const { pageTitle } = t("products");
 
   const [query, setQuery] = useQueryParams({
     limit: NumberParam,
@@ -50,63 +52,71 @@ const Products: React.FC = () => {
     "createdAt"
   );
 
-  const onSortChange = (
-    event: React.MouseEvent<unknown>,
-    property: keyof TableColumnsWithSorting
-  ) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-    setQuery({ order: isAsc ? "desc" : "asc", orderBy: property });
-  };
+  const onSortChange = useCallback(
+    (
+      event: React.MouseEvent<unknown>,
+      property: keyof TableColumnsWithSorting
+    ) => {
+      const isAsc = orderBy === property && order === "asc";
+      setOrder(isAsc ? "desc" : "asc");
+      setOrderBy(property);
+      setQuery({ order: isAsc ? "desc" : "asc", orderBy: property });
+    },
+    [order, orderBy, setQuery]
+  );
 
-  const onPageChange = (event: any, page: number) => {
-    setQuery({ page });
-  };
+  const onPageChange = useCallback(
+    (event: any, page: number) => {
+      setQuery({ page });
+    },
+    [setQuery]
+  );
 
-  const onFilterChange = (filterItem: string) => {
-    if (filterItem === filterBy) {
-      return;
-    }
+  const onFilterChange = useCallback(
+    (filterItem: string) => {
+      if (filterItem === filterBy) {
+        return;
+      }
 
-    if (filterItem === "organic") {
-      setFilterBy("organic");
-      setQuery({ organic: true });
-    } else {
-      setFilterBy("");
-      setQuery({ organic: undefined });
-    }
-  };
+      if (filterItem === "organic") {
+        setFilterBy("organic");
+        setQuery({ organic: true });
+      } else {
+        setFilterBy("");
+        setQuery({ organic: undefined });
+      }
+    },
+    [filterBy, setQuery]
+  );
 
   const calculatePage = (page: number) => {
     return page ? +page : 0;
   };
 
+  if (status === "loading" || !data) {
+    return (
+      <Page title={pageTitle}>
+        {Array.from(Array(10).keys()).map((number) => (
+          <Skeleton key={number} />
+        ))}
+      </Page>
+    );
+  }
+
   return (
-    <>
-      <Helmet>
-        <title>{t("products")}</title>
-      </Helmet>
-
-      {status === "loading" ? (
-        Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
-      ) : (
-        <>
-          <Overlay />
-
-          <ProductsList
-            products={data}
-            page={calculatePage(query.page)}
-            onPageChange={onPageChange}
-            onFilterChange={onFilterChange}
-            onSortChange={onSortChange}
-            order={order}
-            orderBy={orderBy}
-            filterBy={filterBy}
-          />
-        </>
-      )}
-    </>
+    <Page title={pageTitle}>
+      <Overlay />
+      <ProductsList
+        products={data}
+        page={calculatePage(query.page)}
+        onPageChange={onPageChange}
+        onFilterChange={onFilterChange}
+        onSortChange={onSortChange}
+        order={order}
+        orderBy={orderBy}
+        filterBy={filterBy}
+      />
+    </Page>
   );
 };
 

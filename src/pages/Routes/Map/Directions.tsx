@@ -1,37 +1,49 @@
+import Box from "@material-ui/core/Box";
 import { DirectionsRenderer, DirectionsService } from "@react-google-maps/api";
-import React, { memo, useCallback, useRef, useState } from "react";
+import React, { memo, useCallback, useMemo, useRef, useState } from "react";
 
-export const RoutesDirections = ({
+interface RouteDirectionsProps {
+  origin: string;
+  destination: string;
+  waypoints: { location: string }[];
+}
+
+export const RoutesDirections: React.FC<RouteDirectionsProps> = ({
   origin,
   destination,
   waypoints,
-}: {
-  origin: string;
-  destination: string;
-  waypoints: string[];
-}) => {
-  const [directions, setDirections] = useState();
+}: RouteDirectionsProps) => {
   const count = useRef(0);
+  const [directions, setDirections] = useState<google.maps.DirectionsResult>();
 
-  const directionsCallback = useCallback((result: any, status: any) => {
-    if (status === "OK" && count.current === 0) {
-      count.current++;
-      setDirections(result);
-    }
-  }, []);
+  const directionsCallback = useCallback(
+    (
+      result: google.maps.DirectionsResult,
+      status: google.maps.DirectionsStatus
+    ) => {
+      if (status === "OK" && count.current === 0) {
+        count.current++;
+        setDirections(result);
+      }
+    },
+    []
+  );
 
-  const options = {
-    destination: destination,
-    origin: origin,
-    waypoints: waypoints,
-    travelMode: "DRIVING",
-  } as const;
+  const options = useMemo(
+    () => ({
+      destination: destination,
+      origin: origin,
+      waypoints: waypoints,
+      travelMode: "DRIVING",
+    }),
+    [destination, origin, waypoints]
+  );
 
   return (
-    <>
+    <Box>
       <DirectionsService options={options} callback={directionsCallback} />
       {directions && <DirectionsRenderer directions={directions} />}
-    </>
+    </Box>
   );
 };
 
