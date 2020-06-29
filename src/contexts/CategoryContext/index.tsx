@@ -11,7 +11,7 @@ const CategoriesProvider = (props: CategoriesProviderProps): ReactElement => {
   const [categories, setCategories] = useState<CategoryTree[]>([]);
 
   const { refetch } = useQuery(["/categories", false], getCategoriesRequest, {
-    manual: true,
+    enabled: false,
     onSuccess: (data: Category[]) => {
       setCategories(arrayToTree(data, { parentProperty: "parent" }));
     },

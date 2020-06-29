@@ -22,7 +22,7 @@ const UserProvider = (props: UserProviderProps): ReactElement => {
   const [user, setUser] = useState<UserState>(initialState);
 
   const { refetch } = useQuery("/users/profile/me", getCurrentUserRequest, {
-    manual: true,
+    enabled: false,
     onSuccess: (data) => {
       setUser(data);
     },
