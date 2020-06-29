@@ -1,19 +1,19 @@
-import arrayToTree from "array-to-tree";
+import { Category } from "../../../core/interfaces/categories";
 import api from "../../../core/ky";
-import { CategoryType } from "../../../core/types/categories";
 import { generateHeaders } from "../../headers";
 
 export const getCategoriesRequest = async (
   key: string,
-  hasProducts: boolean = true
-): Promise<CategoryType[]> => {
-  return arrayToTree(
-    await api
-      .get("categories", {
-        headers: generateHeaders(),
-        searchParams: { has_products: hasProducts },
-      })
-      .json(),
-    { parentProperty: "parent" }
+  hasProducts = true
+): Promise<Category[]> => {
+  const categories: Category[] = await api
+    .get("categories", {
+      headers: generateHeaders(),
+      searchParams: { has_products: hasProducts },
+    })
+    .json();
+
+  return categories.sort((a: Category, b: Category) =>
+    a.name > b.name ? 1 : -1
   );
 };

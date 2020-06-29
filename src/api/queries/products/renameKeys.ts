@@ -1,4 +1,4 @@
-import { ProductFormData } from "../../../shared/components/products/ProductForm/types";
+import { ProductPostRequestData } from "../../../core/interfaces/products/productRequest";
 
 const replacements: { [key: string]: string } = {
   isOrganic: "is_organic",
@@ -16,7 +16,7 @@ const replacements: { [key: string]: string } = {
 
 // FIXME: https://github.com/vbabiy/djangorestframework-camel-case/issues/82
 
-const fixData = (data: ProductFormData) => {
+const fixData = (data: ProductPostRequestData) => {
   return Object.keys(data).reduce((acc, key) => {
     // @ts-ignore
     acc[replacements[key] || key] = data[key];

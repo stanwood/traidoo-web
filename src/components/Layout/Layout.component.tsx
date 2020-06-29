@@ -34,12 +34,16 @@ const Layout: React.FC<Props> = ({ children }: Props) => {
   const [displayCartIcon, setDisplayCartIcon] = useState<boolean>(false);
 
   const location = useLocation();
-  const pagesWithLeftMenu = [
-    "/",
-    "/products",
-    "/seller/logistic/routes",
-    "/seller/logistic/jobs",
-  ];
+
+  const displayLeftMenuButton = useMemo(() => {
+    if (location.pathname === "/" || location.pathname === "/products") {
+      return true;
+    } else if (location.pathname.startsWith("/seller/logistic")) {
+      return true;
+    } else {
+      return false;
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
     if (
@@ -52,7 +56,6 @@ const Layout: React.FC<Props> = ({ children }: Props) => {
     }
   }, [location.pathname]);
 
-  const displayLeftMenuButton = pagesWithLeftMenu.includes(location.pathname);
   const [tabsList, setTabsList] = useState<{ name: string; link: string }[]>(
     []
   );
@@ -103,7 +106,13 @@ const Layout: React.FC<Props> = ({ children }: Props) => {
       return <RoutesMenu open={openLeftDrawer} />;
     }
     return null;
-  }, [location.pathname, openLeftDrawer]);
+  }, [
+    location.pathname,
+    openLeftDrawer,
+    classes.toolbar,
+    classes.toolbarWithTabs,
+    tabsList.length,
+  ]);
 
   const handleDrawerLeft = useCallback(() => {
     setOpenLeftDrawer(!openLeftDrawer);

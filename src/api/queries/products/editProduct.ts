@@ -1,6 +1,6 @@
+import { ProductPostRequestData } from "../../../core/interfaces/products/productRequest";
 import api from "../../../core/ky";
 import { objectToFormData } from "../../../core/utils/objectToFormData";
-import { ProductFormData } from "../../../shared/components/products/ProductForm/types";
 import { generateHeaders } from "../../headers";
 import fixData from "./renameKeys";
 
@@ -9,7 +9,7 @@ export const editProductRequest = async ({
   data,
 }: {
   productId: number;
-  data: ProductFormData;
+  data: ProductPostRequestData;
 }): Promise<any> => {
   const formData = objectToFormData(
     {

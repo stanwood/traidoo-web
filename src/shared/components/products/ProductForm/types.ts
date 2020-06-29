@@ -1,7 +1,13 @@
+import { Container } from "../../../../api/queries/containers";
+import { Region } from "../../../../api/queries/regions";
+import { Tag } from "../../../../api/queries/tags";
+import { Category } from "../../../../core/interfaces/categories";
+import DeliveryOption from "../../../../core/types/deliveryOption";
+
 export type ProductFormData = {
   // General
   name: string;
-  category: number;
+  category: Category;
   description: string;
   // Image
   image: File[];
@@ -17,14 +23,15 @@ export type ProductFormData = {
   vat: number;
   amount: number;
   // Delivery
-  containerTypeId: number;
-  deliveryCharge: number;
-  deliveryOptionsIds: number[];
+  container: Container;
+  deliveryCharge?: number;
+  deliveryOptions: DeliveryOption[];
+  thirdPartyDelivery: boolean;
   // Availability
-  regions: number[];
+  regions?: Region[];
   // Internal
-  sellersProductIdentifier: string;
-  tags: string[];
-  ean8: string;
-  ean13: string;
+  sellersProductIdentifier?: string;
+  tags?: Tag[];
+  ean8?: string;
+  ean13?: string;
 };

@@ -1,4 +1,3 @@
-import arrayToTree from "array-to-tree";
 import { Actions, State } from "./types";
 
 const reducer = (state: State, action: Actions): State => {
@@ -13,12 +12,6 @@ const reducer = (state: State, action: Actions): State => {
       return {
         ...state,
         message: { message: null, open: false },
-      };
-    }
-    case "categories": {
-      return {
-        ...state,
-        categories: arrayToTree(action.payload, { parentProperty: "parent" }),
       };
     }
     default:

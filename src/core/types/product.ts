@@ -1,3 +1,6 @@
+import { Container } from "../../api/queries/containers";
+import { Tag } from "../../api/queries/tags";
+import { Category } from "../interfaces/categories";
 import DeliveryOption from "./deliveryOption";
 import Region from "./region";
 
@@ -21,16 +24,8 @@ type Product = {
     companyName: string;
     city: string;
   };
-  category: {
-    id: number;
-    name: string;
-  };
-  containerType: {
-    id: number;
-    deposit: number;
-    sizeClass: string;
-    image: string;
-  };
+  category: Category;
+  containerType: Container;
   deliveryOptions: DeliveryOption[];
   thirdPartyDelivery?: boolean;
   deliveryCharge: number;
@@ -40,7 +35,7 @@ type Product = {
   ean8: string;
   ean13: string;
   sellersProductIdentifier: string;
-  tags: { id: number; slug: string; name: string }[];
+  tags: Tag[];
 };
 
 export default Product;
