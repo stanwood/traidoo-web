@@ -25,7 +25,7 @@ const CartProvider = (props: CartProviderProps): ReactElement => {
   const [removeCart] = useMutation(deleteCartRequest);
 
   const { refetch } = useQuery("/cart", getCartRequest, {
-    manual: true,
+    enabled: false,
     onSuccess: (data: any) => {
       dispatch({
         type: CART_INITIALIZE,

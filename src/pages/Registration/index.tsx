@@ -1,3 +1,2 @@
-import Registration from "./Registration.component";
-
-export default Registration;
+export { default as RegistrationFormPage } from "./Form";
+export { default as RegistrationSuccessPage } from "./Success";
