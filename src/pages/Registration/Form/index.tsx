@@ -2,15 +2,15 @@ import Container from "@material-ui/core/Container";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Stepper from "@material-ui/core/Stepper";
-import Alert from "@material-ui/lab/Alert";
 import React, { useState } from "react";
-import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
-import { registerRequest } from "../../api/queries/users/register";
-import RegistrationCompany from "../../components/Registration/RegistrationCompany";
-import RegistrationDocuments from "../../components/Registration/RegistrationDocuments";
-import RegistrationPersonal from "../../components/Registration/RegistrationPersonal";
-import useStyles from "./Registration.styles";
+import { useHistory } from "react-router-dom";
+import { registerRequest } from "../../../api/queries/users/register";
+import Page from "../../../components/Common/Page";
+import RegistrationCompany from "../../../components/Registration/RegistrationCompany";
+import RegistrationDocuments from "../../../components/Registration/RegistrationDocuments";
+import RegistrationPersonal from "../../../components/Registration/RegistrationPersonal";
+import useStyles from "./styles";
 
 const personalFormFields = [
   "firstName",
@@ -45,9 +45,11 @@ const documentsFormFields = [
   "termAndConditions",
 ];
 
-const Registration: React.FC = () => {
+const RegistrationFormPage: React.FC = () => {
   const classes = useStyles();
   const { t } = useTranslation();
+  const pageTitle = t("Registration");
+  const history = useHistory();
 
   const [activeStep, setActiveStep] = useState(0);
   const [personalData, setPersonalData] = useState({});
@@ -114,10 +116,8 @@ const Registration: React.FC = () => {
     });
 
     registerRequest(data)
-      .then(() => handleNext())
-      .catch((error: any) => {
-        handleError(error);
-      });
+      .then(() => history.push("/registration/success"))
+      .catch((error: any) => handleError(error));
   }
 
   function getStepContent(step: number) {
@@ -164,33 +164,23 @@ const Registration: React.FC = () => {
   }
 
   return (
-    <>
-      <Helmet>
-        <title>{t("Registration")}</title>
-      </Helmet>
-
-      {activeStep === steps.length ? (
-        <Container component="main" maxWidth="md">
-          <Alert severity="info">{t("thankYouForRegistration")}</Alert>
-        </Container>
-      ) : (
-        <Container component="main" maxWidth="md">
-          <Stepper activeStep={activeStep} className={classes.stepper}>
-            {steps.map((label) => {
-              const stepProps: { completed?: boolean } = {};
-              const labelProps: { optional?: React.ReactNode } = {};
-              return (
-                <Step key={label} {...stepProps}>
-                  <StepLabel {...labelProps}>{label}</StepLabel>
-                </Step>
-              );
-            })}
-          </Stepper>
-          {getStepContent(activeStep)}
-        </Container>
-      )}
-    </>
+    <Page title={pageTitle}>
+      <Container component="main" maxWidth="md">
+        <Stepper activeStep={activeStep} className={classes.stepper}>
+          {steps.map((label) => {
+            const stepProps: { completed?: boolean } = {};
+            const labelProps: { optional?: React.ReactNode } = {};
+            return (
+              <Step key={label} {...stepProps}>
+                <StepLabel {...labelProps}>{label}</StepLabel>
+              </Step>
+            );
+          })}
+        </Stepper>
+        {getStepContent(activeStep)}
+      </Container>
+    </Page>
   );
 };
 
-export default Registration;
+export default RegistrationFormPage;
