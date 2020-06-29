@@ -1,36 +1,46 @@
 import MuiAlert from "@material-ui/lab/Alert";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { useLoadScript } from "@react-google-maps/api";
-import React from "react";
-import { Helmet } from "react-helmet";
+import React, { useCallback } from "react";
 import { FormContext, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useMutation } from "react-query";
 import { useHistory } from "react-router-dom";
-import { createRoute } from "../../../api/queries/routes";
+import { createRouteRequest } from "../../../api/queries/routes";
+import Page from "../../../components/Common/Page";
 import RouteForm from "../../../components/Routes/Form";
 import Config from "../../../config";
+import { CreateRouteAPIRequest } from "../../../core/interfaces/routes";
 import routesAddValidationSchema from "./validation";
 
 const googleMapsLibraries = ["places"];
 
-const AddRoutePage = () => {
+const AddRoutePage: React.FC = () => {
   const history = useHistory();
+
   const { t } = useTranslation();
+  const { pageTitle } = t("addRoute");
+
+  const [create] = useMutation(createRouteRequest);
+
   const form = useForm({
     validationSchema: routesAddValidationSchema,
     defaultValues: { waypoints: [""] },
   });
-  const [create] = useMutation(createRoute);
-  const onSubmit = (data: any) => {
-    create(data).then(() => history.push("/seller/logistic/routes"));
-  };
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: Config.googleMapsApiKey,
     preventGoogleFontsLoading: true,
     libraries: googleMapsLibraries,
   });
+
+  const onSubmit = useCallback(
+    async (data: CreateRouteAPIRequest) => {
+      const route = await create(data);
+      history.push(`/seller/logistic/routes/${route.id}`);
+    },
+    [create, history]
+  );
 
   if (loadError) {
     return (
@@ -40,20 +50,22 @@ const AddRoutePage = () => {
     );
   }
 
-  return (
-    <>
-      <Helmet>
-        <title>{t("addRoute")}</title>
-      </Helmet>
+  if (!isLoaded) {
+    return (
+      <Page title={pageTitle}>
+        {Array.from(Array(10).keys()).map((number) => (
+          <Skeleton key={number} />
+        ))}
+      </Page>
+    );
+  }
 
-      {!isLoaded ? (
-        Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
-      ) : (
-        <FormContext {...form}>
-          <RouteForm onSubmit={onSubmit} />
-        </FormContext>
-      )}
-    </>
+  return (
+    <Page title={pageTitle}>
+      <FormContext {...form}>
+        <RouteForm onSubmit={onSubmit} />
+      </FormContext>
+    </Page>
   );
 };
 
