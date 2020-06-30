@@ -1,16 +1,16 @@
-import React, { useContext, useState } from "react";
+import { useSnackbar } from "notistack";
+import React, { useState } from "react";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 import { changePasswordRequest } from "../../api/queries/users/password";
 import PasswordUpdateForm from "../../components/PasswordChange";
-import { Context } from "../../core/context";
 import { FormData } from "./types";
 import validationSchema from "./validation";
 
-const PasswordChangePage = () => {
-  const AppContext = useContext(Context);
+const PasswordChangePage: React.FC = () => {
+  const { enqueueSnackbar } = useSnackbar();
   const history = useHistory();
   const { t } = useTranslation();
   const [passwordChangeErrors, setPasswordChangeErrors] = useState({});
@@ -45,9 +45,12 @@ const PasswordChangePage = () => {
       formData.currentPassword
     )
       .then(() => {
-        AppContext.dispatch({
-          type: "addMessage",
-          payload: { message: t("passwordChanged") },
+        enqueueSnackbar(t("passwordChanged"), {
+          variant: "success",
+          anchorOrigin: {
+            vertical: "bottom",
+            horizontal: "right",
+          },
         });
         history.push("/profile/personal");
       })

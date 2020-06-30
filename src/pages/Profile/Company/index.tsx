@@ -1,4 +1,5 @@
 import Skeleton from "@material-ui/lab/Skeleton";
+import { useSnackbar } from "notistack";
 import React, { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
@@ -20,6 +21,7 @@ const CompanyProfile: React.FC = () => {
   const { t } = useTranslation();
   const { user } = useContext(UserContext);
   const [registrationErrors, setRegistrationErrors] = useState({});
+  const { enqueueSnackbar } = useSnackbar();
   const [editMode, setEditMode] = React.useState(false);
   const [
     isCertifiedOrganicProducer,
@@ -89,7 +91,19 @@ const CompanyProfile: React.FC = () => {
       .then(() => {
         refetchDeliveryAddresses(); // TODO: is it required?
       })
-      .catch((error: any) => {});
+      .catch(async (error: any) => {
+        const errorResponse = await error.response.json();
+
+        if (errorResponse.code === "protected_error") {
+          enqueueSnackbar(t("deliveryAddressInUse"), {
+            variant: "warning",
+            anchorOrigin: {
+              vertical: "bottom",
+              horizontal: "right",
+            },
+          });
+        }
+      });
   };
 
   return (

@@ -1,6 +1,3 @@
-import IconButton from "@material-ui/core/IconButton";
-import Snackbar from "@material-ui/core/Snackbar";
-import CloseIcon from "@material-ui/icons/Close";
 import React, {
   useCallback,
   useContext,
@@ -10,7 +7,6 @@ import React, {
 } from "react";
 import { useLocation } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext/context";
-import { Context } from "../../core/context";
 import CustomAppBar from "./AppBar";
 import { CategoriesMenu, RoutesMenu } from "./DrawerLeft";
 import DrawerRight from "./DrawerRight";
@@ -18,19 +14,9 @@ import Props from "./Layout.interfaces";
 import { useStyles } from "./Layout.styles";
 import { tabs } from "./tabs";
 
-const snackbarAnchorOrigin: {
-  horizontal: "center" | "left" | "right";
-  vertical: "bottom" | "top";
-} = {
-  vertical: "bottom",
-  horizontal: "right",
-};
-
 const Layout: React.FC<Props> = ({ children }: Props) => {
   const classes = useStyles();
-  const AppContext = useContext(Context);
   const { user } = useContext(UserContext);
-  const messages = AppContext.state.message;
   const [displayCartIcon, setDisplayCartIcon] = useState<boolean>(false);
 
   const location = useLocation();
@@ -82,10 +68,6 @@ const Layout: React.FC<Props> = ({ children }: Props) => {
   useEffect(() => {
     getTabs(user, location.pathname);
   }, [user, location.pathname, getTabs]);
-
-  const closeMessage = useCallback(() => {
-    AppContext.dispatch({ type: "removeMessage" });
-  }, []);
 
   const [openLeftDrawer, setOpenLeftDrawer] = React.useState(false);
   const [openRightDrawer, setOpenRightDrawer] = React.useState(false);
@@ -156,25 +138,6 @@ const Layout: React.FC<Props> = ({ children }: Props) => {
           tabsList.length > 0
             ? `${classes.toolbar} ${classes.toolbarWithTabs}`
             : classes.toolbar
-        }
-      />
-      <Snackbar
-        open={messages.open || AppContext.state.message.open}
-        autoHideDuration={6000}
-        onClose={closeMessage}
-        message={messages.message || AppContext.state.message.message}
-        anchorOrigin={snackbarAnchorOrigin}
-        action={
-          <React.Fragment>
-            <IconButton
-              aria-label="close"
-              color="inherit"
-              className={classes.close}
-              onClick={closeMessage}
-            >
-              <CloseIcon />
-            </IconButton>
-          </React.Fragment>
         }
       />
     </div>
