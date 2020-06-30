@@ -7,7 +7,7 @@ import Paper from "@material-ui/core/Paper";
 import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import React, { useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { productUnits, productVat } from "../../constants";
@@ -20,7 +20,6 @@ const Pricing: React.FC = () => {
   const { errors, control } = useFormContext();
 
   const vatInputLabel = useRef<HTMLLabelElement>(null);
-  const [vatLabelWidth, setVatLabelWidth] = useState(0);
 
   const endAdornment = useMemo(() => {
     return {
@@ -78,9 +77,7 @@ const Pricing: React.FC = () => {
             required
             error={errors.vat ? true : false}
           >
-            <InputLabel ref={vatInputLabel} id="vatLabelId">
-              {t("vat")}
-            </InputLabel>
+            <InputLabel ref={vatInputLabel}>{t("vat")}</InputLabel>
             <Controller
               name="vat"
               control={control}
@@ -88,7 +85,7 @@ const Pricing: React.FC = () => {
                 <Select
                   labelId="vatLabelId"
                   variant="outlined"
-                  labelWidth={vatLabelWidth}
+                  labelWidth={vatInputLabel?.current?.offsetWidth || 0}
                 >
                   {productVat.map((v: number) => {
                     return (
