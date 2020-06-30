@@ -73,6 +73,7 @@
   "deliveries": "Lieferungen",
   "delivery": "Lieferung",
   "deliveryAddress": "Lieferadresse",
+  "deliveryAddressInUse": "__MISSING__",
   "deliveryDate": "Liefertermin",
   "deliveryFee": "Liefergebühr",
   "deliveryFees": "Liefergebühren",

@@ -73,6 +73,7 @@
   "deliveries": "deliveries",
   "delivery": "Delivery",
   "deliveryAddress": "Delivery address",
+  "deliveryAddressInUse": "The address cannot be deleted because it is in use.",
   "deliveryDate": "Delivery date",
   "deliveryFee": "Delivery fee",
   "deliveryFees": "delivery fees",

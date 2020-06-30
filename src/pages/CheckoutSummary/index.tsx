@@ -1,4 +1,5 @@
 import Skeleton from "@material-ui/lab/Skeleton";
+import { useSnackbar } from "notistack";
 import React, { useCallback, useContext } from "react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
@@ -10,11 +11,10 @@ import {
 } from "../../api/queries/checkout";
 import CheckoutSummary from "../../components/CheckoutSummary";
 import { CartContext } from "../../contexts/CartContext/context";
-import { Context } from "../../core/context";
 
 const CheckoutSummaryPage: React.FC = () => {
   const history = useHistory();
-  const context = useContext(Context);
+  const { enqueueSnackbar } = useSnackbar();
   const { initialState } = useContext(CartContext);
   const { t } = useTranslation();
 
@@ -71,13 +71,16 @@ const CheckoutSummaryPage: React.FC = () => {
 
   const onSubmit = useCallback(async () => {
     await checkoutMutation();
-    context.dispatch({
-      type: "addMessage",
-      payload: { message: t("orderCreated") },
+    enqueueSnackbar(t("orderCreated"), {
+      variant: "success",
+      anchorOrigin: {
+        vertical: "bottom",
+        horizontal: "right",
+      },
     });
     initialState();
     history.push("/");
-  }, []);
+  }, [enqueueSnackbar, checkoutMutation, history, initialState, t]);
 
   return (
     <>

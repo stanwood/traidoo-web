@@ -1,3 +1,4 @@
+import { SnackbarProvider } from "notistack";
 import React from "react";
 import { Helmet } from "react-helmet";
 import { Route, Router, Switch } from "react-router-dom";
@@ -10,7 +11,6 @@ import Layout from "./components/Layout";
 import Config from "./config";
 import CartProvider from "./contexts/CartContext";
 import UserProvider from "./contexts/UserContext";
-import { Provider as AppProvider } from "./core/context";
 import history from "./core/history";
 import Checkout from "./pages/Checkout";
 import CheckoutSummaryPage from "./pages/CheckoutSummary";
@@ -62,7 +62,7 @@ const App: React.FC = () => {
         stringifyOptions={queryStringifyOptions}
       >
         <UserProvider>
-          <AppProvider>
+          <SnackbarProvider>
             <CartProvider>
               <Layout>
                 <Helmet
@@ -183,7 +183,7 @@ const App: React.FC = () => {
                 </Switch>
               </Layout>
             </CartProvider>
-          </AppProvider>
+          </SnackbarProvider>
         </UserProvider>
       </QueryParamProvider>
     </Router>
