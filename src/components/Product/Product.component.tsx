@@ -199,7 +199,10 @@ const ProductDetail = ({
                 {t("containerDeposit")}
               </Typography>
               <Typography>
-                {product.containerType.deposit.toFixed(2)}€
+                {product.containerType.deposit
+                  ? product.containerType.deposit.toFixed(2)
+                  : 0}
+                €
               </Typography>
 
               <Typography
