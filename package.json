@@ -37,7 +37,7 @@
     "react-router-dom": "^5.2.0",
     "sanitize-html": "^1.27.0",
     "typescript": "^3.9.5",
-    "use-query-params": "^1.1.4",
+    "use-query-params": "^1.1.5",
     "yup": "^0.29.1"
   },
   "scripts": {
