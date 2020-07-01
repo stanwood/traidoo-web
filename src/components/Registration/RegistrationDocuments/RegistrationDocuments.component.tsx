@@ -39,7 +39,7 @@ const RegistrationDocuments = ({
     for (const fileName of fileNames) {
       if (formData.hasOwnProperty(fileName)) {
         // @ts-ignore
-        data[fileName] = formData[fileName][0];
+        data[fileName] = formData[fileName];
       }
     }
 

@@ -111,7 +111,8 @@ const RegistrationFormPage: React.FC = () => {
 
     Object.entries(combinedData).forEach(([key, value]: [string, any]) => {
       if (value) {
-        data.append(key, value);
+        const val = value instanceof FileList ? value[0] : value;
+        data.append(key, val);
       }
     });
 

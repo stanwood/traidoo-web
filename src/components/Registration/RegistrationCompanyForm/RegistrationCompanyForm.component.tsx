@@ -53,6 +53,12 @@ const RegistrationCompanyForm = ({
   const [labelWidth, setLabelWidth] = React.useState(0);
 
   useEffect(() => {
+    if (getValues().declaredAsSeller === undefined) {
+      setValue("declaredAsSeller", false);
+    }
+  }, [getValues, setValue]);
+
+  useEffect(() => {
     setLabelWidth(inputLabel.current!.offsetWidth);
     setIsDeclaredAsSeller(values.declaredAsSeller);
   }, [values]);
