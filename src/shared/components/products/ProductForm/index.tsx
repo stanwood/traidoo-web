@@ -60,7 +60,6 @@ const ProductForm: React.FC<ProductFormProps> = (props: ProductFormProps) => {
     deliveryOptions: product ? product.deliveryOptions : [],
     thirdPartyDelivery: product ? product.thirdPartyDelivery : false,
     deliveryCharge: product ? product.deliveryCharge : 0,
-    deliveryOptions: product ? product.deliveryOptions : [],
     regions: product ? product.regions : [],
     ean8: product ? product.ean8 : "",
     ean13: product ? product.ean13 : "",

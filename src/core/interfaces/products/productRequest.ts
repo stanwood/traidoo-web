@@ -15,6 +15,7 @@ export interface ProductPostRequestData {
   containerTypeId: number;
   deliveryCharge?: number;
   deliveryOptionsIds: number[];
+  thirdPartyDelivery: boolean;
   regions?: number[];
   sellersProductIdentifier?: string;
   tags?: number[];
