@@ -65,6 +65,7 @@ const Availability: React.FC<AvailabilityProps> = (
                 control={
                   <Checkbox
                     name="regions"
+                    color="primary"
                     value={region.id}
                     checked={selectedRegions
                       .map((region) => region.id)

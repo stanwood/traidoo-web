@@ -23,6 +23,7 @@ export const convertFormDataToProduct = (
     deliveryOptionsIds: formData.deliveryOptions.map(
       (deliveryOption) => deliveryOption.id
     ),
+    thirdPartyDelivery: formData.thirdPartyDelivery,
     regions: formData.regions?.map((region) => region.id),
     sellersProductIdentifier: formData.sellersProductIdentifier,
     tags: formData.tags?.map((tag) => tag.id),

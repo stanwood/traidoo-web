@@ -27,7 +27,7 @@ type Product = {
   category: Category;
   containerType: Container;
   deliveryOptions: DeliveryOption[];
-  thirdPartyDelivery?: boolean;
+  thirdPartyDelivery: boolean;
   deliveryCharge: number;
   delivery: { [key: string]: number };
   region: Region;
