@@ -1,7 +1,6 @@
 import arrayToTree from "array-to-tree";
 import React, { ReactElement, useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { getAccessToken } from "../../api/jwt";
 import { getCategoriesRequest } from "../../api/queries/categories";
 import { Category, CategoryTree } from "../../core/interfaces/categories";
 import { CategoriesContext } from "./context";
@@ -18,7 +17,7 @@ const CategoriesProvider = (props: CategoriesProviderProps): ReactElement => {
   });
 
   useEffect(() => {
-    if (getAccessToken()) refetch();
+    refetch();
   }, [refetch]);
 
   const value = {
