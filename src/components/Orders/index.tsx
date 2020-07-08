@@ -9,21 +9,28 @@ import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { Order } from "../../core/interfaces/orders/ordersRequest";
 import Row from "./Row";
 import useTableListStyles from "./styles";
 
 interface OrderListProps {
-  orders: any;
+  orders: Order[] | undefined;
   count: number;
   page: number;
-  onPageChange: any;
+  onPageChange: (page: number) => void;
+  downloadFile: (documentId: number) => void;
 }
+
+const tableRowsPerPageOptions:
+  | (number | { value: number; label: string })[]
+  | undefined = [];
 
 const OrdersList: React.FC<OrderListProps> = ({
   orders,
   count,
   page,
   onPageChange,
+  downloadFile,
 }: OrderListProps) => {
   const classes = useTableListStyles();
   const { t } = useTranslation();
@@ -36,18 +43,18 @@ const OrdersList: React.FC<OrderListProps> = ({
             <TableRow>
               <TableCell>{t("id")}</TableCell>
               <TableCell>{t("date")}</TableCell>
-              <TableCell>{t("status")}</TableCell>
               <TableCell>{t("total")}</TableCell>
+              <TableCell>{t("documents")}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {orders.map((order: any) => (
-              <Row key={order.id} order={order} />
+            {orders?.map((order) => (
+              <Row key={order.id} order={order} downloadFile={downloadFile} />
             ))}
           </TableBody>
         </Table>
         <TablePagination
-          rowsPerPageOptions={[]}
+          rowsPerPageOptions={tableRowsPerPageOptions}
           component="div"
           count={count}
           rowsPerPage={10}

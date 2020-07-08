@@ -53,7 +53,10 @@ const Layout: React.FC<Props> = ({ children }: Props) => {
 
     if (pathname.startsWith("/profile")) {
       setTabsList(tabs.profile);
-    } else if (pathname.startsWith("/history")) {
+    } else if (
+      pathname.startsWith("/history") &&
+      user?.groups?.includes("seller")
+    ) {
       setTabsList(tabs.history);
     } else if (
       user?.groups?.includes("seller") &&

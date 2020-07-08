@@ -1,30 +1,31 @@
-import Link from "@material-ui/core/Link";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import { format, parseISO } from "date-fns";
 import React from "react";
-import { Link as RouterLink } from "react-router-dom";
-import statusMapping from "../../core/utils/statusMapping";
+import { Order } from "../../core/interfaces/orders/ordersRequest";
+import Documents from "./Documents";
+import useTableListStyles from "./styles";
 
 interface RowProps {
-  order: any;
+  order: Order;
+  downloadFile: (documentId: number) => void;
 }
 
-const Row: React.FC<RowProps> = ({ order }: RowProps) => {
+const Row: React.FC<RowProps> = ({ order, downloadFile }: RowProps) => {
+  const classes = useTableListStyles();
+
   const formatDate = (date: string): string => {
-    return format(parseISO(date), "yyyy-dd-MM");
+    return format(parseISO(date), "yyyy-MM-dd");
   };
 
   return (
     <TableRow key={order.id}>
-      <TableCell>
-        <Link component={RouterLink} to={`/history/orders/${order.id}`}>
-          {order.id}
-        </Link>
-      </TableCell>
+      <TableCell>{order.id}</TableCell>
       <TableCell>{formatDate(order.createdAt)}</TableCell>
-      <TableCell>{statusMapping[order.status]}</TableCell>
       <TableCell>{order.totalPrice}€</TableCell>
+      <TableCell className={classes.files}>
+        <Documents documents={order.documents} downloadFile={downloadFile} />
+      </TableCell>
     </TableRow>
   );
 };
