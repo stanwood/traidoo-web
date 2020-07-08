@@ -12,7 +12,7 @@ const userItems: MenuItem[] = [
 ];
 
 const buyerItems: MenuItem[] = [
-  { name: i18n.t("history"), path: "/history/orders" },
+  { name: i18n.t("history"), path: "/history/orders/purchases" },
 ];
 
 const globalItems: MenuItem[] = [

@@ -15,13 +15,11 @@ import history from "./core/history";
 import Checkout from "./pages/Checkout";
 import CheckoutSummaryPage from "./pages/CheckoutSummary";
 import ContactPage from "./pages/Contact";
-import DeliveriesPage from "./pages/Deliveries";
 import DeliveryAddress from "./pages/DeliveryAddress";
 import ImprintPage from "./pages/Imprint";
 import JobsPage from "./pages/Jobs";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
-import OrderPage from "./pages/Order";
 import OrdersPage from "./pages/Orders";
 import PasswordChangePage from "./pages/PasswordChange";
 import PasswordReset from "./pages/PasswordReset";
@@ -171,14 +169,11 @@ const App: React.FC = () => {
                   <Route exact path="/privacy-policy">
                     <PrivacyPolicyPage />
                   </Route>
-                  <Route exact path="/history/orders/:id">
-                    <OrderPage />
+                  <Route exact path="/history/orders/purchases">
+                    <OrdersPage type="purchases" />
                   </Route>
-                  <Route exact path="/history/orders">
-                    <OrdersPage />
-                  </Route>
-                  <Route exact path="/history/deliveries">
-                    <DeliveriesPage />
+                  <Route exact path="/history/orders/sales">
+                    <OrdersPage type="sales" />
                   </Route>
                 </Switch>
               </Layout>

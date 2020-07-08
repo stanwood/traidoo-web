@@ -1,9 +1,11 @@
 import api from "../../../core/ky";
 import { generateHeaders } from "../../headers";
 
-const getDocumentFileRequest = async (orderId: number): Promise<any> => {
+const getDocumentFileRequest = async (
+  documentId: number
+): Promise<{ url: string; filename: string }> => {
   return await api
-    .get(`orders/${orderId}/download`, {
+    .get(`documents/${documentId}/download`, {
       headers: generateHeaders(),
     })
     .json();

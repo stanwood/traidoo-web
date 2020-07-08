@@ -1,20 +1,25 @@
 import Skeleton from "@material-ui/lab/Skeleton";
 import React, { useCallback } from "react";
-import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import { NumberParam, useQueryParams, withDefault } from "use-query-params";
+import getDocumentFileRequest from "../../api/queries/documents/download";
 import { getOrdersRequest } from "../../api/queries/orders";
+import Page from "../../components/Common/Page";
 import OrdersList from "../../components/Orders";
+import { OrdersPageProps } from "./interfaces";
 
-const OrdersPage: React.FC = () => {
+const OrdersPage: React.FC<OrdersPageProps> = (props: OrdersPageProps) => {
+  const { type } = props;
   const { t } = useTranslation();
+  const pageTitle = t("orders");
+
   const [query, setQuery] = useQueryParams({
     page: withDefault(NumberParam, 0),
   });
 
   const { data, status } = useQuery(
-    ["orders", { ...Object(query), status: 0 }],
+    [`orders/${type}`, type, { ...Object(query) }],
     getOrdersRequest
   );
 
@@ -22,26 +27,39 @@ const OrdersPage: React.FC = () => {
     (page: number) => {
       setQuery({ page });
     },
-    [query]
+    [setQuery]
   );
 
-  return (
-    <>
-      <Helmet>
-        <title>{t("orders")}</title>
-      </Helmet>
+  const downloadFile = useCallback((documentId: number) => {
+    getDocumentFileRequest(documentId).then((data) => {
+      const link = document.createElement("a");
+      link.href = data.url;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+  }, []);
 
-      {status === "loading" || !data ? (
-        Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
-      ) : (
-        <OrdersList
-          orders={data.results}
-          count={data.count}
-          page={query.page}
-          onPageChange={onPageChange}
-        />
-      )}
-    </>
+  if (status === "loading") {
+    return (
+      <Page title={pageTitle}>
+        {Array.from(Array(10).keys()).map((number) => (
+          <Skeleton key={number} />
+        ))}
+      </Page>
+    );
+  }
+
+  return (
+    <Page title={pageTitle}>
+      <OrdersList
+        orders={data?.results}
+        count={data?.count || 0}
+        page={query.page}
+        onPageChange={onPageChange}
+        downloadFile={downloadFile}
+      />
+    </Page>
   );
 };
 
