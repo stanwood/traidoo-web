@@ -1,5 +1,6 @@
 import Chip from "@material-ui/core/Chip";
 import Typography from "@material-ui/core/Typography";
+import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { OrderDocuments } from "../../core/interfaces/orders/ordersRequest";
@@ -25,8 +26,10 @@ const Documents: React.FC<DocumentsProps> = (props: DocumentsProps) => {
   return documents.map((document) => (
     <Chip
       key={document.id}
+      variant="outlined"
       label={translateDocumentType(document.documentType)}
       onClick={() => downloadFile(document.id)}
+      icon={<DescriptionOutlinedIcon />}
     />
   ));
 };
