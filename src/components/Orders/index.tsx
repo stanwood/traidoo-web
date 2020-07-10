@@ -17,6 +17,7 @@ interface OrderListProps {
   orders: Order[] | undefined;
   count: number;
   page: number;
+  displayBuyer: boolean;
   onPageChange: (page: number) => void;
   downloadFile: (documentId: number) => void;
 }
@@ -29,6 +30,7 @@ const OrdersList: React.FC<OrderListProps> = ({
   orders,
   count,
   page,
+  displayBuyer,
   onPageChange,
   downloadFile,
 }: OrderListProps) => {
@@ -43,13 +45,19 @@ const OrdersList: React.FC<OrderListProps> = ({
             <TableRow>
               <TableCell>{t("id")}</TableCell>
               <TableCell>{t("date")}</TableCell>
+              {displayBuyer && <TableCell>{t("buyer")}</TableCell>}
               <TableCell>{t("total")}</TableCell>
               <TableCell>{t("documents")}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {orders?.map((order) => (
-              <Row key={order.id} order={order} downloadFile={downloadFile} />
+              <Row
+                key={order.id}
+                order={order}
+                downloadFile={downloadFile}
+                displayBuyer={displayBuyer}
+              />
             ))}
           </TableBody>
         </Table>
