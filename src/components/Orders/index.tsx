@@ -45,8 +45,8 @@ const OrdersList: React.FC<OrderListProps> = ({
             <TableRow>
               <TableCell>{t("id")}</TableCell>
               <TableCell>{t("date")}</TableCell>
-              {displayBuyer && <TableCell>{t("buyer")}</TableCell>}
               <TableCell>{t("total")}</TableCell>
+              {displayBuyer && <TableCell>{t("buyer")}</TableCell>}
               <TableCell>{t("documents")}</TableCell>
             </TableRow>
           </TableHead>
