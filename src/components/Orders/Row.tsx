@@ -1,9 +1,8 @@
-import Link from "@material-ui/core/Link";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
+import Typography from "@material-ui/core/Typography";
 import { format, parseISO } from "date-fns";
 import React from "react";
-import { Link as RouterLink } from "react-router-dom";
 import { Order, OrderBuyer } from "../../core/interfaces/orders/ordersRequest";
 import Documents from "./Documents";
 import useTableListStyles from "./styles";
@@ -28,13 +27,9 @@ const Row: React.FC<RowProps> = ({
   const buyer = (buyer: OrderBuyer | undefined) => {
     if (buyer) {
       return (
-        <Link
-          component={RouterLink}
-          to={`/sellers/${buyer.id}`}
-          color="textPrimary"
-        >
+        <Typography>
           {buyer?.firstName} {buyer?.lastName}, {buyer?.companyName}
-        </Link>
+        </Typography>
       );
     }
   };
