@@ -11,6 +11,7 @@ import { OrdersPageProps } from "./interfaces";
 
 const OrdersPage: React.FC<OrdersPageProps> = (props: OrdersPageProps) => {
   const { type } = props;
+  const displayBuyer = type === "sales";
   const { t } = useTranslation();
   const pageTitle = t("orders");
 
@@ -58,6 +59,7 @@ const OrdersPage: React.FC<OrdersPageProps> = (props: OrdersPageProps) => {
         page={query.page}
         onPageChange={onPageChange}
         downloadFile={downloadFile}
+        displayBuyer={displayBuyer}
       />
     </Page>
   );
