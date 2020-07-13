@@ -3,6 +3,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Typography from "@material-ui/core/Typography";
 import { format, parseISO } from "date-fns";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Order, OrderBuyer } from "../../core/interfaces/orders/ordersRequest";
 import Documents from "./Documents";
 import useTableListStyles from "./styles";
@@ -19,6 +20,7 @@ const Row: React.FC<RowProps> = ({
   displayBuyer,
 }: RowProps) => {
   const classes = useTableListStyles();
+  const { t } = useTranslation();
 
   const formatDate = (date: string): string => {
     return format(parseISO(date), "yyyy-MM-dd");
@@ -38,7 +40,9 @@ const Row: React.FC<RowProps> = ({
     <TableRow key={order.id}>
       <TableCell>{order.id}</TableCell>
       <TableCell>{formatDate(order.createdAt)}</TableCell>
-      <TableCell>{order.totalPrice}€</TableCell>
+      <TableCell>
+        {order.documents.length > 0 ? `${order.totalPrice}€` : t("N/A")}
+      </TableCell>
       {displayBuyer && <TableCell>{buyer(order.buyer)}</TableCell>}
       <TableCell className={classes.files}>
         <Documents documents={order.documents} downloadFile={downloadFile} />
