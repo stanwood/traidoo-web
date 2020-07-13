@@ -15,8 +15,6 @@ const useTableListStyles = makeStyles((theme: Theme) =>
       marginBottom: theme.spacing(3),
     },
     files: {
-      display: "flex",
-      flexWrap: "wrap",
       "& > *": {
         margin: theme.spacing(0.5),
       },
