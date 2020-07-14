@@ -21,7 +21,8 @@ const OrdersPage: React.FC<OrdersPageProps> = (props: OrdersPageProps) => {
 
   const { data, status } = useQuery(
     [`orders/${type}`, type, { ...Object(query) }],
-    getOrdersRequest
+    getOrdersRequest,
+    { cacheTime: 1 }
   );
 
   const onPageChange = useCallback(
