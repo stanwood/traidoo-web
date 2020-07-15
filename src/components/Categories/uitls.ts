@@ -1,9 +1,10 @@
-import { CategoryType } from "../../core/types/categories";
+import { Tree } from "array-to-tree";
+import { Category } from "../../core/interfaces/categories";
 
 export const findCategoryTreeById = (
-  categories: CategoryType[],
+  categories: Tree<Category>[],
   categoryId: string | undefined
-) => {
+): string[] => {
   if (!categoryId) {
     return [];
   }
@@ -11,12 +12,12 @@ export const findCategoryTreeById = (
   let found = false;
   let path: string[] = [];
 
-  const findCategories = (categories: CategoryType[], categoryId: string) => {
+  const findCategories = (categories: Tree<Category>[], categoryId: string) => {
     if (found) {
       return;
     }
 
-    for (let category of Object.values(categories)) {
+    for (const category of Object.values(categories)) {
       if (found) {
         break;
       }

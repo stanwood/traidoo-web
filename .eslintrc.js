@@ -32,6 +32,6 @@ module.exports = {
     "plugin:import/warnings",
     "plugin:import/typescript",
     "plugin:react/recommended",
-    "plugin:react-perf/recommended",
+    // "plugin:react-perf/recommended",
   ],
 };

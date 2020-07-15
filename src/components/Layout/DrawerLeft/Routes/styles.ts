@@ -4,17 +4,17 @@ import { leftDrawerWidth } from "../../constants";
 const useRouteMenuStyles = makeStyles((theme: Theme) =>
   createStyles({
     drawer: {
-      [theme.breakpoints.up("lg")]: {
+      zIndex: `${theme.zIndex.appBar - 1} !important` as any,
+      [theme.breakpoints.up("xl")]: {
         width: leftDrawerWidth,
         flexShrink: 0,
       },
     },
     drawerPaper: {
       paddingBottom: theme.spacing(1),
-      paddingTop: 128,
+      paddingTop: theme.spacing(1),
       width: leftDrawerWidth,
     },
-    toolbar: theme.mixins.toolbar,
   })
 );
 

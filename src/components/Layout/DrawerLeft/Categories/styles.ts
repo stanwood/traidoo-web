@@ -1,10 +1,11 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { leftDrawerWidth } from "../../constants";
 
-const useStyles = makeStyles((theme: Theme) =>
+export const useDrawerLeftStyles = makeStyles((theme: Theme) =>
   createStyles({
     drawer: {
-      [theme.breakpoints.up("lg")]: {
+      zIndex: `${theme.zIndex.appBar - 1} !important` as any,
+      [theme.breakpoints.up("xl")]: {
         width: leftDrawerWidth,
         flexShrink: 0,
       },
@@ -14,8 +15,5 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingTop: theme.spacing(1),
       width: leftDrawerWidth,
     },
-    toolbar: theme.mixins.toolbar,
   })
 );
-
-export default useStyles;

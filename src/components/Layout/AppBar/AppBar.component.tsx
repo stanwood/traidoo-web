@@ -7,6 +7,7 @@ import {
   Tabs,
 } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
+import Box from "@material-ui/core/Box";
 import IconButton from "@material-ui/core/IconButton";
 import InputBase from "@material-ui/core/InputBase";
 import Menu from "@material-ui/core/Menu";
@@ -29,6 +30,7 @@ import { useIsFetching } from "react-query";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import Config from "../../../config";
 import { CartContext } from "../../../contexts/CartContext/context";
+import { DrawerContext } from "../../../contexts/DrawerContext/context";
 import { UserContext } from "../../../contexts/UserContext/context";
 import Props, { LinkTabProps } from "./AppBar.interfaces";
 import useStyles from "./AppBar.styles";
@@ -37,13 +39,12 @@ import { getRightMenuItems, MenuItem as IMenuItem } from "./menuItems";
 const inputBaseInputProps = { "aria-label": "search" };
 
 const CustomAppBar: React.FC<Props> = ({
-  handleDrawerLeft,
-  handleDrawerRight,
   displayLeftMenuButton = false,
   displayCartIcon,
   tabs = [],
 }: Props) => {
   const { cart } = useContext(CartContext);
+  const { toggleLeftDrawer, toggleRightDrawer } = useContext(DrawerContext);
   const { user, canBuy } = useContext(UserContext);
 
   const classes = useStyles();
@@ -66,13 +67,16 @@ const CustomAppBar: React.FC<Props> = ({
     input: classes.inputInput,
   } as const; // TODO: Can I use this to fix react-perf/jsx-no-new-object-as-prop?
 
-  const keyPressed = useCallback((event: any) => {
-    if (event.key === "Enter") {
-      history.push(`/products?search=${event.target.value}`);
-      event.stopPropagation();
-      event.preventDefault();
-    }
-  }, []);
+  const keyPressed = useCallback(
+    (event: any) => {
+      if (event.key === "Enter") {
+        history.push(`/products?search=${event.target.value}`);
+        event.stopPropagation();
+        event.preventDefault();
+      }
+    },
+    [history]
+  );
 
   const a11yProps = (index: any) => {
     return {
@@ -172,25 +176,25 @@ const CustomAppBar: React.FC<Props> = ({
   };
 
   return (
-    <div className={classes.root}>
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          {displayLeftMenuButton && (
-            <Hidden xlUp implementation="css">
-              <IconButton
-                edge="start"
-                className={classes.menuButton}
-                color="inherit"
-                aria-label="open left drawer"
-                onClick={handleDrawerLeft}
-              >
-                <MenuIcon />
-              </IconButton>
-            </Hidden>
-          )}
+    <AppBar position="fixed">
+      <Toolbar>
+        {displayLeftMenuButton && (
+          <Hidden xlUp implementation="css">
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="open left drawer"
+              onClick={toggleLeftDrawer}
+            >
+              <MenuIcon />
+            </IconButton>
+          </Hidden>
+        )}
+        <Box className={classes.titleBox}>
           <Typography
-            className={classes.title}
             color="textPrimary"
+            className={classes.title}
             variant="h6"
             noWrap
             component={Link}
@@ -198,48 +202,48 @@ const CustomAppBar: React.FC<Props> = ({
           >
             {Config.clientName}
           </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder={t("search")}
-              classes={inputBaseClasses}
-              inputProps={inputBaseInputProps}
-              inputRef={inputRef}
-              onKeyPress={keyPressed}
-            />
+        </Box>
+        <div className={classes.search}>
+          <div className={classes.searchIcon}>
+            <SearchIcon />
           </div>
-          {canBuy && displayCartIcon && (
-            <IconButton
-              aria-label="shopping cart"
-              edge="end"
-              color="inherit"
-              aria-controls="simple-menu"
-              onClick={handleDrawerRight}
-              className={classes.cartButton}
-            >
-              <Badge badgeContent={cart.products.length} color="secondary">
-                <ShoppingCartOutlinedIcon />
-              </Badge>
-            </IconButton>
-          )}
+          <InputBase
+            placeholder={t("search")}
+            classes={inputBaseClasses}
+            inputProps={inputBaseInputProps}
+            inputRef={inputRef}
+            onKeyPress={keyPressed}
+          />
+        </div>
+        {canBuy && displayCartIcon && (
           <IconButton
-            aria-label="display more actions"
+            aria-label="shopping cart"
             edge="end"
             color="inherit"
             aria-controls="simple-menu"
-            aria-haspopup="true"
-            onClick={handleUserMenuClick}
+            onClick={toggleRightDrawer}
+            className={classes.cartButton}
           >
-            <AccountCircle />
+            <Badge badgeContent={cart.products.length} color="secondary">
+              <ShoppingCartOutlinedIcon />
+            </Badge>
           </IconButton>
-          {renderRightMenu()}
-        </Toolbar>
-        {renderTabs()}
-        {showLoadingIndicator > 0 && <LinearProgress />}
-      </AppBar>
-    </div>
+        )}
+        <IconButton
+          aria-label="display more actions"
+          edge="end"
+          color="inherit"
+          aria-controls="simple-menu"
+          aria-haspopup="true"
+          onClick={handleUserMenuClick}
+        >
+          <AccountCircle />
+        </IconButton>
+        {renderRightMenu()}
+      </Toolbar>
+      {renderTabs()}
+      {showLoadingIndicator > 0 && <LinearProgress />}
+    </AppBar>
   );
 };
 

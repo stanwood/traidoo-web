@@ -1,18 +1,54 @@
 import { Hidden } from "@material-ui/core";
-import Box from "@material-ui/core/Box";
-import React from "react";
+import Drawer from "@material-ui/core/Drawer";
+import React, { useContext } from "react";
+import { DrawerContext } from "../../../../contexts/DrawerContext/context";
 import RoutesMenu from "./RoutesMenu";
+import useRouteMenuStyles from "./styles";
 
-const RoutesDrawer = ({ open }: { open: boolean }) => {
+interface RoutesDrawerProps {
+  toolbarClassName: string;
+}
+
+const RoutesDrawer: React.FC<RoutesDrawerProps> = (
+  props: RoutesDrawerProps
+) => {
+  const classes = useRouteMenuStyles();
+  const { toolbarClassName } = props;
+  const { leftDrawer, toggleLeftDrawer } = useContext(DrawerContext);
+
   return (
-    <Box>
-      <Hidden xlUp implementation="css">
-        <RoutesMenu open={open} variant="persistent" />
+    <nav className={classes.drawer} aria-label="routes menu">
+      <Hidden xlUp implementation="js">
+        <Drawer
+          variant="temporary"
+          classes={{
+            paper: classes.drawerPaper,
+            root: classes.drawer,
+          }}
+          open={leftDrawer}
+          ModalProps={{
+            keepMounted: true,
+            onBackdropClick: toggleLeftDrawer,
+          }}
+        >
+          <div className={toolbarClassName} />
+          <RoutesMenu />
+        </Drawer>
       </Hidden>
-      <Hidden lgDown implementation="css">
-        <RoutesMenu open={open} variant="permanent" />
+      <Hidden lgDown implementation="js">
+        <Drawer
+          variant="permanent"
+          classes={{
+            paper: classes.drawerPaper,
+            root: classes.drawer,
+          }}
+          open={leftDrawer}
+        >
+          <div className={toolbarClassName} />
+          <RoutesMenu />
+        </Drawer>
       </Hidden>
-    </Box>
+    </nav>
   );
 };
 

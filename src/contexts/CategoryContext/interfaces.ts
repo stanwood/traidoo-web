@@ -1,8 +1,9 @@
+import { Tree } from "array-to-tree";
 import { ReactChild } from "react";
-import { CategoryTree } from "../../core/interfaces/categories";
+import { Category } from "../../core/interfaces/categories";
 
 export interface CategoriesStateContext {
-  categories: CategoryTree[];
+  categories: Tree<Category>[] | undefined;
 }
 
 export interface CategoriesProviderProps {

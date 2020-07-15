@@ -1,40 +1,47 @@
-import { Hidden } from "@material-ui/core";
 import Drawer from "@material-ui/core/Drawer";
-import React from "react";
+import Hidden from "@material-ui/core/Hidden";
+import React, { useContext } from "react";
 import CategoriesProvider from "../../../../contexts/CategoryContext";
+import { DrawerContext } from "../../../../contexts/DrawerContext/context";
 import Categories from "../../../Categories";
-import useStyles from "./DrawerLeft.styles";
+import { useDrawerLeftStyles } from "./styles";
 
-const DrawerLeft = ({ open, toolbarClassName }: any) => {
-  const classes = useStyles();
+const CategoriesDrawer: React.FC<{ toolbarClassName: string }> = ({
+  toolbarClassName,
+}: {
+  toolbarClassName: string;
+}) => {
+  const classes = useDrawerLeftStyles();
+  const { leftDrawer, toggleLeftDrawer } = useContext(DrawerContext);
 
   return (
     <CategoriesProvider>
       <nav className={classes.drawer} aria-label="categories">
-        <Hidden xlUp implementation="css">
+        <Hidden xlUp implementation="js">
           <Drawer
-            className={classes.drawer}
-            variant="persistent"
+            variant="temporary"
             classes={{
               paper: classes.drawerPaper,
+              root: classes.drawer,
             }}
-            open={open}
+            open={leftDrawer}
             ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
+              keepMounted: true,
+              onBackdropClick: toggleLeftDrawer,
             }}
           >
             <div className={toolbarClassName} />
             <Categories />
           </Drawer>
         </Hidden>
-        <Hidden lgDown implementation="css">
+        <Hidden lgDown implementation="js">
           <Drawer
-            className={classes.drawer}
             variant="permanent"
             classes={{
               paper: classes.drawerPaper,
+              root: classes.drawer,
             }}
-            open={open}
+            open={leftDrawer}
           >
             <div className={toolbarClassName} />
             <Categories />
@@ -45,4 +52,4 @@ const DrawerLeft = ({ open, toolbarClassName }: any) => {
   );
 };
 
-export default DrawerLeft;
+export default CategoriesDrawer;
