@@ -1,16 +1,24 @@
 import { Box } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import TreeItem from "@material-ui/lab/TreeItem";
+import { Tree } from "array-to-tree";
 import clsx from "clsx";
-import React from "react";
+import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { StringParam, useQueryParams } from "use-query-params";
+import { DrawerContext } from "../../contexts/DrawerContext/context";
+import { Category } from "../../core/interfaces/categories";
 import { CategoryIcon } from "../CategoryIcon";
-import { useTreeItemStyles } from "./Categories.styles";
+import { CategoryItemsProps } from "./interfaces";
+import { useCategoriesTreeItemStyles } from "./styles";
 
-const CategoryItems = ({ data }: any) => {
-  const classes = useTreeItemStyles();
+const CategoryItems: React.FC<CategoryItemsProps> = (
+  props: CategoryItemsProps
+) => {
+  const classes = useCategoriesTreeItemStyles();
   const history = useHistory();
+  const { toggleLeftDrawer } = useContext(DrawerContext);
+  const { categories } = props;
 
   const [query] = useQueryParams({
     category: StringParam,
@@ -22,17 +30,21 @@ const CategoryItems = ({ data }: any) => {
     history.push(`/products?category=${categoryId}`);
   };
 
-  const renderLabel = (
-    item: any // TODO: add type
-  ) => (
+  const onCategoryClick = (
+    event: React.MouseEvent<HTMLElement, MouseEvent>,
+    categoryId: number
+  ) => {
+    onCategorySelect(categoryId);
+    toggleLeftDrawer();
+    event.stopPropagation();
+    event.preventDefault();
+  };
+
+  const renderLabel = (item: Tree<Category>) => (
     <Box
       display="flex"
       className={classes.labelRoot}
-      onClick={(event: React.MouseEvent<any>) => {
-        onCategorySelect(item.id);
-        event.stopPropagation();
-        event.preventDefault();
-      }}
+      onClick={(event) => onCategoryClick(event, item.id)}
     >
       <CategoryIcon iconNumber={item.icon} className={classes.labelIcon} />
       <Typography variant="body2" className={classes.labelText}>
@@ -43,7 +55,7 @@ const CategoryItems = ({ data }: any) => {
 
   return (
     <div>
-      {data?.map((item: any) => {
+      {categories?.map((item) => {
         return (
           <TreeItem
             label={renderLabel(item)}
@@ -64,7 +76,7 @@ const CategoryItems = ({ data }: any) => {
               label: classes.label,
             }}
           >
-            {item.children && <CategoryItems data={item.children} />}
+            {item.children && <CategoryItems categories={item.children} />}
           </TreeItem>
         );
       })}

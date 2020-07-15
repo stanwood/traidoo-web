@@ -1,2 +1,2 @@
-export const leftDrawerWidth = 300;
-export const rightDrawerWidth = 500;
+export const leftDrawerWidth = 208;
+export const rightDrawerWidth = 375;

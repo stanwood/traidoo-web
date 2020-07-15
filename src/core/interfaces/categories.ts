@@ -6,7 +6,3 @@ export interface Category {
   defaultVat: number;
   parent: number;
 }
-
-export interface CategoryTree extends Category {
-  children: Category[];
-}

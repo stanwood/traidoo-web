@@ -1,24 +1,21 @@
-import arrayToTree from "array-to-tree";
-import React, { ReactElement, useEffect, useState } from "react";
+import arrayToTree, { Tree } from "array-to-tree";
+import React, { ReactElement, useState } from "react";
 import { useQuery } from "react-query";
 import { getCategoriesRequest } from "../../api/queries/categories";
-import { Category, CategoryTree } from "../../core/interfaces/categories";
+import { Category } from "../../core/interfaces/categories";
 import { CategoriesContext } from "./context";
 import { CategoriesProviderProps } from "./interfaces";
 
 const CategoriesProvider = (props: CategoriesProviderProps): ReactElement => {
-  const [categories, setCategories] = useState<CategoryTree[]>([]);
+  const [categories, setCategories] = useState<Tree<Category>[] | undefined>(
+    []
+  );
 
-  const { refetch } = useQuery(["/categories", false], getCategoriesRequest, {
-    enabled: false,
+  useQuery(["/categories", true], getCategoriesRequest, {
     onSuccess: (data: Category[]) => {
       setCategories(arrayToTree(data, { parentProperty: "parent" }));
     },
   });
-
-  useEffect(() => {
-    refetch();
-  }, [refetch]);
 
   const value = {
     categories,

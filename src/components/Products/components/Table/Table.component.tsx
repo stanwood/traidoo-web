@@ -113,7 +113,7 @@ const ProductsList: React.FC<ProductsListProps> = ({
         />
       )}
       <TableContainer>
-        <Table className={classes.table} aria-label="products list">
+        <Table aria-label="products list">
           <TableHead
             order={order}
             orderBy={orderBy}
