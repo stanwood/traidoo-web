@@ -8,7 +8,7 @@ const Cart: React.FC = (props) => {
   const { t } = useTranslation();
 
   return (
-    <Box>
+    <Box className={classes.root}>
       <Typography variant="h6" className={classes.title}>
         {t("shoppingCart")}
       </Typography>
