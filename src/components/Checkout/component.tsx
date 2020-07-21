@@ -8,7 +8,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Paper from "@material-ui/core/Paper";
 import Select from "@material-ui/core/Select";
 import Typography from "@material-ui/core/Typography";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import DeliveryAddress from "../../core/interfaces/deliveryAddress";
@@ -40,46 +40,15 @@ const Checkout: React.FC<CheckoutProps> = (props: CheckoutProps) => {
     checkoutPath,
   } = props;
 
-  const deliveryDateInputLabel = React.useRef<HTMLLabelElement>(null);
-  const [deliveryDateLabelWidth, setDeliveryDateLabelWidth] = useState(0);
-  const deliveryAddressInputLabel = React.useRef<HTMLLabelElement>(null);
-  const [deliveryAddressLabelWidth, setDeliveryAddressLabelWidth] = useState(0);
-
   const handleDateChange = (
     event: React.ChangeEvent<{ name?: string | undefined; value: unknown }>
   ): void => {
-    setDeliveryDateLabelWidth(
-      deliveryDateInputLabel.current
-        ? deliveryDateInputLabel.current.offsetWidth
-        : 0
-    );
     onDeliveryDateUpdate(event.target.value);
   };
-
-  useEffect(() => {
-    setDeliveryDateLabelWidth(
-      deliveryDateInputLabel.current
-        ? deliveryDateInputLabel.current.offsetWidth
-        : 0
-    );
-
-    if (checkout?.deliveryAddress) {
-      setDeliveryAddressLabelWidth(
-        deliveryAddressInputLabel.current
-          ? deliveryAddressInputLabel.current.offsetWidth
-          : 0
-      );
-    }
-  }, []);
 
   const handleAddressChange = (
     event: React.ChangeEvent<{ name?: string | undefined; value: unknown }>
   ): void => {
-    setDeliveryAddressLabelWidth(
-      deliveryAddressInputLabel.current
-        ? deliveryAddressInputLabel.current.offsetWidth
-        : 0
-    );
     onDeliveryAddressUpdate(event.target.value);
   };
 
@@ -104,17 +73,14 @@ const Checkout: React.FC<CheckoutProps> = (props: CheckoutProps) => {
           <Grid item xs={12} md={6}>
             {checkout && (
               <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel
-                  shrink
-                  id="deliveryDate"
-                  ref={deliveryDateInputLabel}
-                >
+                <InputLabel shrink id="deliveryDateLabel">
                   {t("deliveryDate")}
                 </InputLabel>
 
                 <Select
-                  labelWidth={deliveryDateLabelWidth}
                   id="deliveryDate"
+                  labelId="deliveryDateLabel"
+                  label={t("deliveryDate")}
                   defaultValue={checkout.earliestDeliveryDate}
                   onChange={(event) => handleDateChange(event)}
                   fullWidth
@@ -142,20 +108,16 @@ const Checkout: React.FC<CheckoutProps> = (props: CheckoutProps) => {
             )}
             {deliveryAddresses.length > 0 && (
               <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel
-                  shrink
-                  id="deliveryAddress"
-                  ref={deliveryAddressInputLabel}
-                >
+                <InputLabel shrink id="deliveryAddressLabel">
                   {t("deliveryAddress")}
                 </InputLabel>
+
                 <Select
+                  labelId="deliveryAddressLabel"
                   id="deliveryAddress"
-                  labelWidth={deliveryAddressLabelWidth}
                   onChange={(event) => handleAddressChange(event)}
-                  defaultValue={
-                    checkout.deliveryAddress ? checkout.deliveryAddress : ""
-                  }
+                  value={checkout.deliveryAddress || ""}
+                  label={t("deliveryAddress")}
                 >
                   {deliveryAddresses?.map((deliveryAddress: any) => (
                     <MenuItem

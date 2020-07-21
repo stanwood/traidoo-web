@@ -15,6 +15,10 @@ const DeliveryOption = (props: {
     2: t("pickup"),
   };
 
+  if (!deliveryNamesMapping[props.id]) {
+    return null;
+  }
+
   return (
     <Grid item xs={12} sm container>
       <Grid item xs container direction="column" spacing={2}>
@@ -25,9 +29,9 @@ const DeliveryOption = (props: {
         </Grid>
       </Grid>
       <Grid item>
-        {props.price !== null && (
-          <Typography variant="subtitle1">{props.price.toFixed(2)}€</Typography>
-        )}
+        <Typography variant="subtitle1">
+          {props.price ? props.price.toFixed(2) : "0.00"}€
+        </Typography>
       </Grid>
     </Grid>
   );
