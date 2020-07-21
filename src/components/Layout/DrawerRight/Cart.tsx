@@ -40,7 +40,7 @@ const RenderCart: React.FC = () => {
         <Button
           variant="contained"
           className={classes.actionLeftButton}
-          onClick={() => clear}
+          onClick={() => clear()}
           disabled={cart.products.length === 0}
         >
           {t("deleteAll")}
