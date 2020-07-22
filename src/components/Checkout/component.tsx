@@ -73,7 +73,7 @@ const Checkout: React.FC<CheckoutProps> = (props: CheckoutProps) => {
           <Grid item xs={12} md={6}>
             {checkout && (
               <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel shrink id="deliveryDateLabel">
+                <InputLabel id="deliveryDateLabel">
                   {t("deliveryDate")}
                 </InputLabel>
 
@@ -108,7 +108,7 @@ const Checkout: React.FC<CheckoutProps> = (props: CheckoutProps) => {
             )}
             {deliveryAddresses.length > 0 && (
               <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel shrink id="deliveryAddressLabel">
+                <InputLabel id="deliveryAddressLabel">
                   {t("deliveryAddress")}
                 </InputLabel>
 
