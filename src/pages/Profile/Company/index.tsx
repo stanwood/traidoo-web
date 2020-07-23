@@ -1,7 +1,6 @@
 import Skeleton from "@material-ui/lab/Skeleton";
 import { useSnackbar } from "notistack";
 import React, { useContext, useEffect, useState } from "react";
-import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
@@ -11,6 +10,7 @@ import {
   getUserDeliveryAddressesRequest,
   updateUserCompanyProfileRequest,
 } from "../../../api/queries/users/profile";
+import Page from "../../../components/Common/Page";
 import CompanyProfileForm from "../../../components/Profile/Company";
 import { UserContext } from "../../../contexts/UserContext/context";
 import { required } from "../../../utils/errors";
@@ -19,6 +19,8 @@ import { buyerValidationSchema, sellerValidationShema } from "./validation";
 
 const CompanyProfile: React.FC = () => {
   const { t } = useTranslation();
+  const pageTitle = t("companyProfile");
+
   const { user } = useContext(UserContext);
   const [registrationErrors, setRegistrationErrors] = useState({});
   const { enqueueSnackbar } = useSnackbar();
@@ -107,11 +109,7 @@ const CompanyProfile: React.FC = () => {
   };
 
   return (
-    <>
-      <Helmet>
-        <title>{t("companyProfile")}</title>
-      </Helmet>
-
+    <Page title={pageTitle}>
       {!data && (
         <>
           {Array.from(Array(10).keys()).map((number: number) => (
@@ -142,7 +140,7 @@ const CompanyProfile: React.FC = () => {
           isSeller={isSeller()}
         />
       )}
-    </>
+    </Page>
   );
 };
 

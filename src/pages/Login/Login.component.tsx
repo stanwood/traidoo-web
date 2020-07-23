@@ -1,11 +1,11 @@
 import React, { useCallback, useContext, useState } from "react";
-import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useMutation } from "react-query";
 import { useHistory } from "react-router-dom";
 import { storeAccessToken, storeRefreshToken } from "../../api/jwt";
 import { getTokenRequest } from "../../api/queries/users/token";
+import Page from "../../components/Common/Page";
 import LoginForm from "../../components/Login/LoginForm";
 import { CartContext } from "../../contexts/CartContext/context";
 import { UserContext } from "../../contexts/UserContext/context";
@@ -13,8 +13,11 @@ import { FormData } from "./interfaces";
 import validationSchema from "./Login.validation";
 
 const Login: React.FC = () => {
-  const { t } = useTranslation();
   const history = useHistory();
+
+  const { t } = useTranslation();
+  const pageTitle = t("login");
+
   const [loginError, setLoginError] = useState<boolean>(false);
 
   const { refetch: refetchCart } = useContext(CartContext);
@@ -48,10 +51,7 @@ const Login: React.FC = () => {
   );
 
   return (
-    <>
-      <Helmet>
-        <title>{t("login")}</title>
-      </Helmet>
+    <Page title={pageTitle}>
       <LoginForm
         errors={errors}
         register={register}
@@ -60,7 +60,7 @@ const Login: React.FC = () => {
         loginError={loginError}
         setLoginError={setLoginError}
       />
-    </>
+    </Page>
   );
 };
 

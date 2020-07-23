@@ -1,9 +1,14 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
-const useStyles = makeStyles((theme: Theme) =>
+const useProductDetailsStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      flexGrow: 1,
+      flexDirection: "row",
+      margin: 0,
+      padding: 0,
+      [theme.breakpoints.down("sm")]: {
+        flexDirection: "column",
+      },
     },
     paper: {
       minHeight: "100%",
@@ -35,7 +40,15 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     addToCart: {
       textTransform: "uppercase",
-      width: "100%",
+      position: "fixed",
+      bottom: theme.spacing(2),
+      right: theme.spacing(2),
+      width: 312 - theme.spacing(2) * 2,
+      [theme.breakpoints.down("sm")]: {
+        width: "90%",
+        left: "50%",
+        transform: "translateX(-50%)",
+      },
     },
     actions: {
       textAlign: "center",
@@ -56,7 +69,18 @@ const useStyles = makeStyles((theme: Theme) =>
     editButton: {
       marginBottom: theme.spacing(2),
     },
+    details: {
+      backgroundColor: theme.palette.grey[100],
+      width: 312,
+      minWidth: 312,
+      [theme.breakpoints.down("sm")]: {
+        width: "100%",
+      },
+    },
+    description: {
+      flexGrow: 1,
+    },
   })
 );
 
-export default useStyles;
+export default useProductDetailsStyles;

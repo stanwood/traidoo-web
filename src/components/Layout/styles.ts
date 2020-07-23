@@ -7,12 +7,14 @@ export const useLayoutStyles = makeStyles((theme: Theme) =>
     },
     content: {
       flexGrow: 1,
-      padding: theme.spacing(3),
       overflow: "hidden",
     },
     toolbar: theme.mixins.toolbar,
     toolbarWithTabs: {
-      minHeight: 128, // TODO: theme.mixins.toolbar.minHeight * 2?
+      minHeight: theme.mixins.toolbar.minHeight * 2,
+      [theme.breakpoints.down("sm")]: {
+        minHeight: theme.mixins.toolbar.minHeight * 2 - 8,
+      },
     },
   })
 );

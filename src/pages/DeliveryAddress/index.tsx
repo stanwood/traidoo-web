@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 import { createUserDeliveryAddressRequest } from "../../api/queries/users/profile";
+import Page from "../../components/Common/Page";
 import DeliveryAddressForm from "../../components/DeliveryAddress";
 import { DeliveryAddressData } from "./types";
 import validationSchema from "./validation";
@@ -11,6 +11,8 @@ import validationSchema from "./validation";
 const DeliveryAddress: React.FC = () => {
   const history = useHistory();
   const { t } = useTranslation();
+  const pageTitle = t("addDeliveryAddress");
+
   const [registrationErrors, setRegistrationErrors] = useState({});
 
   const { register, handleSubmit, errors, setError } = useForm<
@@ -42,10 +44,7 @@ const DeliveryAddress: React.FC = () => {
   };
 
   return (
-    <>
-      <Helmet>
-        <title>{t("addDeliveryAddress")}</title>
-      </Helmet>
+    <Page title={pageTitle}>
       <DeliveryAddressForm
         apiErrors={registrationErrors}
         errors={errors}
@@ -54,7 +53,7 @@ const DeliveryAddress: React.FC = () => {
         setError={setError}
         onSubmit={onSubmit}
       />
-    </>
+    </Page>
   );
 };
 

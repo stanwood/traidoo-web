@@ -8,10 +8,8 @@ const ProductItem = ({ item, onDelete }: { item: any; onDelete: any }) => {
   return (
     <TableRow key={item.id} data-testid="product-item">
       <TableCell data-testid="product-item-quantity">{item.quantity}</TableCell>
-      <TableCell data-testid="product-item-latest-delivery-date">
+      <TableCell data-testid="product-item-latest-delivery-date" align="right">
         {item.latestDeliveryDate}
-      </TableCell>
-      <TableCell align="right" padding="checkbox">
         <IconButton
           aria-label="delete"
           onClick={() =>

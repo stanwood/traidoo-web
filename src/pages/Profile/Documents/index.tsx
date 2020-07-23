@@ -1,6 +1,5 @@
 import Skeleton from "@material-ui/lab/Skeleton";
 import React, { useContext } from "react";
-import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import {
@@ -10,6 +9,7 @@ import {
   updateUserDocumentRequest,
   updateUserMangopayDocumentRequest,
 } from "../../../api/queries/users/profile";
+import Page from "../../../components/Common/Page";
 import CompanyDocumentsForm from "../../../components/Profile/Documents";
 import { UserContext } from "../../../contexts/UserContext/context";
 import requiredDocuments from "../../../core/utils/requiredDocuments";
@@ -17,6 +17,7 @@ import requiredDocuments from "../../../core/utils/requiredDocuments";
 const CompanyDocuments: React.FC = () => {
   const { user } = useContext(UserContext);
   const { t } = useTranslation();
+  const pageTitle = t("documents");
 
   const { data: company } = useQuery(
     "/users/profile/company",
@@ -41,11 +42,7 @@ const CompanyDocuments: React.FC = () => {
   };
 
   return (
-    <>
-      <Helmet>
-        <title>{t("documents")}</title>
-      </Helmet>
-
+    <Page title={pageTitle}>
       {!documents || !mangopayDocuments || !company || !user ? (
         Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
       ) : (
@@ -61,7 +58,7 @@ const CompanyDocuments: React.FC = () => {
           )}
         />
       )}
-    </>
+    </Page>
   );
 };
 

@@ -2,7 +2,6 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import Skeleton from "@material-ui/lab/Skeleton";
 import React, { useState } from "react";
-import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
@@ -14,15 +13,17 @@ import {
   withDefault,
 } from "use-query-params";
 import { getProductsRequest } from "../../api/queries/products";
+import Page from "../../components/Common/Page";
 import ProductsList from "../../components/Products/components/Table/Table.component";
 import { TableColumnsWithSorting } from "../../components/Products/interfaces";
 import { Order } from "../../core/types/queries";
 import useStyles from "./styles";
 
-const SellerProductsListPage = () => {
+const SellerProductsListPage: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
   const { t } = useTranslation();
+  const pageTitle = t("products");
 
   const [query, setQuery] = useQueryParams({
     limit: NumberParam,
@@ -65,11 +66,7 @@ const SellerProductsListPage = () => {
   };
 
   return (
-    <>
-      <Helmet>
-        <title>{t("products")}</title>
-      </Helmet>
-
+    <Page title={pageTitle}>
       {!data || status === "loading" ? (
         Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
       ) : (
@@ -94,7 +91,7 @@ const SellerProductsListPage = () => {
           </Fab>
         </>
       )}
-    </>
+    </Page>
   );
 };
 

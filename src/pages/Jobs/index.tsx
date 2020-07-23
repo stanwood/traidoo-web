@@ -1,6 +1,5 @@
 import Skeleton from "@material-ui/lab/Skeleton";
 import React, { useCallback } from "react";
-import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 import {
@@ -12,10 +11,13 @@ import {
 import { claimJobRequest } from "../../api/queries/jobs/claim";
 import { getJobs } from "../../api/queries/jobs/get";
 import { returnJobRequest } from "../../api/queries/jobs/return";
+import Page from "../../components/Common/Page";
 import JobsList from "../../components/Jobs";
 
 const JobsPage: React.FC = () => {
   const { t } = useTranslation();
+  const pageTitle = t("jobs");
+
   const [query, setQuery] = useQueryParams({
     page: withDefault(NumberParam, 0),
     my: withDefault(BooleanParam, false),
@@ -29,15 +31,11 @@ const JobsPage: React.FC = () => {
     (page: number) => {
       setQuery({ page });
     },
-    [query]
+    [setQuery]
   );
 
   return (
-    <>
-      <Helmet>
-        <title>{t("jobs")}</title>
-      </Helmet>
-
+    <Page title={pageTitle}>
       {status === "loading" || !data ? (
         Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
       ) : (
@@ -50,7 +48,7 @@ const JobsPage: React.FC = () => {
           onJobReturn={unclaim}
         />
       )}
-    </>
+    </Page>
   );
 };
 

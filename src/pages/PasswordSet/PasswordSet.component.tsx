@@ -1,17 +1,19 @@
 import { Button, Container } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import React, { useState } from "react";
-import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
 import { passwordSetRequest } from "../../api/queries/password";
+import Page from "../../components/Common/Page";
 import SetForm from "../../components/PasswordReset/SetForm";
 import { FormData } from "./interfaces";
 import validationSchema from "./PasswordSet.validation";
 
-const PasswordSet = () => {
+const PasswordSet: React.FC = () => {
   const { t } = useTranslation();
+  const pageTitle = t("setPassword");
+
   const { register, handleSubmit, errors, setError } = useForm<FormData>({
     validationSchema: validationSchema,
   });
@@ -59,10 +61,7 @@ const PasswordSet = () => {
   }
 
   return (
-    <>
-      <Helmet>
-        <title>{t("setPassword")}</title>
-      </Helmet>
+    <Page title={pageTitle}>
       <SetForm
         errors={errors}
         register={register}
@@ -70,7 +69,7 @@ const PasswordSet = () => {
         onSubmit={onSubmit}
         isPending={pending}
       />
-    </>
+    </Page>
   );
 };
 

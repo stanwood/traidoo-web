@@ -1,16 +1,18 @@
 import { Container } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import React, { useState } from "react";
-import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { passwordResetRequest } from "../../api/queries/password";
+import Page from "../../components/Common/Page";
 import ResetForm from "../../components/PasswordReset/ResetForm";
 import { FormData } from "./interfaces";
 import validationSchema from "./PasswordReset.validation";
 
-const PasswordReset = () => {
+const PasswordReset: React.FC = () => {
   const { t } = useTranslation();
+  const pageTitle = t("passwordReset");
+
   const { register, handleSubmit, errors, setError } = useForm<FormData>({
     validationSchema: validationSchema,
   });
@@ -39,10 +41,7 @@ const PasswordReset = () => {
   }
 
   return (
-    <>
-      <Helmet>
-        <title>{t("passwordReset")}</title>
-      </Helmet>
+    <Page title={pageTitle}>
       <ResetForm
         errors={errors}
         register={register}
@@ -50,7 +49,7 @@ const PasswordReset = () => {
         onSubmit={onSubmit}
         isPending={pending}
       />
-    </>
+    </Page>
   );
 };
 

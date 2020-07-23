@@ -1,7 +1,6 @@
 import Container from "@material-ui/core/Container";
 import Skeleton from "@material-ui/lab/Skeleton";
 import React, { useCallback } from "react";
-import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 import { useHistory, useParams } from "react-router-dom";
@@ -11,12 +10,15 @@ import { getProductRequest } from "../../api/queries/products";
 import { editProductRequest } from "../../api/queries/products/editProduct";
 import { getRegionsRequest } from "../../api/queries/regions";
 import { getTagsRequest } from "../../api/queries/tags";
+import Page from "../../components/Common/Page";
 import ProductForm from "../../shared/components/products/ProductForm";
 import { ProductFormData } from "../../shared/components/products/ProductForm/types";
 import { convertFormDataToProduct } from "../../shared/components/products/ProductForm/utils";
 
-const ProductEditPage = () => {
+const ProductEditPage: React.FC = () => {
   const { t } = useTranslation();
+  const pageTitle = t("editProduct");
+
   const { id: productId } = useParams<{ id: string }>();
   const history = useHistory();
 
@@ -52,23 +54,16 @@ const ProductEditPage = () => {
 
   if (!product || !categories || !containers || !regions || !tags) {
     return (
-      <>
-        <Helmet>
-          <title>{t("editProduct")}</title>
-        </Helmet>
+      <Page title={pageTitle}>
         {Array.from(Array(10).keys()).map((number) => (
           <Skeleton key={number} />
         ))}
-      </>
+      </Page>
     );
   }
 
   return (
-    <>
-      <Helmet>
-        <title>{t("editProduct")}</title>
-      </Helmet>
-
+    <Page title={pageTitle}>
       <Container maxWidth="md">
         <ProductForm
           onSubmit={onSubmit}
@@ -80,7 +75,7 @@ const ProductEditPage = () => {
           buttonName={t("save")}
         />
       </Container>
-    </>
+    </Page>
   );
 };
 

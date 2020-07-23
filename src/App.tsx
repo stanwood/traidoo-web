@@ -28,10 +28,9 @@ import PasswordSet from "./pages/PasswordSet";
 import PricesPage from "./pages/Prices";
 import PrivacyPolicyPage from "./pages/PrivacyPolicy";
 import ProductAddPage from "./pages/ProductAdd";
-import ProductDetail from "./pages/ProductDetail";
+import ProductDetails from "./pages/ProductDetails";
 import ProductEditPage from "./pages/ProductEdit";
 import Products from "./pages/Products";
-import ProfilePage from "./pages/Profile";
 import CompanyProfile from "./pages/Profile/Company";
 import CompanyDocuments from "./pages/Profile/Documents";
 import PersonalProfile from "./pages/Profile/Personal";
@@ -97,7 +96,7 @@ const App: React.FC = () => {
                       <RegistrationSuccessPage />
                     </Route>
                     <Route exact path="/products/:id">
-                      <ProductDetail />
+                      <ProductDetails />
                     </Route>
                     <Route exact path="/products">
                       <Products />
@@ -137,9 +136,6 @@ const App: React.FC = () => {
                     </Route>
                     <Route exact path="/checkout">
                       <Checkout />
-                    </Route>
-                    <Route exact path="/profile">
-                      <ProfilePage />
                     </Route>
                     <Route exact path="/profile/company/deliveryAddress">
                       <DeliveryAddress />
