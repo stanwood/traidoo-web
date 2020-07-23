@@ -1,7 +1,6 @@
 import Skeleton from "@material-ui/lab/Skeleton";
 import { format } from "date-fns";
 import React, { useState } from "react";
-import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
@@ -9,6 +8,7 @@ import {
   getUserPersonalProfileRequest,
   updateUserPersonalProfileRequest,
 } from "../../../api/queries/users/profile";
+import Page from "../../../components/Common/Page";
 import PersonalProfileForm from "../../../components/Profile/Personal";
 import { FormData } from "./interfaces";
 import validationSchema from "./validation";
@@ -17,6 +17,7 @@ const PersonalProfile: React.FC = () => {
   const [registrationErrors, setRegistrationErrors] = useState({});
   const [editMode, setEditMode] = React.useState(false);
   const { t } = useTranslation();
+  const pageTitle = t("personalProfile");
 
   const { data, refetch } = useQuery(
     "/users/profile/personal",
@@ -63,11 +64,7 @@ const PersonalProfile: React.FC = () => {
   };
 
   return (
-    <>
-      <Helmet>
-        <title>{t("personalProfile")}</title>
-      </Helmet>
-
+    <Page title={pageTitle}>
       {!data && (
         <>
           {Array.from(Array(10).keys()).map((number: number) => (
@@ -92,7 +89,7 @@ const PersonalProfile: React.FC = () => {
           setEditMode={setEditMode}
         />
       )}
-    </>
+    </Page>
   );
 };
 

@@ -3,16 +3,17 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Skeleton from "@material-ui/lab/Skeleton";
 import React from "react";
-import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import { getTermsOfServiceRequest } from "../../api/queries/static";
+import Page from "../../components/Common/Page";
 import { htmlSanitize } from "../../utils/htmlSanitize";
 import useTermsOfServicesStyles from "./styles";
 
 const TermsOfServicePage: React.FC = () => {
   const classes = useTermsOfServicesStyles();
   const { t } = useTranslation();
+  const pageTitle = t("termsOfServices");
 
   const { status, data } = useQuery(
     "terms-of-services",
@@ -20,11 +21,7 @@ const TermsOfServicePage: React.FC = () => {
   );
 
   return (
-    <>
-      <Helmet>
-        <title>{t("termsOfServices")}</title>
-      </Helmet>
-
+    <Page title={pageTitle}>
       {status === "loading" || !data ? (
         Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
       ) : (
@@ -35,7 +32,7 @@ const TermsOfServicePage: React.FC = () => {
           <div dangerouslySetInnerHTML={htmlSanitize(data.body)} />
         </Container>
       )}
-    </>
+    </Page>
   );
 };
 

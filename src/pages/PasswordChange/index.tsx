@@ -1,10 +1,10 @@
 import { useSnackbar } from "notistack";
 import React, { useState } from "react";
-import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 import { changePasswordRequest } from "../../api/queries/users/password";
+import Page from "../../components/Common/Page";
 import PasswordUpdateForm from "../../components/PasswordChange";
 import { FormData } from "./types";
 import validationSchema from "./validation";
@@ -13,6 +13,8 @@ const PasswordChangePage: React.FC = () => {
   const { enqueueSnackbar } = useSnackbar();
   const history = useHistory();
   const { t } = useTranslation();
+  const pageTitle = t("passwordChange");
+
   const [passwordChangeErrors, setPasswordChangeErrors] = useState({});
 
   const {
@@ -60,10 +62,7 @@ const PasswordChangePage: React.FC = () => {
   };
 
   return (
-    <>
-      <Helmet>
-        <title>{t("passwordChange")}</title>
-      </Helmet>
+    <Page title={pageTitle}>
       <PasswordUpdateForm
         apiErrors={passwordChangeErrors}
         errors={errors}
@@ -74,7 +73,7 @@ const PasswordChangePage: React.FC = () => {
         clearError={clearError}
         onSubmit={onSubmit}
       />
-    </>
+    </Page>
   );
 };
 

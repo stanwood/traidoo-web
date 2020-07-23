@@ -2,7 +2,6 @@ import Grid from "@material-ui/core/Grid";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { format } from "date-fns";
 import React, { useState } from "react";
-import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
@@ -13,6 +12,7 @@ import {
   deleteProductItemsRequest,
   getProductItemsRequest,
 } from "../../api/queries/products/items";
+import Page from "../../components/Common/Page";
 import ProductDetail from "../../components/Product";
 import ProductItems from "../../components/ProductItems";
 import { ProductItemFormData } from "./types";
@@ -20,6 +20,7 @@ import validationSchema from "./validation";
 
 const SellerProductDetailsPage: React.FC = () => {
   const { t } = useTranslation();
+  const pageTitle = t("productDetail");
   const { id } = useParams<{ id: string }>();
 
   const {
@@ -96,26 +97,22 @@ const SellerProductDetailsPage: React.FC = () => {
   });
 
   return (
-    <>
-      <Helmet>
-        <title>{t("productDetail")}</title>
-      </Helmet>
-
+    <Page title={pageTitle}>
       {!product ||
       !productItems ||
       productStatus === "loading" ||
       productItemsStatus === "loading" ? (
         Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
       ) : (
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={9}>
+        <Grid container spacing={0}>
+          <Grid item xs={12} lg={9}>
             <ProductDetail
               product={product}
               error={productError}
               showEditButton={true}
             />
           </Grid>
-          <Grid item xs={12} md={3}>
+          <Grid item xs={12} lg={3}>
             <ProductItems
               items={productItems}
               onDelete={deleteItem}
@@ -132,7 +129,7 @@ const SellerProductDetailsPage: React.FC = () => {
           </Grid>
         </Grid>
       )}
-    </>
+    </Page>
   );
 };
 

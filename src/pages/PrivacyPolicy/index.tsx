@@ -3,25 +3,22 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Skeleton from "@material-ui/lab/Skeleton";
 import React from "react";
-import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import { getPrivacyPolicyRequest } from "../../api/queries/static";
+import Page from "../../components/Common/Page";
 import { htmlSanitize } from "../../utils/htmlSanitize";
 import usePrivacyPolicyStyles from "./styles";
 
 const PrivacyPolicyPage: React.FC = () => {
   const classes = usePrivacyPolicyStyles();
   const { t } = useTranslation();
+  const pageTitle = t("privacyPolicy");
 
   const { status, data } = useQuery("privacy-policy", getPrivacyPolicyRequest);
 
   return (
-    <>
-      <Helmet>
-        <title>{t("privacyPolicy")}</title>
-      </Helmet>
-
+    <Page title={pageTitle}>
       {status === "loading" || !data ? (
         Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
       ) : (
@@ -32,7 +29,7 @@ const PrivacyPolicyPage: React.FC = () => {
           <div dangerouslySetInnerHTML={htmlSanitize(data.body)} />
         </Container>
       )}
-    </>
+    </Page>
   );
 };
 

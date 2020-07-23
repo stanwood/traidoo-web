@@ -7,6 +7,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import Typography from "@material-ui/core/Typography";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import AddItemDialog from "./AddItemDialog";
@@ -47,9 +48,12 @@ const ProductItems = ({
         <Table aria-label="items">
           <TableHead className={classes.tableHead}>
             <TableRow>
-              <TableCell>{t("availableItems")}</TableCell>
-              <TableCell>{t("bestBefore")}</TableCell>
-              <TableCell></TableCell>
+              <TableCell>
+                <Typography>{t("availableItems")}</Typography>
+              </TableCell>
+              <TableCell className={classes.tableCell} align="right">
+                <Typography noWrap>{t("bestBefore")}</Typography>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

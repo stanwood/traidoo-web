@@ -13,6 +13,12 @@ export const useProductItemsStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.default,
     color: theme.palette.common.black,
   },
+  tableCell: {
+    maxWidth: 0,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+  },
 }));
 
 export const useAddItemDialogStyles = makeStyles((theme) => ({

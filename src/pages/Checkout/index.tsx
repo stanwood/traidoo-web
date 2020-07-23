@@ -3,13 +3,17 @@ import addDays from "date-fns/addDays";
 import eachDayOfInterval from "date-fns/eachDayOfInterval";
 import formatISO from "date-fns/formatISO";
 import React, { useCallback } from "react";
-import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
-import { cartDeliveryAddressRequest, cartDeliveryDateRequest, cartItemDeliveryOptionRequest } from "../../api/queries/cart";
+import {
+  cartDeliveryAddressRequest,
+  cartDeliveryDateRequest,
+  cartItemDeliveryOptionRequest,
+} from "../../api/queries/cart";
 import { getCheckoutRequest } from "../../api/queries/checkout";
 import { getUserDeliveryAddressesRequest } from "../../api/queries/users/profile";
 import CheckoutDelivery from "../../components/Checkout";
+import Page from "../../components/Common/Page";
 
 const now = Date.now();
 
@@ -20,6 +24,8 @@ const deliveryDays = eachDayOfInterval({
 
 const Checkout: React.FC = () => {
   const { t } = useTranslation();
+  const pageTitle = t("checkout");
+
   const [updateDeliveryOptionMutation] = useMutation(
     cartItemDeliveryOptionRequest
   );
@@ -44,29 +50,28 @@ const Checkout: React.FC = () => {
         refetch();
       });
     },
-    []
+    [refetch, updateDeliveryOptionMutation]
   );
 
   const updateDeliveryDate = useCallback(
     async (earliestDeliveryDate: string): Promise<void> => {
       await updateDeliveryDateMutation({ date: earliestDeliveryDate });
     },
-    []
+    [updateDeliveryDateMutation]
   );
 
-  const updateDeliveryAddress = useCallback((deliveryAddress: number): void => {
-    // TODO: use useQuery
-    cartDeliveryAddressRequest(deliveryAddress).then(() => {
-      refetch();
-    });
-  }, []);
+  const updateDeliveryAddress = useCallback(
+    (deliveryAddress: number): void => {
+      // TODO: use useQuery
+      cartDeliveryAddressRequest(deliveryAddress).then(() => {
+        refetch();
+      });
+    },
+    [refetch]
+  );
 
   return (
-    <>
-      <Helmet>
-        <title>{t("checkout")}</title>
-      </Helmet>
-
+    <Page title={pageTitle}>
       {deliveryAddresses === undefined || checkoutData === undefined ? (
         Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
       ) : (
@@ -80,7 +85,7 @@ const Checkout: React.FC = () => {
           checkoutPath={"/checkout/summary"}
         />
       )}
-    </>
+    </Page>
   );
 };
 

@@ -1,6 +1,5 @@
 import Skeleton from "@material-ui/lab/Skeleton";
 import React, { useState } from "react";
-import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
@@ -13,6 +12,7 @@ import {
 } from "use-query-params";
 import { getProductsRequest } from "../../api/queries/products";
 import { getSellerByIdRequest } from "../../api/queries/users/user";
+import Page from "../../components/Common/Page";
 import { TableColumnsWithSorting } from "../../components/Products/interfaces";
 import { Order } from "../../components/Products/types";
 import SellerComponent from "../../components/Seller";
@@ -20,6 +20,7 @@ import SellerComponent from "../../components/Seller";
 const Seller: React.FC = () => {
   const { id } = useParams();
   const { t } = useTranslation();
+  const pageTitle = t("sellerDetails");
 
   const [query, setQuery] = useQueryParams({
     limit: NumberParam,
@@ -91,11 +92,7 @@ const Seller: React.FC = () => {
   };
 
   return (
-    <>
-      <Helmet>
-        <title>{t("sellerDetails")}</title>
-      </Helmet>
-
+    <Page title={pageTitle}>
       {!productsData || productsStatus === "loading" ? (
         Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
       ) : (
@@ -114,7 +111,7 @@ const Seller: React.FC = () => {
           filterBy={filterBy}
         />
       )}
-    </>
+    </Page>
   );
 };
 

@@ -1,7 +1,6 @@
 import Skeleton from "@material-ui/lab/Skeleton";
 import { useSnackbar } from "notistack";
 import React, { useCallback, useContext } from "react";
-import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
@@ -10,6 +9,7 @@ import {
   getCheckoutRequest,
 } from "../../api/queries/checkout";
 import CheckoutSummary from "../../components/CheckoutSummary";
+import Page from "../../components/Common/Page";
 import { CartContext } from "../../contexts/CartContext/context";
 
 const CheckoutSummaryPage: React.FC = () => {
@@ -17,6 +17,7 @@ const CheckoutSummaryPage: React.FC = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { initialState } = useContext(CartContext);
   const { t } = useTranslation();
+  const pageTitle = t("checkoutSummary");
 
   const { data: checkoutData, status: checkoutStatus } = useQuery(
     "/checkout",
@@ -83,11 +84,7 @@ const CheckoutSummaryPage: React.FC = () => {
   }, [enqueueSnackbar, checkoutMutation, history, initialState, t]);
 
   return (
-    <>
-      <Helmet>
-        <title>{t("checkoutSummary")}</title>
-      </Helmet>
-
+    <Page title={pageTitle}>
       {checkoutStatus === "loading" ? (
         Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
       ) : (
@@ -99,7 +96,7 @@ const CheckoutSummaryPage: React.FC = () => {
           onSubmit={onSubmit}
         />
       )}
-    </>
+    </Page>
   );
 };
 
