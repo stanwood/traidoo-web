@@ -57,8 +57,8 @@ const addProductSchemaValidator: yup.ObjectSchema<ProductFormData> = yup
     // Internal
     sellersProductIdentifier: yup.string().notRequired(),
     tags: yup.array<Tag>().notRequired(),
-    ean8: yup.string().notRequired(),
-    ean13: yup.string().notRequired(),
+    ean8: yup.string().notRequired().nullable(),
+    ean13: yup.string().notRequired().nullable(),
   })
   .defined();
 
