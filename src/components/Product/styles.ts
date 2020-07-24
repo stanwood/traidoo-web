@@ -80,6 +80,9 @@ const useProductDetailsStyles = makeStyles((theme: Theme) =>
     description: {
       flexGrow: 1,
     },
+    productDescription: {
+      whiteSpace: "pre-line",
+    },
   })
 );
 

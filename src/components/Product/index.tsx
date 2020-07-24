@@ -144,7 +144,9 @@ const ProductDetails: React.FC<ProductDetailsProps> = (
               {product.category.name}
             </Typography>
 
-            <Typography>{product.description}</Typography>
+            <Typography className={classes.productDescription}>
+              {product.description}
+            </Typography>
 
             <Box className={classes.bottom}>
               {showEditButton && (
