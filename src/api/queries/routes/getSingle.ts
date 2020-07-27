@@ -1,13 +1,9 @@
+import axios from "../../../core/axios";
 import { Route } from "../../../core/interfaces/routes";
-import api from "../../../core/ky";
-import { generateHeaders } from "../../headers";
 
 const getRouteRequest = async (key: string, id: number): Promise<Route> => {
-  return await api
-    .get(`routes/${id}`, {
-      headers: generateHeaders(true),
-    })
-    .json();
+  const response = await axios.get(`routes/${id}`);
+  return response.data;
 };
 
 export default getRouteRequest;

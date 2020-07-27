@@ -1,14 +1,11 @@
-import api from "../../../core/ky";
-import { generateHeaders } from "../../headers";
+import axios from "../../../core/axios";
 
 const getDocumentFileRequest = async (
   documentId: number
 ): Promise<{ url: string; filename: string }> => {
-  return await api
-    .get(`documents/${documentId}/download`, {
-      headers: generateHeaders(),
-    })
-    .json();
+  const response = await axios.get(`documents/${documentId}/download`);
+
+  return response.data;
 };
 
 export default getDocumentFileRequest;

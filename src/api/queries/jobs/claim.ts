@@ -1,10 +1,6 @@
-import api from "../../../core/ky";
-import { generateHeaders } from "../../headers";
+import axios from "../../../core/axios";
 
 export const claimJobRequest = async ({ jobId }: { jobId: number }) => {
-  return await api
-    .post(`jobs/${jobId}/claim`, {
-      headers: generateHeaders(),
-    })
-    .json();
+  const response = await axios.post(`jobs/${jobId}/claim`);
+  return response.data;
 };

@@ -1,15 +1,15 @@
-import api from "../../../core/ky";
-import { generateHeaders } from "../../headers";
+import axios from "../../../core/axios";
 
 export const passwordSetRequest = async (
   uid: string,
   token: string,
   password: string
 ) => {
-  return await api
-    .post("auth/password-set", {
-      json: { uid, token, new_password: password },
-      headers: generateHeaders(false),
-    })
-    .json();
+  const response = await axios.post("auth/password-set", {
+    uid,
+    token,
+    new_password: password,
+  });
+
+  return response.data;
 };

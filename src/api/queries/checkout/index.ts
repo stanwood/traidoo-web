@@ -1,15 +1,12 @@
-import api from "../../../core/ky";
+import axios from "../../../core/axios";
 import { CheckoutType } from "../../../core/types/checkout";
-import { generateHeaders } from "../../headers";
 
 export const getCheckoutRequest = async (): Promise<CheckoutType> => {
-  return await api.get("checkout", { headers: generateHeaders() }).json();
+  const response = await axios.get("checkout");
+  return response.data;
 };
 
 export const checkoutRequest = async () => {
-  return await api
-    .post("checkout", {
-      headers: generateHeaders(),
-    })
-    .json();
+  const response = await axios.post("checkout");
+  return response.data;
 };

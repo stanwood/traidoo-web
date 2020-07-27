@@ -1,6 +1,5 @@
-import api from "../../../core/ky";
+import axios from "../../../core/axios";
 import { Order } from "../../../core/types/queries";
-import { generateHeaders } from "../../headers";
 import { ProductsListResponse } from "./interfaces";
 
 export const getProductsRequest = async (
@@ -23,7 +22,7 @@ export const getProductsRequest = async (
   const order = queryParams.order || "desc";
   const orderBy = queryParams.orderBy || "createdAt";
 
-  let searchParams: any = {
+  const searchParams: any = {
     limit,
     offset: queryParams.offset || 0,
     category__id: queryParams.category,
@@ -69,20 +68,19 @@ export const getProductsRequest = async (
     searchParams["my"] = true;
   }
 
-  return await api
-    .get("products", {
-      headers: generateHeaders(),
-      searchParams: Object.keys(searchParams).reduce(function (
-        accumulator: any,
-        currentValue: string
-      ) {
-        if (searchParams[currentValue])
-          accumulator[currentValue] = searchParams[currentValue];
-        return accumulator;
-      },
-      {}),
-    })
-    .json();
+  const response = await axios.get("products", {
+    params: Object.keys(searchParams).reduce(function (
+      accumulator: any,
+      currentValue: string
+    ) {
+      if (searchParams[currentValue])
+        accumulator[currentValue] = searchParams[currentValue];
+      return accumulator;
+    },
+    {}),
+  });
+
+  return response.data;
 };
 
 export default getProductsRequest;

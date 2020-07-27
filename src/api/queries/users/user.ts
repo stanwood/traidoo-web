@@ -1,13 +1,12 @@
 import { UserState } from "../../../contexts/UserContext/interfaces";
-import api from "../../../core/ky";
-import { generateHeaders } from "../../headers";
+import axios from "../../../core/axios";
 
 export const getCurrentUserRequest = async (): Promise<UserState> => {
-  return await api
-    .get("users/profile/me", { headers: generateHeaders() })
-    .json();
+  const response = await axios.get("users/profile/me");
+  return response.data;
 };
 
 export const getSellerByIdRequest = async (key: string, id: number) => {
-  return await api.get(`sellers/${id}`, { headers: generateHeaders() }).json();
+  const response = await axios.get(`sellers/${id}`);
+  return response.data;
 };

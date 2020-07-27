@@ -1,5 +1,4 @@
-import api from "../../core/ky";
-import { generateHeaders } from "../headers";
+import axios from "../../core/axios";
 
 export interface Overlay {
   overlayType:
@@ -20,9 +19,6 @@ export interface Overlay {
 }
 
 export const getOverlaysRequest = async (): Promise<Overlay[]> => {
-  return await api
-    .get("overlays", {
-      headers: generateHeaders(false),
-    })
-    .json();
+  const response = await axios.get("overlays");
+  return response.data;
 };

@@ -1,10 +1,6 @@
-import api from "../../../core/ky";
-import { generateHeaders } from "../../headers";
+import axios from "../../../core/axios";
 
 export const returnJobRequest = async ({ jobId }: { jobId: number }) => {
-  return await api
-    .delete(`jobs/${jobId}/claim`, {
-      headers: generateHeaders(),
-    })
-    .json();
+  const response = await axios.delete(`jobs/${jobId}/claim`);
+  return response.data;
 };

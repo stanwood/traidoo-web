@@ -1,10 +1,6 @@
-import api from "../../../core/ky";
-import { generateHeaders } from "../../headers";
+import axios from "../../../core/axios";
 
 export const resendEmailVerificationRequest = async (): Promise<void> => {
-  return await api
-    .post("auth/verify-email/resend", {
-      headers: generateHeaders(true),
-    })
-    .json();
+  const response = await axios.post("auth/verify-email/resend");
+  return response.data;
 };
