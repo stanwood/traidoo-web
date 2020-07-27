@@ -1,21 +1,14 @@
-import api from "../../../core/ky";
-import { generateHeaders } from "../../headers";
+import axios from "../../../core/axios";
 
 export const registerRequest = async (data: any) => {
-  return await api.post("registration", {
-    body: data, // TODO: add type
-    headers: generateHeaders(false, true),
-  });
+  const response = await axios.post("registration", data);
+  return response.data;
 };
 
 export const confirmRegistrationRequest = async (
   uid: string,
   token: string
 ) => {
-  return await api
-    .post("auth/verify-email", {
-      json: { uid, token },
-      headers: generateHeaders(false),
-    })
-    .json();
+  const response = await axios.post("auth/verify-email", { uid, token });
+  return response.data;
 };

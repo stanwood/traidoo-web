@@ -1,5 +1,4 @@
-import api from "../../../core/ky";
-import { generateHeaders } from "../../headers";
+import axios from "../../../core/axios";
 
 export interface Container {
   id: number;
@@ -15,9 +14,6 @@ export interface Container {
 export const getContainersRequest = async (
   key: string
 ): Promise<Container[]> => {
-  return await api
-    .get("container_types", {
-      headers: generateHeaders(true),
-    })
-    .json();
+  const response = await axios.get("container_types");
+  return response.data;
 };

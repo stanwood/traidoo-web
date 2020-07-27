@@ -1,5 +1,4 @@
-import api from "../../../core/ky";
-import { generateHeaders } from "../../headers";
+import axios from "../../../core/axios";
 
 export const getJobs = async (
   key: string,
@@ -18,18 +17,17 @@ export const getJobs = async (
     searchParams["offset"] = queryParams.page * limit;
   }
 
-  return await api
-    .get("jobs", {
-      headers: generateHeaders(true),
-      searchParams: Object.keys(searchParams).reduce(function (
-        accumulator: any,
-        currentValue: string
-      ) {
-        if (searchParams[currentValue])
-          accumulator[currentValue] = searchParams[currentValue];
-        return accumulator;
-      },
-      {}),
-    })
-    .json();
+  const response = await axios.get("jobs", {
+    params: Object.keys(searchParams).reduce(function (
+      accumulator: any,
+      currentValue: string
+    ) {
+      if (searchParams[currentValue])
+        accumulator[currentValue] = searchParams[currentValue];
+      return accumulator;
+    },
+    {}),
+  });
+
+  return response.data;
 };

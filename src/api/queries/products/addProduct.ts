@@ -1,8 +1,7 @@
+import axios from "../../../core/axios";
 import { ProductPostRequestData } from "../../../core/interfaces/products/productRequest";
-import api from "../../../core/ky";
 import Product from "../../../core/types/product";
 import { objectToFormData } from "../../../core/utils/objectToFormData";
-import { generateHeaders } from "../../headers";
 import fixData from "./renameKeys";
 
 export const addProductRequest = async (
@@ -17,10 +16,6 @@ export const addProductRequest = async (
     { indices: false }
   );
 
-  return await api
-    .post("products", {
-      body: formData,
-      headers: generateHeaders(true, true),
-    })
-    .json();
+  const response = await axios.post("products", formData);
+  return response.data;
 };

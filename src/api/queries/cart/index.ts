@@ -1,5 +1,4 @@
-import api from "../../../core/ky";
-import { generateHeaders } from "../../headers";
+import axios from "../../../core/axios";
 
 export const modifyCartRequest = async ({
   productId,
@@ -8,30 +7,20 @@ export const modifyCartRequest = async ({
   productId: number;
   quantity: number;
 }) => {
-  return await api
-    .post("cart", {
-      headers: generateHeaders(),
-      json: { productId, quantity },
-    })
-    .json();
+  const response = await axios.post("cart", { productId, quantity });
+  return response.data;
 };
 
 export const cartDeliveryDateRequest = async ({ date }: { date: string }) => {
-  return await api
-    .post("cart/delivery", {
-      headers: generateHeaders(),
-      json: { date },
-    })
-    .json();
+  const response = await axios.post("cart/delivery", { date });
+  return response.data;
 };
 
 export const cartDeliveryAddressRequest = async (deliveryAddress: number) => {
-  return await api
-    .post("cart/deliveryAddress", {
-      headers: generateHeaders(),
-      json: { deliveryAddress },
-    })
-    .json();
+  const response = await axios.post("cart/deliveryAddress", {
+    deliveryAddress,
+  });
+  return response.data;
 };
 
 export const cartItemDeliveryOptionRequest = async ({
@@ -41,12 +30,10 @@ export const cartItemDeliveryOptionRequest = async ({
   productId: number;
   deliveryOption: number;
 }) => {
-  return await api
-    .post(`cart/${productId}/delivery_option`, {
-      headers: generateHeaders(),
-      json: { deliveryOption },
-    })
-    .json();
+  const response = await axios.post(`cart/${productId}/delivery_option`, {
+    deliveryOption,
+  });
+  return response.data;
 };
 
 export const removeFromCartRequest = async ({
@@ -54,15 +41,16 @@ export const removeFromCartRequest = async ({
 }: {
   productId: number;
 }) => {
-  return await api
-    .delete(`cart/${productId}`, { headers: generateHeaders() })
-    .json();
+  const response = await axios.delete(`cart/${productId}`);
+  return response.data;
 };
 
 export const deleteCartRequest = async () => {
-  return await api.delete(`cart`, { headers: generateHeaders() }).json();
+  const response = await axios.delete(`cart`);
+  return response.data;
 };
 
 export const getCartRequest = async () => {
-  return await api.get("cart", { headers: generateHeaders() }).json();
+  const response = await axios.get("cart");
+  return response.data;
 };

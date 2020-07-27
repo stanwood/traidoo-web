@@ -1,7 +1,6 @@
+import axios from "../../../core/axios";
 import { ProductPostRequestData } from "../../../core/interfaces/products/productRequest";
-import api from "../../../core/ky";
 import { objectToFormData } from "../../../core/utils/objectToFormData";
-import { generateHeaders } from "../../headers";
 import fixData from "./renameKeys";
 
 export const editProductRequest = async ({
@@ -25,10 +24,6 @@ export const editProductRequest = async ({
     formData.append("regions", "");
   }
 
-  return await api
-    .patch(`products/${productId}`, {
-      body: formData,
-      headers: generateHeaders(true, true),
-    })
-    .json();
+  const response = await axios.patch(`products/${productId}`, formData);
+  return response.data;
 };

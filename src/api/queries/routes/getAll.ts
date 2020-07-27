@@ -1,6 +1,5 @@
+import axios from "../../../core/axios";
 import { RoutesAPIResponse } from "../../../core/interfaces/routes";
-import api from "../../../core/ky";
-import { generateHeaders } from "../../headers";
 
 const getRoutesRequest = async (
   key: string,
@@ -17,19 +16,18 @@ const getRoutesRequest = async (
     searchParams["offset"] = queryParams.page * limit;
   }
 
-  return await api
-    .get("routes", {
-      headers: generateHeaders(true),
-      searchParams: Object.keys(searchParams).reduce(
-        (accumulator: any, currentValue: string) => {
-          if (searchParams[currentValue])
-            accumulator[currentValue] = searchParams[currentValue];
-          return accumulator;
-        },
-        {}
-      ),
-    })
-    .json();
+  const response = await axios.get("routes", {
+    params: Object.keys(searchParams).reduce(
+      (accumulator: any, currentValue: string) => {
+        if (searchParams[currentValue])
+          accumulator[currentValue] = searchParams[currentValue];
+        return accumulator;
+      },
+      {}
+    ),
+  });
+
+  return response.data;
 };
 
 export default getRoutesRequest;

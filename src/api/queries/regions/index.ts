@@ -1,5 +1,4 @@
-import api from "../../../core/ky";
-import { generateHeaders } from "../../headers";
+import axios from "../../../core/axios";
 
 export interface Region {
   id: number;
@@ -17,9 +16,6 @@ interface RequestResponse {
 export const getRegionsRequest = async (
   key: string
 ): Promise<RequestResponse> => {
-  return await api
-    .get("regions", {
-      headers: generateHeaders(true),
-    })
-    .json();
+  const response = await axios.get("regions");
+  return response.data;
 };

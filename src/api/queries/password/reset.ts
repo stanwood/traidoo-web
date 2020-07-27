@@ -1,11 +1,6 @@
-import api from "../../../core/ky";
-import { generateHeaders } from "../../headers";
+import axios from "../../../core/axios";
 
 export const passwordResetRequest = async (email: string) => {
-  return await api
-    .post("auth/password-reset", {
-      json: { email },
-      headers: generateHeaders(false),
-    })
-    .json();
+  const response = await axios.post("auth/password-reset", { email });
+  return response.data;
 };

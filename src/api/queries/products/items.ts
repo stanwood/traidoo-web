@@ -1,6 +1,5 @@
-import api from "../../../core/ky";
+import axios from "../../../core/axios";
 import { Order } from "../../../core/types/queries";
-import { generateHeaders } from "../../headers";
 
 export const getProductItemsRequest = async (
   key: string,
@@ -17,12 +16,11 @@ export const getProductItemsRequest = async (
   const order = queryParams?.order || "desc";
   const orderBy = queryParams?.orderBy || "quantity";
 
-  return await api
-    .get(
-      `products/${id}/items?offset=${offset}&limit=${limit}&order=${order}&orderBy=${orderBy}`,
-      { headers: generateHeaders() }
-    )
-    .json();
+  const response = await axios.get(
+    `products/${id}/items?offset=${offset}&limit=${limit}&order=${order}&orderBy=${orderBy}`
+  );
+
+  return response.data;
 };
 
 export const addProductItemsRequest = async ({
@@ -34,12 +32,13 @@ export const addProductItemsRequest = async ({
   quantity: number;
   latestDeliveryDate: string;
 }) => {
-  return await api
-    .post(`items`, {
-      json: { productId, quantity, latestDeliveryDate },
-      headers: generateHeaders(),
-    })
-    .json();
+  const response = await axios.post(`items`, {
+    productId,
+    quantity,
+    latestDeliveryDate,
+  });
+
+  return response.data;
 };
 
 export const deleteProductItemsRequest = async ({
@@ -49,9 +48,6 @@ export const deleteProductItemsRequest = async ({
   productId: number;
   itemId: number;
 }) => {
-  return await api
-    .delete(`products/${productId}/items/${itemId}`, {
-      headers: generateHeaders(),
-    })
-    .json();
+  const response = await axios.delete(`products/${productId}/items/${itemId}`);
+  return response.data;
 };

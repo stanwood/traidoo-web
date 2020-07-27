@@ -1,7 +1,6 @@
+import axios from "../../../core/axios";
 import { OrdersGetRequest } from "../../../core/interfaces/orders/ordersRequest";
-import api from "../../../core/ky";
 import { Order } from "../../../core/types/queries";
-import { generateHeaders } from "../../headers";
 
 const getOrdersRequest = async (
   key: string,
@@ -42,20 +41,19 @@ const getOrdersRequest = async (
     searchParams["ordering"] = `${sortMapping[order]}${filterMapping[orderBy]}`;
   }
 
-  return await api
-    .get(`orders/${type}`, {
-      headers: generateHeaders(true),
-      searchParams: Object.keys(searchParams).reduce(function (
-        accumulator: any,
-        currentValue: string
-      ) {
-        if (searchParams[currentValue])
-          accumulator[currentValue] = searchParams[currentValue];
-        return accumulator;
-      },
-      {}),
-    })
-    .json();
+  const response = await axios.get(`orders/${type}`, {
+    params: Object.keys(searchParams).reduce(function (
+      accumulator: any,
+      currentValue: string
+    ) {
+      if (searchParams[currentValue])
+        accumulator[currentValue] = searchParams[currentValue];
+      return accumulator;
+    },
+    {}),
+  });
+
+  return response.data;
 };
 
 export default getOrdersRequest;

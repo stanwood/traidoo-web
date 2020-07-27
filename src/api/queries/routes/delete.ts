@@ -1,10 +1,7 @@
-import api from "../../../core/ky";
-import { generateHeaders } from "../../headers";
+import axios from "../../../core/axios";
 
 const deleteRouteRequest = async ({ id }: { id: number }): Promise<void> => {
-  await api.delete(`routes/${id}`, {
-    headers: generateHeaders(true),
-  });
+  await axios.delete(`routes/${id}`);
 };
 
 export default deleteRouteRequest;

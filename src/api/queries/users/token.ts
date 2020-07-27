@@ -1,7 +1,4 @@
-import ky from "ky";
-import Config from "../../../config";
-import api from "../../../core/ky";
-import { generateHeaders } from "../../headers";
+import axios from "../../../core/axios";
 
 export const getTokenRequest = async ({
   email,
@@ -10,23 +7,22 @@ export const getTokenRequest = async ({
   email: string;
   password: string;
 }): Promise<{ refresh: string; access: string }> => {
-  return await api
-    .post("auth/token", {
-      json: { email, password },
-      headers: generateHeaders(false),
-    })
-    .json();
+  const response = await axios.post(
+    "auth/token",
+    { email, password },
+    { skipAuthRefresh: true }
+  );
+  return response.data;
 };
 
 export const refreshTokenRequest = async (
   refresh: string
-): Promise<{ access: string }> => {
-  return await ky
-    .post("auth/token/refresh", {
-      json: { refresh },
-      headers: generateHeaders(false),
-      prefixUrl: Config.apiEndpoint,
-      timeout: 60000,
-    })
-    .json();
+): Promise<{ response: Response; data: { access: string } }> => {
+  return await axios.post(
+    "auth/token/refresh",
+    {
+      refresh,
+    },
+    { skipAuthRefresh: true }
+  );
 };

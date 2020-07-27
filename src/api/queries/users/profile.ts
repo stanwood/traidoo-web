@@ -1,20 +1,14 @@
+import axios from "../../../core/axios";
 import DeliveryAddress from "../../../core/interfaces/deliveryAddress";
-import api from "../../../core/ky";
-import { generateHeaders } from "../../headers";
 
 export const getUserPersonalProfileRequest = async () => {
-  return await api
-    .get("users/profile/personal", { headers: generateHeaders() })
-    .json();
+  const response = await axios.get("users/profile/personal");
+  return response.data;
 };
 
 export const updateUserPersonalProfileRequest = async (data: any) => {
-  return await api
-    .patch("users/profile/personal", {
-      headers: generateHeaders(),
-      json: data,
-    })
-    .json();
+  const response = await axios.patch("users/profile/personal", data);
+  return response.data;
 };
 
 export const getUserCompanyProfileRequest = async (): Promise<{
@@ -31,65 +25,48 @@ export const getUserCompanyProfileRequest = async (): Promise<{
   street: string;
   city: string;
 }> => {
-  return await api
-    .get("users/profile/company", { headers: generateHeaders() })
-    .json();
+  const response = await axios.get("users/profile/company");
+  return response.data;
 };
 
 export const updateUserCompanyProfileRequest = async (data: any) => {
-  return await api
-    .patch("users/profile/company", {
-      headers: generateHeaders(),
-      json: data,
-    })
-    .json();
+  const response = await axios.patch("users/profile/company", data);
+  return response.data;
 };
 
 export const getUserDeliveryAddressesRequest = async (): Promise<
   DeliveryAddress[]
 > => {
-  return await api
-    .get("delivery_addresses", { headers: generateHeaders() })
-    .json();
+  const response = await axios.get("delivery_addresses");
+  return response.data;
 };
 
 export const createUserDeliveryAddressRequest = async (data: any) => {
-  return await api
-    .post("delivery_addresses", {
-      headers: generateHeaders(),
-      json: data,
-    })
-    .json();
+  const response = await axios.post("delivery_addresses", data);
+  return response.data;
 };
 
 export const deleteUserDeliveryAddressRequest = async (id: number) => {
-  return await api
-    .delete(`delivery_addresses/${id}`, {
-      headers: generateHeaders(),
-    })
-    .json();
+  const response = await axios.delete(`delivery_addresses/${id}`);
+  return response.data;
 };
 
 export const getUserDocumentsRequest = async () => {
-  return await api
-    .get("users/profile/documents", { headers: generateHeaders() })
-    .json();
+  const response = await axios.get("users/profile/documents");
+  return response.data;
 };
 
 export const updateUserDocumentRequest = async (name: string, file: File) => {
   const formData = new FormData();
   formData.append(name, file);
 
-  return await api.patch("users/profile/documents", {
-    body: formData, // TODO: add type
-    headers: generateHeaders(true, true),
-  });
+  const response = await axios.patch("users/profile/documents", formData);
+  return response.data;
 };
 
 export const getUserMangopayDocumentsRequest = async () => {
-  return await api
-    .get("users/profile/documents/mangopay", { headers: generateHeaders() })
-    .json();
+  const response = await axios.get("users/profile/documents/mangopay");
+  return response.data;
 };
 
 export const updateUserMangopayDocumentRequest = async (
@@ -100,8 +77,6 @@ export const updateUserMangopayDocumentRequest = async (
   formData.append("document_type", name);
   formData.append("file", file);
 
-  return api.post("users/profile/documents/mangopay", {
-    body: formData, // TODO: add type
-    headers: generateHeaders(true, true),
-  });
+  const response = axios.post("users/profile/documents/mangopay", formData);
+  return (await response).data;
 };

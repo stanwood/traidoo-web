@@ -1,5 +1,4 @@
-import api from "../../../core/ky";
-import { generateHeaders } from "../../headers";
+import axios from "../../../core/axios";
 
 export interface Tag {
   id: number;
@@ -8,11 +7,8 @@ export interface Tag {
 }
 
 export const getTagsRequest = async (key: string): Promise<Tag[]> => {
-  const tags: Tag[] = await api
-    .get("tags", {
-      headers: generateHeaders(true),
-    })
-    .json();
+  const response = await axios.get("tags");
+  const tags: Tag[] = response.data;
 
   return tags.sort((a: Tag, b: Tag) => (a.name > b.name ? 1 : -1));
 };
