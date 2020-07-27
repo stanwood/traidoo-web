@@ -13,7 +13,7 @@ export const productUnits: Record<string, string> = {
   bottle: i18n.t("bottle"),
 };
 
-export const productVat = [0, 7, 10.7, 19];
+export const productVat = [0, 5, 10.7, 16];
 
 export const deliveryOptions: DeliveryOption[] = [
   { id: 0, name: "centralLogistic", label: i18n.t("byCentralLogistic") },
