@@ -30,7 +30,7 @@ const Profile = (props: any) => {
     <>
       <LazyLoad>
         <Img
-          src={seller.imageUrl}
+          src={seller.image}
           loader={<Skeleton variant="rect" className={classes.imageLoader} />}
           className={classes.image}
         />

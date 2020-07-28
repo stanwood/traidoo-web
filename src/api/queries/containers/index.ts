@@ -8,7 +8,6 @@ export interface Container {
   standard: boolean;
   volume: number;
   deliveryFee: number;
-  imageUrl: string;
 }
 
 export const getContainersRequest = async (
