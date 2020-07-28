@@ -12,6 +12,7 @@ export const useDrawerRightStyles = makeStyles((theme: Theme) =>
     },
     drawerPaper: {
       width: rightDrawerWidth,
+      overflowX: "hidden",
     },
   })
 );
