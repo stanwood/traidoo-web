@@ -1,6 +1,8 @@
 import UserGroup from "./groups";
 
-export default interface CurrentUser {
+interface CurrentUser {
   id: number;
   groups: UserGroup[];
 }
+
+export default CurrentUser;
