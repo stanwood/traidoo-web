@@ -17,7 +17,7 @@ import { tabs } from "./tabs";
 const Layout: React.FC<LayoutProps> = ({ children }: LayoutProps) => {
   const classes = useLayoutStyles();
   const location = useLocation();
-  const { user } = useContext(UserContext);
+  const { user, isSeller } = useContext(UserContext);
   const [displayCartIcon, setDisplayCartIcon] = useState<boolean>(false);
 
   const canDisplayCartDrawer = useMemo(() => {
@@ -49,30 +49,27 @@ const Layout: React.FC<LayoutProps> = ({ children }: LayoutProps) => {
     []
   );
 
-  const getTabs = useCallback((user: any, pathname: string) => {
-    if (!user?.id) {
-      setTabsList([]);
-    }
+  const getTabs = useCallback(
+    (pathname: string) => {
+      if (!user?.id) {
+        setTabsList([]);
+      }
 
-    if (pathname.startsWith("/profile")) {
-      setTabsList(tabs.profile);
-    } else if (
-      pathname.startsWith("/history") &&
-      user?.groups?.includes("seller")
-    ) {
-      setTabsList(tabs.history);
-    } else if (
-      user?.groups?.includes("seller") &&
-      !pathname.startsWith("/profile")
-    ) {
-      setTabsList(tabs.seller);
-    } else {
-      setTabsList([]);
-    }
-  }, []);
+      if (pathname.startsWith("/profile")) {
+        setTabsList(tabs.profile);
+      } else if (pathname.startsWith("/history") && isSeller) {
+        setTabsList(tabs.history);
+      } else if (isSeller && !pathname.startsWith("/profile")) {
+        setTabsList(tabs.seller);
+      } else {
+        setTabsList([]);
+      }
+    },
+    [user?.id, isSeller]
+  );
 
   useEffect(() => {
-    getTabs(user, location.pathname);
+    getTabs(location.pathname);
   }, [user, location.pathname, getTabs]);
 
   const leftMenu = useMemo(() => {

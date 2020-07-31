@@ -15,7 +15,7 @@ import { UserContext } from "../../../contexts/UserContext/context";
 import requiredDocuments from "../../../core/utils/requiredDocuments";
 
 const CompanyDocuments: React.FC = () => {
-  const { user } = useContext(UserContext);
+  const { user, isSeller } = useContext(UserContext);
   const { t } = useTranslation();
   const pageTitle = t("documents");
 
@@ -51,11 +51,7 @@ const CompanyDocuments: React.FC = () => {
           mangopayDocumentUpload={mangopayDocumentUpload}
           documents={documents}
           mangopayDocuments={mangopayDocuments}
-          requiredFields={requiredDocuments(
-            user?.groups?.includes("seller") || false, // TODO: is it correct? false default?
-            // @ts-ignore
-            company.companyType
-          )}
+          requiredFields={requiredDocuments(isSeller, company.companyType)}
         />
       )}
     </Page>
