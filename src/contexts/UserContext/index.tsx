@@ -37,7 +37,10 @@ const UserProvider = (props: UserProviderProps): ReactElement => {
   }, []);
 
   const canBuy = useMemo((): boolean => {
-    return user.id !== undefined && user.groups.includes("buyer");
+    return (
+      user.id !== undefined &&
+      (user.groups.includes("buyer") || user.groups.includes("seller"))
+    );
   }, [user]);
 
   const isSeller = useMemo((): boolean => {

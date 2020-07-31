@@ -21,7 +21,7 @@ const CompanyProfile: React.FC = () => {
   const { t } = useTranslation();
   const pageTitle = t("companyProfile");
 
-  const { user } = useContext(UserContext);
+  const { isSeller } = useContext(UserContext);
   const [registrationErrors, setRegistrationErrors] = useState({});
   const { enqueueSnackbar } = useSnackbar();
   const [editMode, setEditMode] = React.useState(false);
@@ -41,10 +41,6 @@ const CompanyProfile: React.FC = () => {
     refetch: refetchDeliveryAddresses,
   } = useQuery("/delivery_addresses", getUserDeliveryAddressesRequest);
 
-  const isSeller = (): boolean | undefined => {
-    return user?.groups?.includes("seller");
-  };
-
   const {
     register,
     handleSubmit,
@@ -55,9 +51,7 @@ const CompanyProfile: React.FC = () => {
     reset,
     getValues,
   } = useForm<CompanyData>({
-    validationSchema: isSeller()
-      ? sellerValidationShema
-      : buyerValidationSchema,
+    validationSchema: isSeller ? sellerValidationShema : buyerValidationSchema,
   });
 
   useEffect(() => {
@@ -137,7 +131,7 @@ const CompanyProfile: React.FC = () => {
           setEditMode={setEditMode}
           isCertifiedOrganicProducer={isCertifiedOrganicProducer}
           setIsCertifiedOrganicProducer={setIsCertifiedOrganicProducer}
-          isSeller={isSeller()}
+          isSeller={isSeller}
         />
       )}
     </Page>
