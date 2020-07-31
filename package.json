@@ -34,7 +34,7 @@
     "react-i18next": "^11.7.0",
     "react-image": "^4.0.2",
     "react-lazyload": "^3.0.0",
-    "react-query": "^2.4.4",
+    "react-query": "^2.5.9",
     "react-router-dom": "^5.2.0",
     "sanitize-html": "^1.27.0",
     "typescript": "^3.9.5",
