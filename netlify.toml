@@ -1,7 +1,7 @@
 [build]
     base = "/"
     publish = "dist/"
-    command = "npm run build"
+    command = 'sed -i -e "s/__PAGE_TITLE__/$CLIENT_NAME/g" src/index.html && sed -i -e "s/__PAGE_DESCRIPTION__/$CLIENT_NAME/g" src/index.html && npm run build'
 [[redirects]]
     from = "/*"
     to = "/index.html"
