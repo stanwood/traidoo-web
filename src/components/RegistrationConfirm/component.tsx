@@ -6,13 +6,15 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { RegistrationConfirmProps } from "./types";
 
-const RegistrationConfirm = ({ success }: RegistrationConfirmProps) => {
+const RegistrationConfirm: React.FC<RegistrationConfirmProps> = ({
+  success,
+}: RegistrationConfirmProps) => {
   const { t } = useTranslation();
 
   if (success === false) {
     return (
       <Container component="main" maxWidth="md">
-        <Alert severity="error">{t("accountActivationFailed.")}</Alert>
+        <Alert severity="error">{t("accountActivationFailed")}</Alert>
       </Container>
     );
   } else if (success === true) {

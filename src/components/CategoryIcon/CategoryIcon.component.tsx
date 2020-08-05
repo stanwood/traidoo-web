@@ -38,49 +38,52 @@ import Ico9 from "../../images/categories/ico9.svg";
 
 // TODO: who was the idea? try to move icons to the API/GCS and return URL for each category
 const icons = [
-  Ico1,
-  Ico2,
-  Ico3,
-  Ico4,
-  Ico5,
-  Ico6,
-  Ico7,
-  Ico8,
-  Ico9,
-  Ico10,
-  Ico11,
-  Ico12,
-  Ico13,
-  Ico14,
-  Ico15,
-  Ico16,
-  Ico17,
-  Ico18,
-  Ico19,
-  Ico20,
-  Ico21,
-  Ico22,
-  Ico23,
-  Ico24,
-  Ico25,
-  Ico26,
-  Ico27,
-  Ico28,
-  Ico29,
-  Ico30,
-  Ico31,
-  Ico32,
-  Ico33,
-  Ico34,
-  Ico35,
+  [Ico1, "0 0 50 50"],
+  [Ico2, "0 0 50 50"],
+  [Ico3, "0 0 32 32"],
+  [Ico4, "0 0 50 50"],
+  [Ico5, "0 0 50 50"],
+  [Ico6, "0 0 50 50"],
+  [Ico7, "0 0 50 50"],
+  [Ico8, "0 0 50 50"],
+  [Ico9, "0 0 50 50"],
+  [Ico10, "13 -13 50 50"],
+  [Ico11, "0 0 50 50"],
+  [Ico12, "0 0 50 50"],
+  [Ico13, "0 0 26 26"],
+  [Ico14, "0 0 50 50"],
+  [Ico15, "0 0 50 50"],
+  [Ico16, "0 0 50 50"],
+  [Ico17, "0 0 50 50"],
+  [Ico18, "0 0 50 50"],
+  [Ico19, "0 0 50 50"],
+  [Ico20, "0 0 50 50"],
+  [Ico21, "0 0 50 50"],
+  [Ico22, "0 0 50 50"],
+  [Ico23, "13 -13 50 50"],
+  [Ico24, "0 0 32 32"],
+  [Ico25, "0 0 50 50"],
+  [Ico26, "0 0 50 50"],
+  [Ico27, "0 0 50 50"],
+  [Ico28, "0 0 50 50"],
+  [Ico29, "0 0 50 50"],
+  [Ico30, "0 0 50 50"],
+  [Ico31, "0 0 26 26"],
+  [Ico32, "0 0 50 50"],
+  [Ico33, "0 0 50 50"],
+  [Ico34, "0 0 50 50"],
+  [Ico35, "0 0 50 50"],
 ];
 
-export const CategoryIcon = ({ iconNumber, className }: any) => {
+interface CategoryIconProps {
+  iconNumber: number;
+  className: string;
+}
+
+export const CategoryIcon = ({ iconNumber, className }: CategoryIconProps) => {
+  const icon = icons[iconNumber];
+
   return (
-    <SvgIcon
-      component={icons[iconNumber]}
-      viewBox="0 0 50 50"
-      className={className}
-    />
+    <SvgIcon component={icon[0]} viewBox={icon[1]} className={className} />
   );
 };
