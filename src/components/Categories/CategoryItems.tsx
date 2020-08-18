@@ -8,7 +8,6 @@ import { useHistory } from "react-router-dom";
 import { StringParam, useQueryParams } from "use-query-params";
 import { DrawerContext } from "../../contexts/DrawerContext/context";
 import { Category } from "../../core/interfaces/categories";
-import { CategoryIcon } from "../CategoryIcon";
 import { CategoryItemsProps } from "./interfaces";
 import { useCategoriesTreeItemStyles } from "./styles";
 
@@ -46,7 +45,7 @@ const CategoryItems: React.FC<CategoryItemsProps> = (
       className={classes.labelRoot}
       onClick={(event) => onCategoryClick(event, item.id)}
     >
-      <CategoryIcon iconNumber={item.icon} className={classes.labelIcon} />
+      <img src={item.icon.iconUrl} className={classes.labelIcon} />
       <Typography variant="body2" className={classes.labelText}>
         {item.name}
       </Typography>

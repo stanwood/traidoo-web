@@ -43,6 +43,8 @@ export const useCategoriesTreeItemStyles = makeStyles((theme: Theme) =>
     },
     labelIcon: {
       marginRight: theme.spacing(1),
+      width: "24px",
+      height: "24px",
     },
     labelText: {
       fontWeight: "inherit",
