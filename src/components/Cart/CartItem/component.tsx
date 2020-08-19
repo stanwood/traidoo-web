@@ -21,12 +21,21 @@ const CartItem: React.FC<{
   const { product } = props;
   const { removeProduct, setProductQuantity } = useContext(CartContext);
   const classes = useStyles();
+
   const totalPrice = Dinero({
     amount: Math.round(product.price * 100),
     currency: "EUR",
   })
     .multiply(product.quantity)
     .toUnit();
+
+  const decreaseQuantity = (id: number, quantity: number) => {
+    if (quantity > 0) {
+      setProductQuantity(id, quantity);
+    } else {
+      removeProduct(id);
+    }
+  };
 
   return (
     <ListItem className={classes.cartItem}>
@@ -77,7 +86,7 @@ const CartItem: React.FC<{
               >
                 <Button
                   onClick={() =>
-                    setProductQuantity(product.id, product.quantity - 1)
+                    decreaseQuantity(product.id, product.quantity - 1)
                   }
                 >
                   <RemoveIcon />
