@@ -1,4 +1,4 @@
-export default interface ProductList {
+interface ProductList {
   id: number;
   name: string;
   image: string;
@@ -16,4 +16,11 @@ export default interface ProductList {
     id: number;
     name: string;
   };
+  region: {
+    id: number;
+    slug: string;
+    name: string;
+  };
 }
+
+export default ProductList;

@@ -189,6 +189,7 @@ const ProductsList: React.FC<ProductsListProps> = ({
                     )}
                     {sellerView && row.itemsAvailable}
                   </TableCell>
+                  <TableCell align="right">{row.region.name}</TableCell>
                 </Hidden>
                 {canBuy &&
                   loggedInData(
