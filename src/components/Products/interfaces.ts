@@ -5,6 +5,7 @@ export interface TableColumnsWithSorting {
   name: string;
   seller: string;
   category: number;
+  region: string;
   price: number;
   itemsAvailable: number;
 }

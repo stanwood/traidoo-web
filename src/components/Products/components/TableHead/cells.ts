@@ -61,6 +61,16 @@ const category: TableHeadCell = {
   hideOnMobile: true,
 };
 
+const region: TableHeadCell = {
+  id: "region",
+  align: "right",
+  disablePadding: false,
+  label: i18n.t("region"),
+  sortable: false,
+  hiddenForAnonymous: false,
+  hideOnMobile: true,
+};
+
 const addToCart: TableHeadCell = {
   id: "addToCart",
   align: "right",
@@ -76,12 +86,14 @@ export const anoynmousHeadCells: TableHeadCell[] = [
   name,
   seller,
   category,
+  region,
 ];
 
 export const sellerHeadCells: TableHeadCell[] = [
   image,
   name,
   category,
+  region,
   itemsAvailable,
   price,
 ];
@@ -91,6 +103,7 @@ export const headCells: TableHeadCell[] = [
   name,
   seller,
   category,
+  region,
   price,
   addToCart,
 ];
