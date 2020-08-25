@@ -1,5 +1,6 @@
-import { Box, Paper } from "@material-ui/core";
+import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
 import React from "react";
 import ProductsList from "../Products/components/Table/Table.component";
 import Profile from "./Profile";
@@ -22,8 +23,8 @@ const Seller = ({
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <Grid container spacing={1}>
+    <Box display="flex" className={classes.root} bgcolor="background.paper">
+      <Grid container>
         <Grid item xs={12} md={3}>
           <Box
             component={Paper}
@@ -31,6 +32,7 @@ const Seller = ({
             display="flex"
             flex="1"
             flexDirection="column"
+            flexGrow={1}
           >
             <Profile
               pending={sellerPending}
@@ -39,7 +41,7 @@ const Seller = ({
             />
           </Box>
         </Grid>
-        <Grid item xs={12} md={9}>
+        <Grid item xs={12} md={9} className={classes.productsList}>
           <ProductsList
             products={products}
             page={page}
@@ -52,7 +54,7 @@ const Seller = ({
           />
         </Grid>
       </Grid>
-    </div>
+    </Box>
   );
 };
 

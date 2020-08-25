@@ -18,7 +18,12 @@ const DrawerProvider = (props: DrawerProviderProps): ReactElement => {
   };
 
   const toggleRightDrawer = () => {
-    if (isDrawerTemporary) {
+    if (
+      location.pathname === "/" ||
+      location.pathname.startsWith("/products") ||
+      location.pathname.startsWith("/sellers") ||
+      isDrawerTemporary
+    ) {
       setLeftDrawer(false);
       setRightDrawer(!rightDrawer);
     }

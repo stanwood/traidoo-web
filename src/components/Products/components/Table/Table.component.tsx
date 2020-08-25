@@ -1,4 +1,11 @@
-import { Hidden, IconButton } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Hidden from "@material-ui/core/Hidden";
+import IconButton from "@material-ui/core/IconButton";
 import Link from "@material-ui/core/Link";
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
@@ -9,9 +16,11 @@ import TableFooter from "@material-ui/core/TableFooter";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
+import DeleteIcon from "@material-ui/icons/Delete";
 import RemoveShoppingCartIcon from "@material-ui/icons/RemoveShoppingCart";
 import Skeleton from "@material-ui/lab/Skeleton";
 import React, { ReactElement, useContext } from "react";
+import { useTranslation } from "react-i18next";
 import { Img } from "react-image";
 import LazyLoad from "react-lazyload";
 import { Link as RouterLink } from "react-router-dom";
@@ -33,12 +42,36 @@ const ProductsList: React.FC<ProductsListProps> = ({
   orderBy,
   filterBy,
   sellerView,
+  deleteProduct,
 }: ProductsListProps) => {
   const classes = useStyles();
+  const { t } = useTranslation();
   const { canBuy } = useContext(UserContext);
   const { isProductInCart, addProduct, removeProduct } = useContext(
     CartContext
   );
+
+  const [open, setOpen] = React.useState<boolean>(false);
+  const [selectedProductId, setSelectedProductId] = React.useState<
+    number | undefined
+  >(undefined);
+
+  const handleProductDelete = (productId: number) => {
+    setSelectedProductId(productId);
+    setOpen(true);
+  };
+
+  const handleConfirm = () => {
+    if (deleteProduct && selectedProductId) {
+      deleteProduct(selectedProductId);
+    }
+    setOpen(false);
+  };
+
+  const handleCancel = () => {
+    setSelectedProductId(undefined);
+    setOpen(false);
+  };
 
   const cartButton = (
     productId: number,
@@ -82,9 +115,19 @@ const ProductsList: React.FC<ProductsListProps> = ({
     if (price) {
       if (sellerView) {
         return (
-          <TableCell align="right">
-            {price.toFixed(2)}€ / {unit}
-          </TableCell>
+          <>
+            <TableCell align="right">
+              {price.toFixed(2)}€ / {unit}
+            </TableCell>
+            <TableCell align="right">
+              <IconButton
+                aria-label="delete"
+                onClick={() => handleProductDelete(productId)}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </TableCell>
+          </>
         );
       }
 
@@ -216,6 +259,30 @@ const ProductsList: React.FC<ProductsListProps> = ({
           </TableFooter>
         </Table>
       </TableContainer>
+
+      <Dialog
+        open={open}
+        onClose={handleCancel}
+        aria-labelledby={t("deleteTheProduct")}
+        aria-describedby={t("deleteOperationDescription")}
+      >
+        <DialogTitle id="alert-dialog-title">
+          {t("deleteTheProduct")}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {t("deleteOperationDescription")}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCancel} color="primary">
+            {t("cancel")}
+          </Button>
+          <Button onClick={handleConfirm} color="primary" autoFocus>
+            {t("delete")}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Paper>
   );
 };

@@ -3,7 +3,7 @@ import AddIcon from "@material-ui/icons/Add";
 import Skeleton from "@material-ui/lab/Skeleton";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
 import {
   BooleanParam,
@@ -13,6 +13,7 @@ import {
   withDefault,
 } from "use-query-params";
 import { getProductsRequest } from "../../api/queries/products";
+import deleteProductRequest from "../../api/queries/products/deleteProduct";
 import Page from "../../components/Common/Page";
 import ProductsList from "../../components/Products/components/Table/Table.component";
 import { TableColumnsWithSorting } from "../../components/Products/interfaces";
@@ -37,10 +38,20 @@ const SellerProductsListPage: React.FC = () => {
     seller: NumberParam,
   });
 
-  const { data, status } = useQuery(
+  const { data, status, refetch } = useQuery(
     ["/products", { ...Object(query), my: true }],
     getProductsRequest
   );
+
+  const [mutate] = useMutation(deleteProductRequest, {
+    onSuccess: () => {
+      refetch();
+    },
+  });
+
+  const deleteProduct = (productId: number) => {
+    mutate(productId);
+  };
 
   const [order, setOrder] = useState<Order>("asc");
   const [orderBy, setOrderBy] = useState<keyof TableColumnsWithSorting>(
@@ -79,6 +90,7 @@ const SellerProductsListPage: React.FC = () => {
             order={order}
             orderBy={orderBy}
             sellerView={true}
+            deleteProduct={deleteProduct}
           />
 
           <Fab

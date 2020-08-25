@@ -10,6 +10,14 @@ export const useDrawerRightStyles = makeStyles((theme: Theme) =>
         flexShrink: 0,
       },
     },
+    drawerTemporary: {
+      zIndex: `${theme.zIndex.appBar - 1} !important` as any,
+    },
+    drawerPermanent: {
+      zIndex: `${theme.zIndex.appBar - 1} !important` as any,
+      width: rightDrawerWidth,
+      flexShrink: 0,
+    },
     drawerPaper: {
       width: rightDrawerWidth,
       overflowX: "hidden",
