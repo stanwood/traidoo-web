@@ -94,20 +94,14 @@ const ProductDetails: React.FC<ProductDetailsProps> = (
   }
 
   return (
-    <Box
-      display="flex"
-      className={classes.root}
-      p={1}
-      m={1}
-      bgcolor="background.paper"
-    >
+    <Box display="flex" className={classes.root} bgcolor="background.paper">
       <Box className={classes.description}>
         <Box
           className={classes.paper}
           display="flex"
           flex="1"
           flexDirection="column"
-          flexGrow={true}
+          flexGrow={1}
         >
           <Hidden mdUp>
             <LazyLoad>

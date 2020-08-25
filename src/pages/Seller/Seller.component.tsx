@@ -92,7 +92,7 @@ const Seller: React.FC = () => {
   };
 
   return (
-    <Page title={pageTitle}>
+    <Page title={pageTitle} padding={false}>
       {!productsData || productsStatus === "loading" ? (
         Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
       ) : (

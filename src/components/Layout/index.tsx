@@ -21,7 +21,12 @@ const Layout: React.FC<LayoutProps> = ({ children }: LayoutProps) => {
   const [displayCartIcon, setDisplayCartIcon] = useState<boolean>(false);
 
   const canDisplayCartDrawer = useMemo(() => {
-    return !!user.id && ["/", "/products"].includes(location.pathname);
+    return (
+      !!user.id &&
+      (location.pathname === "/" ||
+        location.pathname.startsWith("/products") ||
+        location.pathname.startsWith("/sellers"))
+    );
   }, [user.id, location.pathname]);
 
   const displayLeftMenuButton = useMemo(() => {
@@ -37,7 +42,8 @@ const Layout: React.FC<LayoutProps> = ({ children }: LayoutProps) => {
   useEffect(() => {
     if (
       location.pathname === "/" ||
-      location.pathname.startsWith("/products")
+      location.pathname.startsWith("/products") ||
+      location.pathname.startsWith("/sellers")
     ) {
       setDisplayCartIcon(true);
     } else {
