@@ -9,6 +9,7 @@ import { getContainersRequest } from "../../api/queries/containers";
 import { getProductRequest } from "../../api/queries/products";
 import { editProductRequest } from "../../api/queries/products/editProduct";
 import { getRegionsRequest } from "../../api/queries/regions";
+import { getGlobalSettingsRequest } from "../../api/queries/settings/global";
 import { getTagsRequest } from "../../api/queries/tags";
 import Page from "../../components/Common/Page";
 import ProductForm from "../../shared/components/products/ProductForm";
@@ -39,6 +40,10 @@ const ProductEditPage: React.FC = () => {
   );
   const { data: regions } = useQuery("/regions", getRegionsRequest);
   const { data: tags } = useQuery("/tags", getTagsRequest);
+  const { data: globalSettings } = useQuery(
+    "/global_settings",
+    getGlobalSettingsRequest
+  );
 
   const onSubmit = useCallback(
     (formData: ProductFormData) => {
@@ -71,6 +76,7 @@ const ProductEditPage: React.FC = () => {
           containers={containers}
           regions={regions?.results}
           tags={tags}
+          globalSettings={globalSettings}
           product={product}
           buttonName={t("save")}
         />

@@ -10,14 +10,20 @@ import Typography from "@material-ui/core/Typography";
 import React, { useMemo, useRef } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { productUnits, productVat } from "../../constants";
+import { GlobalSettings } from "../../../../../core/interfaces/settings";
+import { productUnits } from "../../constants";
 import ControlledTextInput from "../Fields/ControlledTextField";
 import useStyles from "../styles";
 
-const Pricing: React.FC = () => {
+interface PricingProps {
+  globalSettings?: GlobalSettings;
+}
+
+const Pricing: React.FC<PricingProps> = (props: PricingProps) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const { errors, control } = useFormContext();
+  const { globalSettings } = props;
 
   const vatInputLabel = useRef<HTMLLabelElement>(null);
 
@@ -87,7 +93,7 @@ const Pricing: React.FC = () => {
                   variant="outlined"
                   labelWidth={vatInputLabel?.current?.offsetWidth || 0}
                 >
-                  {productVat.map((v: number) => {
+                  {globalSettings?.productVat.map((v: number) => {
                     return (
                       <MenuItem value={v} key={v}>
                         {v}
