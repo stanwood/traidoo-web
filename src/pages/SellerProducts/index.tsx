@@ -1,7 +1,7 @@
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import Skeleton from "@material-ui/lab/Skeleton";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
@@ -17,6 +17,7 @@ import deleteProductRequest from "../../api/queries/products/deleteProduct";
 import Page from "../../components/Common/Page";
 import ProductsList from "../../components/Products/components/Table/Table.component";
 import { TableColumnsWithSorting } from "../../components/Products/interfaces";
+import { CartContext } from "../../contexts/CartContext/context";
 import { Order } from "../../core/types/queries";
 import useStyles from "./styles";
 
@@ -24,6 +25,7 @@ const SellerProductsListPage: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
   const { t } = useTranslation();
+  const { refetch: refetchCart } = useContext(CartContext);
   const pageTitle = t("products");
 
   const [query, setQuery] = useQueryParams({
@@ -46,6 +48,7 @@ const SellerProductsListPage: React.FC = () => {
   const [mutate] = useMutation(deleteProductRequest, {
     onSuccess: () => {
       refetch();
+      refetchCart();
     },
   });
 
