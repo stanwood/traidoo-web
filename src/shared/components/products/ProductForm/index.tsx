@@ -6,6 +6,7 @@ import { Container } from "../../../../api/queries/containers";
 import { Region } from "../../../../api/queries/regions";
 import { Tag } from "../../../../api/queries/tags";
 import { Category } from "../../../../core/interfaces/categories";
+import { GlobalSettings } from "../../../../core/interfaces/settings";
 import Product from "../../../../core/types/product";
 import Availability from "./Sections/Availability";
 import Delivery from "./Sections/Delivery";
@@ -27,6 +28,7 @@ interface ProductFormProps {
   containers: Container[];
   regions: Region[];
   tags: Tag[];
+  globalSettings?: GlobalSettings;
   product?: Product;
   buttonName: string;
 }
@@ -38,6 +40,7 @@ const ProductForm: React.FC<ProductFormProps> = (props: ProductFormProps) => {
     containers,
     regions,
     tags,
+    globalSettings,
     buttonName,
     product,
   } = props;
@@ -49,7 +52,7 @@ const ProductForm: React.FC<ProductFormProps> = (props: ProductFormProps) => {
     price: product ? product.price : 0,
     unit: product ? product.unit : "kg",
     amount: product ? product.amount : 0,
-    vat: product ? product.vat : 10.7,
+    vat: product ? product.vat : globalSettings?.productVat[0],
     isOrganic: product ? product?.isOrganic : false,
     isGrazingAnimal: product ? product?.isGrazingAnimal : false,
     isVegan: product ? product?.isVegan : false,
@@ -94,7 +97,7 @@ const ProductForm: React.FC<ProductFormProps> = (props: ProductFormProps) => {
           </Grid>
         </Grid>
 
-        <Pricing />
+        <Pricing globalSettings={globalSettings} />
 
         <Delivery containers={containers} />
 

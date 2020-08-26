@@ -8,6 +8,7 @@ import { getCategoriesRequest } from "../../api/queries/categories";
 import { getContainersRequest } from "../../api/queries/containers";
 import { addProductRequest } from "../../api/queries/products/addProduct";
 import { getRegionsRequest } from "../../api/queries/regions";
+import { getGlobalSettingsRequest } from "../../api/queries/settings/global";
 import { getTagsRequest } from "../../api/queries/tags";
 import Page from "../../components/Common/Page";
 import Product from "../../core/types/product";
@@ -32,6 +33,10 @@ const ProductAddPage: React.FC = () => {
   );
   const { data: regions } = useQuery("/regions", getRegionsRequest);
   const { data: tags } = useQuery("/tags", getTagsRequest);
+  const { data: globalSettings } = useQuery(
+    "/global_settings",
+    getGlobalSettingsRequest
+  );
 
   const onSubmit = useCallback(
     (formData: ProductFormData) => {
@@ -61,6 +66,7 @@ const ProductAddPage: React.FC = () => {
           containers={containers}
           regions={regions?.results}
           tags={tags}
+          globalSettings={globalSettings}
           buttonName={t("add")}
         />
       </Container>
