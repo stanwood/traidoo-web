@@ -23,7 +23,7 @@ const EditButton = ({
       className={className}
       data-testid="edit-button"
     >
-      {t("edit")}
+      {t("editProduct")}
     </Button>
   );
 };
