@@ -5,6 +5,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import React, { useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 import { UserContext } from "../../../../contexts/UserContext/context";
 import { TableColumns, TableHeadCell, TableProps } from "../../interfaces";
 import { Order } from "../../types";
@@ -13,8 +14,9 @@ import useStyles from "./TableHead.styles";
 
 const TableHeader = (props: TableProps) => {
   const classes = useStyles();
-  const { canBuy, isSeller } = useContext(UserContext);
+  const { canBuy } = useContext(UserContext);
   const { t } = useTranslation();
+  const location = useLocation();
   const { order, orderBy, onRequestSort } = props;
   const sortHandler = (property: keyof TableColumns) => (
     event: React.MouseEvent<unknown>
@@ -23,14 +25,14 @@ const TableHeader = (props: TableProps) => {
   };
 
   const cells = useMemo(() => {
-    if (canBuy) {
-      return headCells;
-    } else if (isSeller) {
+    if (location.pathname.startsWith("/seller/")) {
       return sellerHeadCells;
+    } else if (canBuy) {
+      return headCells;
     } else {
       return anoynmousHeadCells;
     }
-  }, [canBuy, isSeller]);
+  }, [canBuy, location.pathname]);
 
   // TODO: move CustomTableCellProps and CustomTableCell to separate files
   interface CustomTableCellProps {

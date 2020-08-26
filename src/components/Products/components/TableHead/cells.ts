@@ -35,7 +35,7 @@ const itemsAvailable: TableHeadCell = {
   id: "itemsAvailable",
   align: "right",
   disablePadding: false,
-  label: i18n.t("available"),
+  label: i18n.t("availableItems"),
   sortable: true,
   hiddenForAnonymous: true,
   hideOnMobile: false,
