@@ -55,9 +55,11 @@ const LayoutB: React.FC<LayoutProps> = (props: LayoutProps) => {
         {Boolean(tabsItems) && <div className={classes.tabs} />}
         {children}
       </main>
-      <ResponsiveDrawer anchor="right" withTabs={Boolean(tabsItems)}>
-        <RenderCart />
-      </ResponsiveDrawer>
+      {user.id && (
+        <ResponsiveDrawer anchor="right" withTabs={Boolean(tabsItems)}>
+          <RenderCart />
+        </ResponsiveDrawer>
+      )}
     </Box>
   );
 };
