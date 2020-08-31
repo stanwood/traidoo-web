@@ -11,8 +11,11 @@ const useLayoutStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       display: "flex",
+      height: "100%",
     },
     main: {
+      display: "flex",
+      flexDirection: "column",
       flexGrow: 1,
     },
     toolbar: theme.mixins.toolbar,

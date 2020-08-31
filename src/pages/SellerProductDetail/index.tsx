@@ -15,6 +15,7 @@ import {
 import Page from "../../components/Common/Page";
 import ProductDetail from "../../components/Product";
 import ProductItems from "../../components/ProductItems";
+import useSellerProductDetailsPageStyles from "./styles";
 import { ProductItemFormData } from "./types";
 import validationSchema from "./validation";
 
@@ -22,6 +23,7 @@ const SellerProductDetailsPage: React.FC = () => {
   const { t } = useTranslation();
   const pageTitle = t("productDetail");
   const { id } = useParams<{ id: string }>();
+  const classes = useSellerProductDetailsPageStyles();
 
   const {
     status: productStatus,
@@ -104,7 +106,7 @@ const SellerProductDetailsPage: React.FC = () => {
       productItemsStatus === "loading" ? (
         Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
       ) : (
-        <Grid container spacing={0}>
+        <Grid container spacing={0} className={classes.container}>
           <Grid item xs={12} lg={9}>
             <ProductDetail
               product={product}
