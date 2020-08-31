@@ -5,8 +5,8 @@ import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Link as RouterLink } from "react-router-dom";
 import { CartContext } from "../../../contexts/CartContext/context";
-import Cart from "../../Cart/Cart/component";
-import CartItem from "../../Cart/CartItem/component";
+import Cart from "../Cart/component";
+import CartItem from "../CartItem/component";
 import { useCartStyles } from "./styles";
 
 const RenderCart: React.FC = () => {

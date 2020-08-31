@@ -97,7 +97,7 @@ const SellerProductDetailsPage: React.FC = () => {
   });
 
   return (
-    <Page title={pageTitle}>
+    <Page title={pageTitle} padding={false}>
       {!product ||
       !productItems ||
       productStatus === "loading" ||

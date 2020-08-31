@@ -10,9 +10,11 @@ export interface UserState {
 export interface UserStateContext {
   user: UserState;
   logout: () => void;
-  refetch: () => Promise<UserState>;
+  refetch: () => Promise<UserState | undefined>;
   canBuy: boolean;
   isSeller: boolean;
+  isIdle: boolean;
+  isLoading: boolean;
 }
 
 export interface UserProviderProps {

@@ -2,7 +2,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { useLoadScript } from "@react-google-maps/api";
 import React, { useCallback } from "react";
-import { FormContext, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { queryCache, useMutation, useQuery } from "react-query";
 import { useHistory, useParams } from "react-router-dom";
@@ -80,9 +80,9 @@ const EditRoutePage: React.FC = () => {
 
   return (
     <Page title={pageTitle}>
-      <FormContext {...form}>
+      <FormProvider {...form}>
         <RouteForm onSubmit={onSubmit} defaultData={data} />
-      </FormContext>
+      </FormProvider>
     </Page>
   );
 };

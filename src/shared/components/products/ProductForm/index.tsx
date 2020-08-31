@@ -1,7 +1,7 @@
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import React from "react";
-import { FormContext, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { Container } from "../../../../api/queries/containers";
 import { Region } from "../../../../api/queries/regions";
 import { Tag } from "../../../../api/queries/tags";
@@ -80,7 +80,7 @@ const ProductForm: React.FC<ProductFormProps> = (props: ProductFormProps) => {
   const classes = useStyles();
 
   return (
-    <FormContext {...form}>
+    <FormProvider {...form}>
       <form
         className={classes.form}
         onSubmit={form.handleSubmit(onSubmit)}
@@ -118,7 +118,7 @@ const ProductForm: React.FC<ProductFormProps> = (props: ProductFormProps) => {
           </Grid>
         </Grid>
       </form>
-    </FormContext>
+    </FormProvider>
   );
 };
 

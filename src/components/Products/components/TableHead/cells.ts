@@ -81,6 +81,16 @@ const addToCart: TableHeadCell = {
   hideOnMobile: false,
 };
 
+const deleteProduct: TableHeadCell = {
+  id: "deleteProduct",
+  align: "right",
+  disablePadding: false,
+  label: "",
+  sortable: false,
+  hiddenForAnonymous: true,
+  hideOnMobile: false,
+};
+
 export const anoynmousHeadCells: TableHeadCell[] = [
   image,
   name,
@@ -93,9 +103,10 @@ export const sellerHeadCells: TableHeadCell[] = [
   image,
   name,
   category,
-  region,
   itemsAvailable,
+  region,
   price,
+  deleteProduct,
 ];
 
 export const headCells: TableHeadCell[] = [
