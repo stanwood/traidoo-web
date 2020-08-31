@@ -6,6 +6,7 @@ const useProductDetailsStyles = makeStyles((theme: Theme) =>
       flexDirection: "row",
       margin: 0,
       padding: 0,
+      height: "100%",
       [theme.breakpoints.down("sm")]: {
         flexDirection: "column",
       },

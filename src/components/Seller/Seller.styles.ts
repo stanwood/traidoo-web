@@ -4,6 +4,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexDirection: "row",
+      height: "100%",
       margin: 0,
       padding: 0,
       [theme.breakpoints.down("sm")]: {

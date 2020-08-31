@@ -1,4 +1,5 @@
 import { CssBaseline, ThemeProvider } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 import * as Sentry from "@sentry/browser";
 import React from "react";
 import ReactDOM from "react-dom";
@@ -17,8 +18,20 @@ Sentry.init({
   environment: `${Config.environment}-${Config.clientId}`,
 });
 
+const GlobalCss = withStyles({
+  "@global": {
+    "html, body": {
+      height: "100%",
+    },
+    "#root": {
+      height: "100%",
+    },
+  },
+})(() => null);
+
 ReactDOM.render(
   <ThemeProvider theme={theme}>
+    <GlobalCss />
     <CssBaseline />
     <ReactQueryConfigProvider config={ReactQueryConfig}>
       <App />

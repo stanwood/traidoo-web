@@ -21,15 +21,21 @@ const initialState: UserState = {
 const UserProvider = (props: UserProviderProps): ReactElement => {
   const [user, setUser] = useState<UserState>(initialState);
 
-  const { refetch } = useQuery("/users/profile/me", getCurrentUserRequest, {
-    enabled: false,
-    onSuccess: (data) => {
-      setUser(data);
-    },
-  });
+  const { refetch, isIdle, isLoading } = useQuery(
+    "/users/profile/me",
+    getCurrentUserRequest,
+    {
+      enabled: false,
+      onSuccess: (data) => {
+        setUser(data);
+      },
+    }
+  );
 
   useEffect(() => {
-    if (getAccessToken()) refetch();
+    if (getAccessToken()) {
+      refetch();
+    }
   }, [refetch]);
 
   const logout = useCallback(() => {
@@ -53,6 +59,8 @@ const UserProvider = (props: UserProviderProps): ReactElement => {
     refetch,
     canBuy,
     isSeller,
+    isIdle,
+    isLoading,
   };
 
   return (

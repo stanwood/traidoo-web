@@ -1,21 +1,21 @@
 import { UserState } from "../../../contexts/UserContext/interfaces";
 import i18n from "../../../i18n";
 
-export interface MenuItem {
+export interface TraidooMenuItem {
   name: string;
   path: string;
 }
 
-const userItems: MenuItem[] = [
+const userItems: TraidooMenuItem[] = [
   { name: i18n.t("profile"), path: "/profile/personal" },
   { name: i18n.t("logout"), path: "/logout" },
 ];
 
-const buyerItems: MenuItem[] = [
+const buyerItems: TraidooMenuItem[] = [
   { name: i18n.t("history"), path: "/history/orders/purchases" },
 ];
 
-const globalItems: MenuItem[] = [
+const globalItems: TraidooMenuItem[] = [
   { name: i18n.t("termsOfServices"), path: "/terms-of-services" },
   { name: i18n.t("privacyPolicy"), path: "/privacy-policy" },
   { name: i18n.t("prices"), path: "/prices" },
@@ -23,12 +23,12 @@ const globalItems: MenuItem[] = [
   { name: i18n.t("contact"), path: "/contact" },
 ];
 
-const anonymousItems: MenuItem[] = [
+const anonymousItems: TraidooMenuItem[] = [
   { name: i18n.t("login"), path: "/login" },
   { name: i18n.t("registration"), path: "/registration" },
 ];
 
-export const getRightMenuItems = (user: UserState): MenuItem[][] => {
+export const getRightMenuItems = (user: UserState): TraidooMenuItem[][] => {
   if (!user.id) {
     return [anonymousItems, globalItems];
   }

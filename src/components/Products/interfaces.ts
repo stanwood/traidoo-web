@@ -13,6 +13,7 @@ export interface TableColumnsWithSorting {
 export interface TableColumns extends TableColumnsWithSorting {
   image: string;
   addToCart: boolean;
+  deleteProduct: boolean;
 }
 
 export interface TableHeadCell {
