@@ -14,11 +14,12 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import SearchIcon from "@material-ui/icons/Search";
-import React from "react";
+import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useIsFetching } from "react-query";
 import { Link } from "react-router-dom";
 import Config from "../../../config";
+import { UserContext } from "../../../contexts/UserContext/context";
 import history from "../../../core/history";
 import BackButton from "./BackButton";
 import CartButton from "./CartButton";
@@ -104,6 +105,7 @@ const TraidooAppBar: React.FC<TraidooAppBarProps> = (
     navButtonResponsive,
   } = props;
   const showLoadingIndicator = useIsFetching();
+  const { user } = useContext(UserContext);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -164,7 +166,7 @@ const TraidooAppBar: React.FC<TraidooAppBarProps> = (
             onKeyPress={keyPressed}
           />
         </div>
-        {cartButton && <CartButton styleName={classes.menuButton} />}
+        {cartButton && user.id && <CartButton styleName={classes.menuButton} />}
         <IconButton
           edge="end"
           color="inherit"
