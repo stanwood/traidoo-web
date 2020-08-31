@@ -10,7 +10,7 @@
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@material-ui/pickers": "^3.2.10",
     "@react-google-maps/api": "^1.9.12",
-    "@sentry/browser": "^5.22.0",
+    "@sentry/browser": "^5.22.3",
     "@svgr/parcel-plugin-svgr": "^5.4.0",
     "array-to-tree": "^3.3.2",
     "autosuggest-highlight": "^3.1.1",
