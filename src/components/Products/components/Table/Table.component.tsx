@@ -83,7 +83,7 @@ const ProductsList: React.FC<ProductsListProps> = ({
     if (isProductInCart(productId)) {
       return (
         <IconButton
-          color="primary"
+          className={classes.removeIcon}
           aria-label="add to cart"
           onClick={() => removeProduct(productId)}
         >
@@ -94,7 +94,6 @@ const ProductsList: React.FC<ProductsListProps> = ({
 
     return (
       <IconButton
-        color="primary"
         aria-label="add to cart"
         onClick={() =>
           addProduct({ id: productId, amount, name, price, unit, quantity: 1 })

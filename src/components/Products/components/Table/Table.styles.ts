@@ -36,6 +36,9 @@ const useStyles = makeStyles((theme: Theme) =>
         color: theme.palette.primary.main,
       },
     },
+    removeIcon: {
+      color: theme.palette.error.main,
+    },
   })
 );
 
