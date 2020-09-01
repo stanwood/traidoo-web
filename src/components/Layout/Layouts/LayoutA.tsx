@@ -6,9 +6,6 @@ import { LayoutProps } from "./interfaces";
 
 const useLayoutStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      display: "flex",
-    },
     main: {
       flexGrow: 1,
     },
@@ -21,7 +18,7 @@ const LayoutA: React.FC<LayoutProps> = (props: LayoutProps) => {
   const { children } = props;
 
   return (
-    <Box className={classes.root}>
+    <Box>
       <TraidooAppBar cartButton={false} />
       <main className={classes.main}>
         <div className={classes.toolbar} />
