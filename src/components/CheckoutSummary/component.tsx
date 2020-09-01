@@ -1,6 +1,5 @@
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
-import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
@@ -27,7 +26,7 @@ const CheckoutSummary: React.FC<{
   const { t } = useTranslation();
 
   return (
-    <Container maxWidth="md" component={Paper} disableGutters>
+    <Container component={Paper} maxWidth="md" disableGutters>
       <Typography variant="h4" component="h1" className={classes.header}>
         {t("reviewYourOrder")}
       </Typography>
@@ -113,37 +112,41 @@ const CheckoutSummary: React.FC<{
           ))}
         </Grid>
       </Grid>
-      <Divider />
-      <Grid item xs={12} className={classes.actionButtons}>
-        <Button
-          type="submit"
-          variant="contained"
-          className={classes.button}
-          component={Link}
-          to={"/checkout"}
-        >
-          {t("back")}
-        </Button>
-        <Button
-          type="submit"
-          variant="contained"
-          className={classes.button}
-          component={Link}
-          to={"/"}
-        >
-          {t("cancel")}
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          className={classes.button}
-          component={Link}
-          to={"/"}
-          disabled={props.isProceedDisabled()}
-          onClick={() => props.onSubmit()}
-        >
-          {t("proceed")}
-        </Button>
+      <Grid container xs={12} className={classes.actions}>
+        <Grid item xs={12} md={3} className={classes.actionText}>
+          <Typography>{t("paymentByBankTransfer")}</Typography>
+        </Grid>
+        <Grid item xs={12} md={9} className={classes.actionButtons}>
+          <Button
+            type="submit"
+            variant="contained"
+            className={classes.button}
+            component={Link}
+            to={"/checkout"}
+          >
+            {t("back")}
+          </Button>
+          <Button
+            type="submit"
+            variant="contained"
+            className={classes.button}
+            component={Link}
+            to={"/"}
+          >
+            {t("cancel")}
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            component={Link}
+            to={"/"}
+            disabled={props.isProceedDisabled()}
+            onClick={() => props.onSubmit()}
+          >
+            {t("orderWithObligationToPay")}
+          </Button>
+        </Grid>
       </Grid>
     </Container>
   );

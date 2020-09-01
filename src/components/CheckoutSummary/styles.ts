@@ -18,9 +18,19 @@ const useStyles = makeStyles((theme: Theme) =>
     summaryLabel: {
       textTransform: "uppercase",
     },
+    actions: {
+      backgroundColor: theme.palette.background.default,
+    },
+    actionText: {
+      display: "flex",
+      alignItems: "center",
+      padding: theme.spacing(2),
+      [theme.breakpoints.down("md")]: {
+        justifyContent: "flex-end",
+      },
+    },
     actionButtons: {
       padding: theme.spacing(2),
-      backgroundColor: theme.palette.background.default,
       textAlign: "right",
     },
     button: {
