@@ -86,8 +86,9 @@ const useAppBarStyles = makeStyles((theme: Theme) =>
 
 interface TraidooAppBarProps {
   cartButton: boolean;
-  navButton?: "hamburger" | "back";
-  navButtonResponsive?: boolean;
+  hamburgerButton?: boolean;
+  backButton?: boolean;
+  hamburgerButtonResponsive?: boolean;
   tabsItems?: TabProps[];
   activeTab?: number;
 }
@@ -99,10 +100,11 @@ const TraidooAppBar: React.FC<TraidooAppBarProps> = (
   const { t } = useTranslation();
   const {
     cartButton,
-    navButton,
+    hamburgerButton = false,
+    backButton = false,
     tabsItems,
     activeTab,
-    navButtonResponsive,
+    hamburgerButtonResponsive = true,
   } = props;
   const showLoadingIndicator = useIsFetching();
   const { user } = useContext(UserContext);
@@ -128,16 +130,14 @@ const TraidooAppBar: React.FC<TraidooAppBarProps> = (
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar>
-        {navButton ? (
-          navButton === "hamburger" ? (
-            <DrawerButton
-              styleName={classes.menuButton}
-              responsive={navButtonResponsive || false}
-            />
-          ) : (
-            <BackButton styleName={classes.menuButton} />
-          )
-        ) : null}
+        {hamburgerButton && (
+          <DrawerButton
+            styleName={classes.menuButton}
+            responsive={hamburgerButtonResponsive}
+          />
+        )}
+
+        {backButton && <BackButton styleName={classes.menuButton} />}
 
         <Typography
           color="textPrimary"

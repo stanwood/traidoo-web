@@ -42,8 +42,7 @@ const LayoutB: React.FC<LayoutProps> = (props: LayoutProps) => {
     <Box className={classes.root}>
       <TraidooAppBar
         cartButton={true}
-        navButton="hamburger"
-        navButtonResponsive={true}
+        hamburgerButton={true}
         tabsItems={tabsItems}
         activeTab={activeTab}
       />

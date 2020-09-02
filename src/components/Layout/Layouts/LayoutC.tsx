@@ -3,7 +3,6 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import React, { useContext, useMemo } from "react";
 import { UserContext } from "../../../contexts/UserContext/context";
 import RenderCart from "../../Cart/Root";
-import Categories from "../../Categories";
 import TraidooAppBar from "../AppBar";
 import { appBarTabsHeight } from "../constants";
 import TemporaryDrawer from "../Drawers/Temporary";
@@ -45,14 +44,10 @@ const LayoutC: React.FC<LayoutProps> = (props: LayoutProps) => {
     <Box className={classes.root}>
       <TraidooAppBar
         cartButton={true}
-        navButton="hamburger"
-        navButtonResponsive={false}
+        backButton={true}
         tabsItems={tabsItems}
         activeTab={activeTab}
       />
-      <TemporaryDrawer anchor="left" withTabs={Boolean(tabsItems)}>
-        <Categories />
-      </TemporaryDrawer>
       <main className={classes.main}>
         <div className={classes.toolbar} />
         {Boolean(tabsItems) && <div className={classes.tabs} />}

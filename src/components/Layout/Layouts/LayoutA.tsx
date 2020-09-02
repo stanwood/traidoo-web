@@ -19,7 +19,7 @@ const LayoutA: React.FC<LayoutProps> = (props: LayoutProps) => {
 
   return (
     <Box>
-      <TraidooAppBar cartButton={false} />
+      <TraidooAppBar cartButton={false} backButton={true} />
       <main className={classes.main}>
         <div className={classes.toolbar} />
         {children}
