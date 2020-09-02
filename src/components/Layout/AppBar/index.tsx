@@ -133,7 +133,7 @@ const TraidooAppBar: React.FC<TraidooAppBarProps> = (
         {hamburgerButton && (
           <DrawerButton
             styleName={classes.menuButton}
-            responsive={hamburgerButtonResponsive || false}
+            responsive={hamburgerButtonResponsive}
           />
         )}
 
