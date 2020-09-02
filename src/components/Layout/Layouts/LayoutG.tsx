@@ -31,6 +31,7 @@ const LayoutG: React.FC<LayoutProps> = (props: LayoutProps) => {
         cartButton={false}
         tabsItems={tabs.profile}
         activeTab={activeTab}
+        backButton={true}
       />
       <main className={classes.main}>
         <div className={classes.toolbar} />

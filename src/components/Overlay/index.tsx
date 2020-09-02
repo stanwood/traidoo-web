@@ -44,7 +44,7 @@ const Overlay: React.FC = () => {
     else if (!user.isCooperativeMember)
       return data?.find((overlay) => overlay.overlayType === "not_cooperative");
     else return undefined;
-  }, [user, data?.find]);
+  }, [user, data]);
 
   const displayButtonActions = useMemo((): boolean => {
     const buttons = overlayData?.buttons || [];

@@ -31,8 +31,7 @@ const LayoutE: React.FC<LayoutProps> = (props: LayoutProps) => {
     <Box className={classes.root}>
       <TraidooAppBar
         cartButton={false}
-        navButton="hamburger"
-        navButtonResponsive={true}
+        hamburgerButton={true}
         tabsItems={tabs.seller}
         activeTab={activeTab}
       />

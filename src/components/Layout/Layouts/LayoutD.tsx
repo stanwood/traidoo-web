@@ -44,6 +44,7 @@ const LayoutD: React.FC<LayoutProps> = (props: LayoutProps) => {
         cartButton={false}
         tabsItems={tabsItems}
         activeTab={activeTab}
+        backButton={true}
       />
 
       <main className={classes.main}>
