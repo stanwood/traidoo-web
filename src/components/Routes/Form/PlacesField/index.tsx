@@ -5,7 +5,7 @@ import LocationOnIcon from "@material-ui/icons/LocationOn";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import parse from "autosuggest-highlight/parse";
 import throttle from "lodash/throttle";
-import React from "react";
+import React, { useMemo, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { PlaceType } from "../../../../core/interfaces/routes/maps";
 import usePlacesFieldStyles from "./styles";
@@ -23,11 +23,10 @@ const PlacesField: React.FC<PlacesFieldProps> = (props: PlacesFieldProps) => {
   const { fieldName, label } = props;
   const { control, errors } = useFormContext();
 
-  const [value, setValue] = React.useState<PlaceType | null>(null);
-  const [inputValue, setInputValue] = React.useState("");
-  const [options, setOptions] = React.useState<PlaceType[]>([]);
+  const [inputValue, setInputValue] = useState("");
+  const [options, setOptions] = useState<PlaceType[]>([]);
 
-  const fetch = React.useMemo(
+  const fetch = useMemo(
     () =>
       throttle(
         (
@@ -39,7 +38,7 @@ const PlacesField: React.FC<PlacesFieldProps> = (props: PlacesFieldProps) => {
             callback
           );
         },
-        200
+        1000
       ),
     []
   );
@@ -55,17 +54,12 @@ const PlacesField: React.FC<PlacesFieldProps> = (props: PlacesFieldProps) => {
     }
 
     if (inputValue === "") {
-      setOptions(value ? [value] : []);
       return undefined;
     }
 
     fetch({ input: inputValue }, (results?: PlaceType[]) => {
       if (active) {
         let newOptions = [] as PlaceType[];
-
-        if (value) {
-          newOptions = [value];
-        }
 
         if (results) {
           newOptions = [...newOptions, ...results];
@@ -78,7 +72,7 @@ const PlacesField: React.FC<PlacesFieldProps> = (props: PlacesFieldProps) => {
     return () => {
       active = false;
     };
-  }, [value, inputValue, fetch]);
+  }, [inputValue, fetch]);
 
   return (
     <Controller
