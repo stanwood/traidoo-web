@@ -1,7 +1,7 @@
 import * as yup from "yup";
 import i18n from "../../../i18n";
 
-const routesAddValidationSchema = yup.object().shape({
+const routesValidationSchema = yup.object().shape({
   origin: yup.string().required(i18n.t("fieldRequired")),
   destination: yup.string().required(i18n.t("fieldRequired")),
   frequency: yup
@@ -9,6 +9,7 @@ const routesAddValidationSchema = yup.object().shape({
     .ensure()
     .of(yup.number())
     .required(i18n.t("fieldRequired")),
+  waypoints: yup.array().of(yup.object()),
 });
 
-export default routesAddValidationSchema;
+export default routesValidationSchema;

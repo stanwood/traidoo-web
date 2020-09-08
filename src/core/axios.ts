@@ -47,7 +47,7 @@ const refreshAuthLogic = async (failedRequest: any): Promise<any> => {
 };
 
 createAuthRefreshInterceptor(axiosInstance, refreshAuthLogic, {
-  skipWhileRefreshing: false,
+  pauseInstanceWhileRefreshing: true,
 });
 
 export default axiosInstance;

@@ -18,7 +18,7 @@ import {
   getRouteRequest,
 } from "../../../api/queries/routes";
 import Page from "../../../components/Common/Page";
-import { frequency } from "../../../components/Routes/frequency";
+import { frequencyMapping } from "../../../components/Routes/frequency";
 import Config from "../../../config";
 import RouteMap from "../Map";
 import { useRouteDetailsStyles } from "./styles";
@@ -96,7 +96,7 @@ const RouteDetailsPage: React.FC = () => {
             <TableRow>
               <TableCell>{t("Frequency")}</TableCell>
               <TableCell>
-                {data.frequency.map((day) => frequency[day]).join(", ")}
+                {data.frequency.map((day) => frequencyMapping[day]).join(", ")}
               </TableCell>
             </TableRow>
             <TableRow>

@@ -31,7 +31,7 @@ export const reducer = (state: CartState, action: Actions): CartState => {
   if (action.type === CART_PRODUCT_QUANTITY) {
     const products = [...state.products];
     const index = products.findIndex(
-      (product) => product.id == action.payload.id
+      (product) => product.id === action.payload.id
     );
     products[index].quantity = action.payload.quantity;
     return { ...state, ...products };

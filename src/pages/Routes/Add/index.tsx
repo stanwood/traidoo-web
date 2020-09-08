@@ -1,3 +1,4 @@
+import { yupResolver } from "@hookform/resolvers";
 import MuiAlert from "@material-ui/lab/Alert";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { useLoadScript } from "@react-google-maps/api";
@@ -10,7 +11,7 @@ import { createRouteRequest } from "../../../api/queries/routes";
 import Page from "../../../components/Common/Page";
 import RouteForm from "../../../components/Routes/Form";
 import Config from "../../../config";
-import { CreateRouteAPIRequest } from "../../../core/interfaces/routes";
+import { RouteFormFields } from "../../../core/interfaces/routes/form";
 import routesAddValidationSchema from "./validation";
 
 const googleMapsLibraries = ["places"];
@@ -24,8 +25,8 @@ const AddRoutePage: React.FC = () => {
   const [create] = useMutation(createRouteRequest);
 
   const form = useForm({
-    validationSchema: routesAddValidationSchema,
     defaultValues: { waypoints: [""] },
+    resolver: yupResolver(routesAddValidationSchema),
   });
 
   const { isLoaded, loadError } = useLoadScript({
@@ -35,9 +36,13 @@ const AddRoutePage: React.FC = () => {
   });
 
   const onSubmit = useCallback(
-    async (data: CreateRouteAPIRequest) => {
-      const route = await create(data);
-      history.push(`/seller/logistic/routes/${route.id}`);
+    async (data: RouteFormFields) => {
+      const newData = {
+        ...data,
+        waypoints: data.waypoints.map((waypoint) => waypoint.name),
+      };
+      const route = await create(newData);
+      if (route) history.push(`/seller/logistic/routes/${route.id}`);
     },
     [create, history]
   );

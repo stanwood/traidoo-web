@@ -29,12 +29,12 @@ export const RoutesDirections: React.FC<RouteDirectionsProps> = ({
     []
   );
 
-  const options = useMemo(
+  const options: google.maps.DirectionsRequest = useMemo(
     () => ({
       destination: destination,
       origin: origin,
       waypoints: waypoints,
-      travelMode: "DRIVING",
+      travelMode: google.maps.TravelMode.DRIVING,
     }),
     [destination, origin, waypoints]
   );

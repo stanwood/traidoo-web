@@ -10,6 +10,8 @@ export const getTokenRequest = async ({
   const response = await axios.post(
     "auth/token",
     { email, password },
+    // @ts-ignore
+    // eslint-disable-next-line
     { skipAuthRefresh: true }
   );
   return response.data;
@@ -23,6 +25,8 @@ export const refreshTokenRequest = async (
     {
       refresh,
     },
+    // @ts-ignore
+    // eslint-disable-next-line
     { skipAuthRefresh: true }
   );
 };

@@ -1,7 +1,9 @@
 import Box from "@material-ui/core/Box";
 import clsx from "clsx";
 import React from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import { Helmet } from "react-helmet";
+import { GlobalErrorFallback } from "../../core/errorBoundary";
 import usePageStyles from "./styles";
 
 interface PageProps {
@@ -15,12 +17,14 @@ const Page: React.FC<PageProps> = (props: PageProps) => {
   const { title, children, padding = true } = props;
 
   return (
-    <Box className={clsx(classes.root, padding && classes.padding)}>
-      <Helmet>
-        <title>{title}</title>
-      </Helmet>
-      {children}
-    </Box>
+    <ErrorBoundary FallbackComponent={GlobalErrorFallback}>
+      <Box className={clsx(classes.root, padding && classes.padding)}>
+        <Helmet>
+          <title>{title}</title>
+        </Helmet>
+        {children}
+      </Box>
+    </ErrorBoundary>
   );
 };
 

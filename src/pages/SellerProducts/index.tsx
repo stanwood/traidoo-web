@@ -17,6 +17,8 @@ import deleteProductRequest from "../../api/queries/products/deleteProduct";
 import Page from "../../components/Common/Page";
 import ProductsList from "../../components/Products/components/Table/Table.component";
 import { TableColumnsWithSorting } from "../../components/Products/interfaces";
+import AddProductItemsProvider from "../../contexts/AddProductItemsContext";
+import AddItemDialog from "../../contexts/AddProductItemsContext/AddItemDialog";
 import { CartContext } from "../../contexts/CartContext/context";
 import { Order } from "../../core/types/queries";
 import useStyles from "./styles";
@@ -84,7 +86,7 @@ const SellerProductsListPage: React.FC = () => {
       {!data || status === "loading" ? (
         Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
       ) : (
-        <>
+        <AddProductItemsProvider>
           <ProductsList
             products={data}
             page={calculatePage(query.page)}
@@ -95,7 +97,6 @@ const SellerProductsListPage: React.FC = () => {
             sellerView={true}
             deleteProduct={deleteProduct}
           />
-
           <Fab
             aria-label="Add a new product"
             className={classes.fab}
@@ -104,7 +105,8 @@ const SellerProductsListPage: React.FC = () => {
           >
             <AddIcon />
           </Fab>
-        </>
+          <AddItemDialog onSuccess={refetch} />
+        </AddProductItemsProvider>
       )}
     </Page>
   );

@@ -8,39 +8,33 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Typography from "@material-ui/core/Typography";
-import React from "react";
+import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
-import AddItemDialog from "./AddItemDialog";
+import AddItemDialog from "../../contexts/AddProductItemsContext/AddItemDialog";
+import { AddProductItemsContext } from "../../contexts/AddProductItemsContext/context";
 import ProductItem from "./Item";
 import { useProductItemsStyles } from "./styles";
 
-const ProductItems = ({
-  items,
-  onDelete,
-  register,
-  errors,
-  setValue,
-  clearError,
-  handleSubmit,
-  onSubmit,
-  openDialog,
-  handleDialogOpen,
-  handleDialogClose,
-}: {
+interface ProductItemsProps {
+  productId: number;
   items: any;
-  onDelete: Function;
-  register: Function;
-  errors: any;
-  setValue: Function;
-  clearError: Function;
-  handleSubmit: Function;
-  onSubmit: any;
-  openDialog: boolean;
-  handleDialogOpen: Function;
-  handleDialogClose: any;
-}) => {
+  refreshItems: () => void;
+  onDelete: ({
+    productId,
+    itemId,
+  }: {
+    productId: number;
+    itemId: number;
+  }) => Promise<any>;
+}
+
+const ProductItems: React.FC<ProductItemsProps> = (
+  props: ProductItemsProps
+) => {
   const classes = useProductItemsStyles();
   const { t } = useTranslation();
+  const { open } = useContext(AddProductItemsContext);
+  const { productId, items, refreshItems, onDelete } = props;
 
   return (
     <Paper className={classes.paper}>
@@ -69,21 +63,12 @@ const ProductItems = ({
           color="primary"
           fullWidth
           data-testid="add-items-button"
-          onClick={() => handleDialogOpen()}
+          onClick={() => open(productId)}
         >
           {t("addItems")}
         </Button>
       </Box>
-      <AddItemDialog
-        open={openDialog}
-        onClose={handleDialogClose}
-        onSubmit={onSubmit}
-        register={register}
-        errors={errors}
-        setValue={setValue}
-        clearError={clearError}
-        handleSubmit={handleSubmit}
-      />
+      <AddItemDialog onSuccess={refreshItems} />
     </Paper>
   );
 };

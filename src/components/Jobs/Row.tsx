@@ -25,14 +25,14 @@ const Row = ({
     if (job?.user === user.id) {
       setClaimed(true);
     }
-  }, [job]);
+  }, [job, user.id]);
 
   const claimJob = useCallback(
     (job) => {
       onJobClaim({ jobId: job.id });
       setClaimed(true);
     },
-    [job.id]
+    [onJobClaim]
   );
 
   const returnJob = useCallback(
@@ -40,33 +40,27 @@ const Row = ({
       onJobReturn({ jobId: job.id });
       setClaimed(false);
     },
-    [job.id]
+    [onJobReturn]
   );
 
-  const productName = useCallback(
-    (job: any) => {
-      return (
-        <Box>
-          <Box>{`${job.orderItem.quantity}x ${job.orderItem.product.containerType.sizeClass}`}</Box>
-          <Box>{job.orderItem.product.name}</Box>
-          <Box>{`${job.orderItem.product.seller.firstName} ${job.orderItem.product.seller.lastName}`}</Box>
-        </Box>
-      );
-    },
-    [job]
-  );
+  const productName = useCallback((job: any) => {
+    return (
+      <Box>
+        <Box>{`${job.orderItem.quantity}x ${job.orderItem.product.containerType.sizeClass}`}</Box>
+        <Box>{job.orderItem.product.name}</Box>
+        <Box>{`${job.orderItem.product.seller.firstName} ${job.orderItem.product.seller.lastName}`}</Box>
+      </Box>
+    );
+  }, []);
 
-  const directions = useCallback(
-    (job: any) => {
-      return (
-        <Box>
-          <Box>{`${job.orderItem.product.seller.city} ${job.orderItem.product.seller.street} ${job.orderItem.product.seller.zip}`}</Box>
-          <Box>{`${job.orderItem.deliveryAddress.city} ${job.orderItem.deliveryAddress.street} ${job.orderItem.deliveryAddress.zip}`}</Box>
-        </Box>
-      );
-    },
-    [job]
-  );
+  const directions = useCallback((job: any) => {
+    return (
+      <Box>
+        <Box>{`${job.orderItem.product.seller.city} ${job.orderItem.product.seller.street} ${job.orderItem.product.seller.zip}`}</Box>
+        <Box>{`${job.orderItem.deliveryAddress.city} ${job.orderItem.deliveryAddress.street} ${job.orderItem.deliveryAddress.zip}`}</Box>
+      </Box>
+    );
+  }, []);
 
   const renderButton = useCallback(
     (job: any) => {
@@ -84,7 +78,7 @@ const Row = ({
         </Button>
       );
     },
-    [claimed]
+    [claimed, claimJob, returnJob, t]
   );
 
   const formatDate = (date: string) => {

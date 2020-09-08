@@ -72,7 +72,7 @@ const CompanyProfileForm = ({
       setValue("companyType", event.target.value as string);
       clearError("companyType");
     },
-    []
+    [setValue, clearError]
   );
 
   return (

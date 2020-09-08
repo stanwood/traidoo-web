@@ -10,7 +10,7 @@ export const addProductRequest = async (
   const formData = objectToFormData(
     {
       ...fixData(data),
-      image: data.image[0],
+      image: data.image ? data.image[0] : undefined,
       tags: data.tags ? `[${data.tags.toString()}]` : undefined,
     },
     { indices: false }

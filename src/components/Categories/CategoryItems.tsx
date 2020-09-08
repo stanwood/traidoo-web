@@ -45,7 +45,11 @@ const CategoryItems: React.FC<CategoryItemsProps> = (
       className={classes.labelRoot}
       onClick={(event) => onCategoryClick(event, item.id)}
     >
-      <img src={item.icon.iconUrl} className={classes.labelIcon} />
+      <img
+        src={item.icon.iconUrl}
+        className={classes.labelIcon}
+        alt={item.name}
+      />
       <Typography variant="body2" className={classes.labelText}>
         {item.name}
       </Typography>

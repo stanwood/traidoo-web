@@ -20,7 +20,11 @@ import useStyles from "./styles";
 const Overlay: React.FC = () => {
   const classes = useStyles();
   const { t } = useTranslation();
+
   const { user } = useContext(UserContext);
+  const userId = user.id;
+  const isEmailVerified = user.isEmailVerified;
+
   const { data, status } = useQuery("overlays", getOverlaysRequest);
   const [emailSent, setEmailSent] = useState<boolean>(false);
 
@@ -48,12 +52,11 @@ const Overlay: React.FC = () => {
 
   const displayButtonActions = useMemo((): boolean => {
     const buttons = overlayData?.buttons || [];
+
     return (
-      user?.id === undefined ||
-      user.isEmailVerified === false ||
-      buttons.length > 0
+      userId === undefined || isEmailVerified === false || buttons.length > 0
     );
-  }, [user?.id, user?.isEmailVerified, overlayData?.buttons]);
+  }, [userId, isEmailVerified, overlayData]);
 
   if (status === "loading" || !overlayData) return null;
 

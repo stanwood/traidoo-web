@@ -1,3 +1,4 @@
+import { yupResolver } from "@hookform/resolvers";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { format } from "date-fns";
 import React, { useState } from "react";
@@ -30,10 +31,10 @@ const PersonalProfile: React.FC = () => {
     errors,
     setValue,
     setError,
-    clearError,
+    clearErrors,
     reset,
   } = useForm<FormData>({
-    validationSchema,
+    resolver: yupResolver(validationSchema),
   });
 
   async function handleError(error: any) {
@@ -81,7 +82,7 @@ const PersonalProfile: React.FC = () => {
           handleSubmit={handleSubmit}
           setValue={setValue}
           setError={setError}
-          clearError={clearError}
+          clearError={clearErrors}
           onSubmit={onSubmit}
           onCancel={reset}
           profile={data}

@@ -1,3 +1,4 @@
+import { yupResolver } from "@hookform/resolvers";
 import { format } from "date-fns";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -13,11 +14,11 @@ const RegistrationPersonal = ({ submit, apiErrors, data }: any) => {
     errors,
     setValue,
     setError,
-    clearError,
+    clearErrors,
     getValues,
   } = useForm<FormData>({
     defaultValues: data,
-    validationSchema,
+    resolver: yupResolver(validationSchema),
   });
 
   const onSubmit = (formData: FormData) => {
@@ -26,7 +27,7 @@ const RegistrationPersonal = ({ submit, apiErrors, data }: any) => {
     submit(formData);
   };
   // @ts-ignore
-  const onClearError = (fieldName: string) => clearError(fieldName);
+  const onClearError = (fieldName: string) => clearErrors(fieldName);
 
   useEffect(() => {
     register({ name: "birthday" }, { validate: required("Birthday") });

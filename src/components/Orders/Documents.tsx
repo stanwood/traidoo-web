@@ -11,6 +11,8 @@ interface DocumentsProps {
   downloadFile: (documentId: number) => void;
 }
 
+// @ts-ignore
+// eslint-disable-next-line
 const Documents: React.FC<DocumentsProps> = (props: DocumentsProps) => {
   const { documents, downloadFile } = props;
   const { t } = useTranslation();

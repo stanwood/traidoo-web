@@ -13,14 +13,17 @@ export const editProductRequest = async ({
   const formData = objectToFormData(
     {
       ...fixData(data),
-      image: data.image[0],
+      image: data.image ? data.image[0] : undefined,
       tags: data.tags ? `[${data.tags.toString()}]` : undefined,
     },
     { indices: false }
   );
 
   // FIXME: This is a workaround for API issues
-  if (data?.regions?.length < 1 && !formData.get("regions")) {
+  if (
+    (!data?.regions || data?.regions?.length < 1) &&
+    !formData.get("regions")
+  ) {
     formData.append("regions", "");
   }
 

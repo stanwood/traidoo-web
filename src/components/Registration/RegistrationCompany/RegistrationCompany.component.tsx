@@ -1,3 +1,4 @@
+import { yupResolver } from "@hookform/resolvers";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { required } from "../../../utils/errors";
@@ -12,17 +13,17 @@ const RegistrationCompany = ({ submit, cancel, data, apiErrors }: any) => {
     errors,
     setValue,
     setError,
-    clearError,
+    clearErrors,
     getValues,
-    triggerValidation,
+    trigger,
   } = useForm<FormData>({
     defaultValues: data,
-    validationSchema: validationSchema,
+    resolver: yupResolver(validationSchema),
   });
   const onSubmit = (formData: FormData) => submit(formData);
   const onCancel = (formData: FormData) => cancel(formData);
   // @ts-ignore
-  const onClearError = (fieldName: string) => clearError(fieldName);
+  const onClearError = (fieldName: string) => clearErrors(fieldName);
 
   useEffect(() => {
     register({ name: "companyType" }, { validate: required("Company type") });
@@ -48,7 +49,7 @@ const RegistrationCompany = ({ submit, cancel, data, apiErrors }: any) => {
       getValues={getValues}
       data={data}
       onClearError={onClearError}
-      triggerValidation={triggerValidation}
+      triggerValidation={trigger}
       setValue={(name: string, value: any) => setValue(name, value)}
     />
   );
