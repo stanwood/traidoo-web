@@ -5,35 +5,26 @@ import LocationOnIcon from "@material-ui/icons/LocationOn";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import parse from "autosuggest-highlight/parse";
 import throttle from "lodash/throttle";
-import React, { useEffect, useMemo, useState } from "react";
-import { Controller } from "react-hook-form";
-import { PlaceType } from "../interfaces";
+import React, { useMemo, useState } from "react";
+import { Controller, useFormContext } from "react-hook-form";
+import { PlaceType } from "../../../../core/interfaces/routes/maps";
 import usePlacesFieldStyles from "./styles";
 
 const autocompleteService = { current: null };
 
-const PlacesField = ({
-  fieldName,
-  onChange,
-  label,
-  errors,
-  control,
-  register,
-  defaultValue,
-}: {
+interface PlacesFieldProps {
   fieldName: string;
-  onChange?: any;
-  label: any;
-  errors?: any;
-  control: any;
-  register?: any;
-  defaultValue?: string;
-}) => {
+  label: string;
+}
+
+const PlacesField: React.FC<PlacesFieldProps> = (props: PlacesFieldProps) => {
   const classes = usePlacesFieldStyles();
+
+  const { fieldName, label } = props;
+  const { control, errors } = useFormContext();
 
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState<PlaceType[]>([]);
-  const [value, setValue] = React.useState<PlaceType | null | string>(null);
 
   const fetch = useMemo(
     () =>
@@ -47,19 +38,12 @@ const PlacesField = ({
             callback
           );
         },
-        200
+        1000
       ),
     []
   );
 
-  useEffect(() => {
-    if (defaultValue) {
-      setInputValue(defaultValue);
-      setValue(defaultValue);
-    }
-  }, [defaultValue]);
-
-  useEffect(() => {
+  React.useEffect(() => {
     let active = true;
 
     if (!autocompleteService.current && (window as any).google) {
@@ -70,13 +54,18 @@ const PlacesField = ({
     }
 
     if (inputValue === "") {
-      setOptions([]);
       return undefined;
     }
 
     fetch({ input: inputValue }, (results?: PlaceType[]) => {
       if (active) {
-        setOptions(results || []);
+        let newOptions = [] as PlaceType[];
+
+        if (results) {
+          newOptions = [...newOptions, ...results];
+        }
+
+        setOptions(newOptions);
       }
     });
 
@@ -86,74 +75,67 @@ const PlacesField = ({
   }, [inputValue, fetch]);
 
   return (
-    <Autocomplete
-      fullWidth
-      getOptionSelected={(option, value) => {
-        return option.description === value.description;
-      }}
-      getOptionLabel={(option) =>
-        typeof option === "string" ? option : option.description
-      }
-      filterOptions={(x) => x}
-      options={options}
-      autoComplete
-      includeInputInList
-      filterSelectedOptions
-      value={value}
-      onChange={(event: any, newValue: PlaceType | null) => {
-        setOptions(newValue ? [newValue, ...options] : options);
-        setValue(newValue);
-        onChange(fieldName, newValue?.description);
-      }}
-      onInputChange={(event, newInputValue) => {
-        setInputValue(newInputValue);
-      }}
-      renderInput={(params) => (
-        <Controller
-          as={TextField}
-          {...params}
-          label={label}
-          variant="outlined"
-          name={fieldName}
-          inputRef={register}
-          fullWidth
-          control={control}
-          error={errors ? true : false}
-          helperText={errors ? errors.message : ""}
+    <Controller
+      render={(props) => (
+        <Autocomplete
+          {...props}
+          getOptionLabel={(option) =>
+            typeof option === "string" ? option : option.description
+          }
+          filterOptions={(x) => x}
+          options={options}
+          autoComplete
+          includeInputInList
+          filterSelectedOptions
+          renderOption={(option) => {
+            const matches =
+              option.structured_formatting.main_text_matched_substrings;
+            const parts = parse(
+              option.structured_formatting.main_text,
+              matches.map((match: any) => [
+                match.offset,
+                match.offset + match.length,
+              ])
+            );
+
+            return (
+              <Grid container alignItems="center">
+                <Grid item>
+                  <LocationOnIcon className={classes.icon} />
+                </Grid>
+                <Grid item xs>
+                  {parts.map((part, index) => (
+                    <span
+                      key={index}
+                      style={{ fontWeight: part.highlight ? 700 : 400 }}
+                    >
+                      {part.text}
+                    </span>
+                  ))}
+                  <Typography variant="body2" color="textSecondary">
+                    {option.structured_formatting.secondary_text}
+                  </Typography>
+                </Grid>
+              </Grid>
+            );
+          }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label={label}
+              variant="outlined"
+              error={errors[fieldName] ? true : false}
+              helperText={errors[fieldName] ? errors[fieldName].message : ""}
+            />
+          )}
+          onInputChange={(event, newInputValue) => {
+            setInputValue(newInputValue);
+          }}
+          onChange={(_, data) => props.onChange(data.description)}
         />
       )}
-      renderOption={(option) => {
-        const matches =
-          option.structured_formatting.main_text_matched_substrings;
-        const parts = parse(
-          option.structured_formatting.main_text,
-          matches.map((match: any) => [
-            match.offset,
-            match.offset + match.length,
-          ])
-        );
-
-        return (
-          <Grid container alignItems="center">
-            <Grid item>
-              <LocationOnIcon className={classes.icon} />
-            </Grid>
-            <Grid item xs>
-              {parts.map((part, index) => (
-                <span
-                  key={index}
-                  style={{ fontWeight: part.highlight ? 700 : 400 }}
-                >
-                  {part.text}
-                </span>
-              ))}
-              <Typography variant="body2" color="textSecondary">
-                {option.structured_formatting.secondary_text}
-              </Typography>
-            </Grid>
-          </Grid>
-        );
-      }}
+      name={fieldName}
+      control={control}
     />
   );
 };

@@ -1,8 +1,7 @@
 import MuiAlert from "@material-ui/lab/Alert";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { useLoadScript } from "@react-google-maps/api";
-import React, { useCallback } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { queryCache, useMutation, useQuery } from "react-query";
 import { useHistory, useParams } from "react-router-dom";
@@ -10,41 +9,26 @@ import { editRouteRequest, getRouteRequest } from "../../../api/queries/routes";
 import Page from "../../../components/Common/Page";
 import RouteForm from "../../../components/Routes/Form";
 import Config from "../../../config";
-import { CreateRouteAPIRequest, Route } from "../../../core/interfaces/routes";
-import routesAddValidationSchema from "./validation";
+import { RouteFormFields } from "../../../core/interfaces/routes/form";
 
 const googleMapsLibraries = ["places"];
 
 const EditRoutePage: React.FC = () => {
   const history = useHistory();
-  const { id: routeId } = useParams<{ id: string }>();
-
   const { t } = useTranslation();
+
   const { pageTitle } = t("editRoute");
 
-  const form = useForm({
-    validationSchema: routesAddValidationSchema,
-  });
+  const { id } = useParams<{ id: string }>();
+  const routeId = Number(id);
 
   const [edit] = useMutation(editRouteRequest, {
-    onSuccess: () => queryCache.invalidateQueries(["route", Number(routeId)]),
+    onSuccess: () => queryCache.invalidateQueries(["route", routeId]),
   });
 
-  const { data, status } = useQuery(
-    ["route", Number(routeId)],
-    getRouteRequest,
-    {
-      cacheTime: 1,
-      onSuccess: (data: Route) => {
-        form.setValue([
-          { origin: data.origin },
-          { destination: data.destination },
-          { waypoints: data.waypoints },
-          { frequency: data.frequency },
-        ]);
-      },
-    }
-  );
+  const { data, status } = useQuery(["route", routeId], getRouteRequest, {
+    cacheTime: 1,
+  });
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: Config.googleMapsApiKey,
@@ -52,13 +36,14 @@ const EditRoutePage: React.FC = () => {
     libraries: googleMapsLibraries,
   });
 
-  const onSubmit = useCallback(
-    async (data: CreateRouteAPIRequest) => {
-      const route = await edit({ id: Number(routeId), data });
-      history.push(`/seller/logistic/routes/${route.id}`);
-    },
-    [edit, history, routeId]
-  );
+  const onSubmit = async (data: RouteFormFields) => {
+    const newData = {
+      ...data,
+      waypoints: data.waypoints.map((waypoint) => waypoint.name),
+    };
+    const route = await edit({ id: Number(routeId), data: newData });
+    if (route) history.push(`/seller/logistic/routes/${route.id}`);
+  };
 
   if (loadError) {
     return (
@@ -80,9 +65,7 @@ const EditRoutePage: React.FC = () => {
 
   return (
     <Page title={pageTitle}>
-      <FormProvider {...form}>
-        <RouteForm onSubmit={onSubmit} defaultData={data} />
-      </FormProvider>
+      <RouteForm onSubmit={onSubmit} defaultData={data} />
     </Page>
   );
 };

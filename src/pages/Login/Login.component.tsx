@@ -1,3 +1,4 @@
+import { yupResolver } from "@hookform/resolvers";
 import React, { useCallback, useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -24,7 +25,7 @@ const Login: React.FC = () => {
   const { refetch: fetchUser } = useContext(UserContext);
 
   const { register, handleSubmit, errors, setError } = useForm<FormData>({
-    validationSchema: validationSchema,
+    resolver: yupResolver(validationSchema),
   });
 
   const [mutate] = useMutation(getTokenRequest, {
@@ -36,8 +37,8 @@ const Login: React.FC = () => {
       history.push("/");
     },
     onError: () => {
-      setError("email", "incorrectData", "");
-      setError("password", "incorrectData", "");
+      setError("email", { type: "incorrectData", message: "" });
+      setError("password", { type: "incorrectData", message: "" });
       setLoginError(true);
     },
   });

@@ -1,3 +1,4 @@
+import { yupResolver } from "@hookform/resolvers";
 import { useSnackbar } from "notistack";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -23,9 +24,9 @@ const PasswordChangePage: React.FC = () => {
     errors,
     setValue,
     setError,
-    clearError,
+    clearErrors,
   } = useForm<FormData>({
-    validationSchema,
+    resolver: yupResolver(validationSchema),
   });
 
   async function handleError(error: any) {
@@ -70,7 +71,7 @@ const PasswordChangePage: React.FC = () => {
         handleSubmit={handleSubmit}
         setValue={setValue}
         setError={setError}
-        clearError={clearError}
+        clearError={clearErrors}
         onSubmit={onSubmit}
       />
     </Page>

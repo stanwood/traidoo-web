@@ -1,3 +1,4 @@
+import { yupResolver } from "@hookform/resolvers";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import requiredDocuments from "../../../core/utils/requiredDocuments";
@@ -22,7 +23,7 @@ const RegistrationDocuments = ({
     setValue,
   } = useForm<DocumentsFormData>({
     defaultValues: data,
-    validationSchema: validationSchema,
+    resolver: yupResolver(validationSchema),
   });
 
   const onSubmit = (formData: DocumentsFormData) => {
@@ -57,7 +58,7 @@ const RegistrationDocuments = ({
     if (apiErrors) {
       Object.entries(apiErrors).forEach(
         ([field, errorMessage]: [string, any]) => {
-          setError(field, "incorrectData", errorMessage);
+          setError(field, { type: "incorrectData", message: errorMessage });
         }
       );
     }

@@ -40,6 +40,8 @@ const ProductAddPage: React.FC = () => {
 
   const onSubmit = useCallback(
     (formData: ProductFormData) => {
+      // eslint-disable-next-line
+      // @ts-ignore
       addProduct(convertFormDataToProduct(formData)).then((product: Product) =>
         history.push(`/seller/products/${product.id}`)
       );

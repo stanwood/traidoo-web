@@ -1,3 +1,4 @@
+import { yupResolver } from "@hookform/resolvers";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { useSnackbar } from "notistack";
 import React, { useContext, useEffect, useState } from "react";
@@ -47,11 +48,13 @@ const CompanyProfile: React.FC = () => {
     errors,
     setValue,
     setError,
-    clearError,
+    clearErrors,
     reset,
     getValues,
   } = useForm<CompanyData>({
-    validationSchema: isSeller ? sellerValidationShema : buyerValidationSchema,
+    resolver: yupResolver(
+      isSeller ? sellerValidationShema : buyerValidationSchema
+    ),
   });
 
   useEffect(() => {
@@ -120,7 +123,7 @@ const CompanyProfile: React.FC = () => {
           handleSubmit={handleSubmit}
           setValue={setValue}
           setError={setError}
-          clearError={clearError}
+          clearError={clearErrors}
           onSubmit={onSubmit}
           getValues={getValues}
           onCancel={reset}

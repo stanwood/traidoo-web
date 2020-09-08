@@ -28,6 +28,8 @@ const Product: React.FC = () => {
       {!data || status === "loading" ? (
         Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
       ) : (
+        // eslint-disable-next-line
+        // @ts-ignore
         <ProductDetails product={data} error={error} />
       )}
     </Page>

@@ -11,7 +11,7 @@ const schema = yup.object().shape({
     ),
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref("password"), null], i18n.t("passwordsMustMatch")),
+    .oneOf([yup.ref("password"), undefined], i18n.t("passwordsMustMatch")),
 });
 
 export default schema;

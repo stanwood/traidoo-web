@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 import { useQuery } from "react-query";
-import { getAccessToken } from "../../api/jwt";
+import { getAccessToken, getRefreshToken } from "../../api/jwt";
 import { getCurrentUserRequest } from "../../api/queries/users/user";
 import { UserContext } from "./context";
 import { UserProviderProps, UserState } from "./interfaces";
@@ -33,7 +33,7 @@ const UserProvider = (props: UserProviderProps): ReactElement => {
   );
 
   useEffect(() => {
-    if (getAccessToken()) {
+    if (getAccessToken() || getRefreshToken()) {
       refetch();
     }
   }, [refetch]);

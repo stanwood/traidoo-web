@@ -39,8 +39,8 @@ const Image: React.FC<ImageProps> = (props: ImageProps) => {
         <Grid item xs={12} sm={6}>
           <img
             src={image || productImage}
-            alt="product image"
             className={classes.imagePreview}
+            alt="preview"
           />
         </Grid>
         <Grid item xs={12} sm={6}>

@@ -1,23 +1,19 @@
 import Grid from "@material-ui/core/Grid";
 import Skeleton from "@material-ui/lab/Skeleton";
-import { format } from "date-fns";
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { getProductRequest } from "../../api/queries/products";
 import {
-  addProductItemsRequest,
   deleteProductItemsRequest,
   getProductItemsRequest,
 } from "../../api/queries/products/items";
 import Page from "../../components/Common/Page";
 import ProductDetail from "../../components/Product";
 import ProductItems from "../../components/ProductItems";
+import AddProductItemsProvider from "../../contexts/AddProductItemsContext";
 import useSellerProductDetailsPageStyles from "./styles";
-import { ProductItemFormData } from "./types";
-import validationSchema from "./validation";
 
 const SellerProductDetailsPage: React.FC = () => {
   const { t } = useTranslation();
@@ -37,65 +33,10 @@ const SellerProductDetailsPage: React.FC = () => {
     refetch: refetchProductItems,
   } = useQuery(["/items", Number(id)], getProductItemsRequest);
 
-  const [addItem] = useMutation(addProductItemsRequest);
   const [deleteItem] = useMutation(deleteProductItemsRequest, {
     onSuccess: () => {
       refetchProductItems();
     },
-  });
-
-  const [openDialog, setOpenDialog] = useState(false);
-
-  const handleDialogOpen = () => {
-    setOpenDialog(true);
-  };
-
-  const handleDialogClose = () => {
-    setOpenDialog(false);
-  };
-
-  const handleError = async (error: any) => {
-    const errorResponse = await error.response.json();
-
-    if (errorResponse?.nonFieldErrors[0].code === "unique") {
-      setError(
-        "latestDeliveryDate",
-        "incorrectData",
-        t("productItemExistError")
-      );
-    }
-  };
-
-  const onSubmit = (formData: ProductItemFormData) => {
-    // @ts-ignore
-    formData.latestDeliveryDate = format(
-      // @ts-ignore
-      formData.latestDeliveryDate,
-      "yyyy-MM-dd"
-    );
-
-    addItem(
-      // @ts-ignore
-      { productId: Number(id), ...formData },
-      {
-        onSuccess: () => {
-          refetchProductItems();
-          setOpenDialog(false);
-        },
-        onError: (err: any) => handleError(err),
-      }
-    );
-  };
-
-  const {
-    register,
-    handleSubmit,
-    errors,
-    setValue,
-    clearError,
-    setError,
-  } = useForm<ProductItemFormData>({
-    validationSchema,
   });
 
   return (
@@ -110,24 +51,21 @@ const SellerProductDetailsPage: React.FC = () => {
           <Grid item xs={12} lg={9}>
             <ProductDetail
               product={product}
+              // eslint-disable-next-line
+              // @ts-ignore
               error={productError}
               showEditButton={true}
             />
           </Grid>
           <Grid item xs={12} lg={3}>
-            <ProductItems
-              items={productItems}
-              onDelete={deleteItem}
-              register={register}
-              errors={errors}
-              setValue={setValue}
-              clearError={clearError}
-              handleSubmit={handleSubmit}
-              onSubmit={onSubmit}
-              openDialog={openDialog}
-              handleDialogOpen={handleDialogOpen}
-              handleDialogClose={handleDialogClose}
-            />
+            <AddProductItemsProvider>
+              <ProductItems
+                productId={Number(id)}
+                items={productItems}
+                onDelete={deleteItem}
+                refreshItems={refetchProductItems}
+              />
+            </AddProductItemsProvider>
           </Grid>
         </Grid>
       )}

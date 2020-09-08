@@ -20,12 +20,3 @@ export const useProductItemsStyles = makeStyles((theme) => ({
     whiteSpace: "nowrap",
   },
 }));
-
-export const useAddItemDialogStyles = makeStyles((theme) => ({
-  content: {
-    overflowY: "hidden",
-  },
-  actions: {
-    backgroundColor: theme.palette.background.default,
-  },
-}));

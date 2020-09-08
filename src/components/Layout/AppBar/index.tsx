@@ -121,7 +121,8 @@ const TraidooAppBar: React.FC<TraidooAppBarProps> = (
 
   const keyPressed = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === "Enter") {
-      history.push(`/products?search=${event.target.value}`);
+      const target = event.target as HTMLInputElement;
+      history.push(`/products?search=${target.value}`);
       event.stopPropagation();
       event.preventDefault();
     }

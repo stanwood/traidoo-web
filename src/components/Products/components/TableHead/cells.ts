@@ -38,7 +38,7 @@ const itemsAvailable: TableHeadCell = {
   label: i18n.t("availableItems"),
   sortable: true,
   hiddenForAnonymous: true,
-  hideOnMobile: false,
+  hideOnMobile: true,
 };
 
 const price: TableHeadCell = {
@@ -48,7 +48,7 @@ const price: TableHeadCell = {
   label: i18n.t("price"),
   sortable: true,
   hiddenForAnonymous: true,
-  hideOnMobile: true,
+  hideOnMobile: false,
 };
 
 const category: TableHeadCell = {

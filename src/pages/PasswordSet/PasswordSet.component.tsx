@@ -1,3 +1,4 @@
+import { yupResolver } from "@hookform/resolvers";
 import { Button, Container } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import React, { useState } from "react";
@@ -15,7 +16,7 @@ const PasswordSet: React.FC = () => {
   const pageTitle = t("setPassword");
 
   const { register, handleSubmit, errors, setError } = useForm<FormData>({
-    validationSchema: validationSchema,
+    resolver: yupResolver(validationSchema),
   });
 
   const { uid, token } = useParams();
@@ -33,11 +34,14 @@ const PasswordSet: React.FC = () => {
     } catch (error) {
       const errorBody = await error.response.json();
       if (errorBody.token) {
-        setError("password", "token", t("tokenNotValid"));
+        setError("password", { type: "token", message: t("tokenNotValid") });
       } else if (errorBody.newPassword) {
-        setError("password", "incorrectData", t("incorrectPasswordFormat"));
+        setError("password", {
+          type: "incorrectData",
+          message: t("incorrectPasswordFormat"),
+        });
       } else {
-        setError("password", "unknown", t("unknownError"));
+        setError("password", { type: "unknown", message: t("unknownError") });
       }
     } finally {
       setPending(false);

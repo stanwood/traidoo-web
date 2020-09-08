@@ -1,3 +1,4 @@
+import { yupResolver } from "@hookform/resolvers";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -18,7 +19,7 @@ const DeliveryAddress: React.FC = () => {
   const { register, handleSubmit, errors, setError } = useForm<
     DeliveryAddressData
   >({
-    validationSchema,
+    resolver: yupResolver(validationSchema),
   });
 
   async function handleError(error: any) {

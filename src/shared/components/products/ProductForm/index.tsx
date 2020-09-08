@@ -1,3 +1,4 @@
+import { yupResolver } from "@hookform/resolvers";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import React from "react";
@@ -48,10 +49,16 @@ const ProductForm: React.FC<ProductFormProps> = (props: ProductFormProps) => {
   const defaultValues: ProductFormData = {
     name: product ? product.name : "",
     description: product ? product.description : "",
+    // eslint-disable-next-line
+    // @ts-ignore
     image: undefined,
+    // eslint-disable-next-line
+    // @ts-ignore
     price: product ? product.price : 0,
     unit: product ? product.unit : "kg",
     amount: product ? product.amount : 0,
+    // eslint-disable-next-line
+    // @ts-ignore
     vat: product ? product.vat : globalSettings?.productVat[0],
     isOrganic: product ? product?.isOrganic : false,
     isGrazingAnimal: product ? product?.isGrazingAnimal : false,
@@ -71,9 +78,9 @@ const ProductForm: React.FC<ProductFormProps> = (props: ProductFormProps) => {
   };
 
   const form = useForm<ProductFormData>({
-    validationSchema: product
-      ? editProductSchemaValidator
-      : addProductSchemaValidator,
+    resolver: yupResolver(
+      product ? editProductSchemaValidator : addProductSchemaValidator
+    ),
     defaultValues,
   });
 

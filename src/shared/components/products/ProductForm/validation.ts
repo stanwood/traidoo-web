@@ -7,6 +7,8 @@ import Region from "../../../../core/types/region";
 import i18n from "../../../../i18n";
 import { ProductFormData } from "./types";
 
+// eslint-disable-next-line
+// @ts-ignore
 const addProductSchemaValidator: yup.ObjectSchema<ProductFormData> = yup
   .object({
     // General
@@ -40,7 +42,7 @@ const addProductSchemaValidator: yup.ObjectSchema<ProductFormData> = yup
     container: yup.mixed<Container>().required(i18n.t("containerTypeRequired")),
     deliveryCharge: yup.mixed().when("deliveryOptions", {
       is: (value) => {
-        return value && value.find((v) => v.id === 1);
+        return value && value.find((v: any) => v.id === 1);
       },
       then: yup
         .number()
@@ -59,6 +61,7 @@ const addProductSchemaValidator: yup.ObjectSchema<ProductFormData> = yup
     tags: yup.array<Tag>().notRequired(),
     ean8: yup.string().notRequired().nullable(),
     ean13: yup.string().notRequired().nullable(),
+    thirdPartyDelivery: yup.boolean().notRequired(),
   })
   .defined();
 

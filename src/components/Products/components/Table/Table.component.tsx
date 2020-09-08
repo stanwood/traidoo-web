@@ -26,6 +26,7 @@ import LazyLoad from "react-lazyload";
 import { Link as RouterLink } from "react-router-dom";
 import { CartContext } from "../../../../contexts/CartContext/context";
 import { UserContext } from "../../../../contexts/UserContext/context";
+import AvilableItems from "../../availableItems";
 import TablePaginationActions from "../Pagination/Pagination.component";
 import TableHead from "../TableHead";
 import TableToolbar from "../TableToolbar";
@@ -229,7 +230,12 @@ const ProductsList: React.FC<ProductsListProps> = ({
                         {row.category.name}
                       </Link>
                     )}
-                    {sellerView && row.itemsAvailable}
+                    {sellerView && (
+                      <AvilableItems
+                        productId={row.id}
+                        itemsNumber={row.itemsAvailable}
+                      />
+                    )}
                   </TableCell>
                   <TableCell align="right">{row.region.name}</TableCell>
                 </Hidden>

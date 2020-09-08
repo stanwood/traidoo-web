@@ -1,3 +1,4 @@
+import { yupResolver } from "@hookform/resolvers";
 import { Container } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import React, { useState } from "react";
@@ -14,7 +15,7 @@ const PasswordReset: React.FC = () => {
   const pageTitle = t("passwordReset");
 
   const { register, handleSubmit, errors, setError } = useForm<FormData>({
-    validationSchema: validationSchema,
+    resolver: yupResolver(validationSchema),
   });
 
   const [pending, setPending] = useState<boolean>(false);
@@ -26,7 +27,7 @@ const PasswordReset: React.FC = () => {
       await passwordResetRequest(formData.email);
       setRequestSent(true);
     } catch (error) {
-      setError("email", "incorrectData", t("unknownError"));
+      setError("email", { type: "incorrectData", message: t("unknownError") });
     } finally {
       setPending(false);
     }

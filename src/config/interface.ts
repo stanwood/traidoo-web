@@ -1,4 +1,4 @@
-export default interface Configuration {
+interface Configuration {
   debug: boolean;
   environment: string;
   clientId: string;
@@ -12,3 +12,5 @@ export default interface Configuration {
     routes: boolean;
   };
 }
+
+export default Configuration;
