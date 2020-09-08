@@ -39,20 +39,18 @@ export const GlobalErrorFallback: React.FC<FallbackProps> = (
           severity="error"
           action={
             <Button color="inherit" size="small" onClick={resetErrorBoundary}>
-              {t("try again")}
+              {t("tryAgain")}
             </Button>
           }
         >
-          {t("It looks like we're having issues.")}
+          {t("errorMessageTitle")}
         </Alert>
 
         <Typography className={classes.block}>
-          Our team has been notified and we will try to fix this issue as soon
-          as possible. If you'd like to report this issue, please provide the
-          error ID given below.
+          {t("errorMessageBody")}
         </Typography>
         <Typography className={classes.block}>
-          Error ID: {lastEventId}
+          {t("errorId")}: {lastEventId}
         </Typography>
       </Grid>
     </Container>
