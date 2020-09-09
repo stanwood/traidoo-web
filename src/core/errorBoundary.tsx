@@ -27,8 +27,8 @@ export const GlobalErrorFallback: React.FC<FallbackProps> = (
   props: FallbackProps
 ) => {
   const { t } = useTranslation();
-  const lastEventId = Sentry.getCurrentHub().lastEventId();
-  const { resetErrorBoundary } = props;
+  const { resetErrorBoundary, error } = props;
+  const lastEventId = Sentry.captureException(error);
   const classes = useGlobalErrorFallbackStyles();
 
   return (
