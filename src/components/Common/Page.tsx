@@ -3,6 +3,7 @@ import clsx from "clsx";
 import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { Helmet } from "react-helmet";
+import Config from "../../config";
 import { GlobalErrorFallback } from "../../core/errorBoundary";
 import usePageStyles from "./styles";
 
@@ -19,7 +20,10 @@ const Page: React.FC<PageProps> = (props: PageProps) => {
   return (
     <ErrorBoundary FallbackComponent={GlobalErrorFallback}>
       <Box className={clsx(classes.root, padding && classes.padding)}>
-        <Helmet>
+        <Helmet
+          titleTemplate={`${Config.clientName} - %s`}
+          defaultTitle={Config.clientName}
+        >
           <title>{title}</title>
         </Helmet>
         {children}
