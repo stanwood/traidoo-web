@@ -12618,10 +12618,12 @@ react-lazyload@^3.0.0:
   resolved "https://registry.yarnpkg.com/react-lazyload/-/react-lazyload-3.0.0.tgz#f9741daa823d95ddb4dd59527ca6b8845d1b4c3e"
   integrity sha512-wYR9iroanIUELPQ7YtgeHjl7KburmA1WxB2GurjAOs31B6IehxxvHEp/74pIaWJLv+o/ug952WoWqjFpDzl5Ig==
 
-react-query@^2.13.1:
-  version "2.13.1"
-  resolved "https://registry.yarnpkg.com/react-query/-/react-query-2.13.1.tgz#1232dadcfded18d7bd886f421a4a4662f0992830"
-  integrity sha512-PosCQJ3ENaT6+vVaN79rGtpZ0BOeaREQuM/iiuNMQi+XWQVWMJBmDiZin4yk046CjbSTQy6lm7kS8QI5XiuivA==
+react-query@^2.17.2:
+  version "2.17.2"
+  resolved "https://registry.yarnpkg.com/react-query/-/react-query-2.17.2.tgz#d9fd7299eb7bef388ffe8c314c5fa84928ca7af0"
+  integrity sha512-VB3SU9rJQkumEJQF3z0ZzPGdxPz6WEs0Q5CB4gEk/jUp3u3vWd7di6LJJ7gD0uAZs+yiooXbtKNTGnLg9NPrew==
+  dependencies:
+    "@babel/runtime" "^7.5.5"
 
 react-router-dom@^5.2.0:
   version "5.2.0"
