@@ -32,3 +32,10 @@ yarn-error.log*
 
 # firebase
 .firebaserc
+
+# favicons
+
+public/android-chrome*
+public/favico*
+public/manifest.json
+public/yandex*
