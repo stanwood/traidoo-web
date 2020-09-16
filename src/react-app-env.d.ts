@@ -12,5 +12,6 @@ declare namespace NodeJS {
     REACT_APP_GOOGLE_MAPS_API_KEY: string;
     REACT_APP_SENTRY_DSN: string;
     REACT_APP_FEATURE_ROUTES: boolean;
+    REACT_APP_GTM_ID: string;
   }
 }
