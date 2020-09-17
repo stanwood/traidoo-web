@@ -6,9 +6,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { ErrorBoundary } from "react-error-boundary";
 import { ReactQueryConfigProvider } from "react-query";
+import { Router } from "react-router-dom";
 import App from "./App";
 import Config from "./config";
 import { GlobalErrorFallback } from "./core/errorBoundary";
+import history from "./core/history";
 import ReactQueryConfig from "./core/reactQueryConfig";
 import "./i18n";
 import * as serviceWorker from "./serviceWorker";
@@ -39,7 +41,9 @@ ReactDOM.render(
       <GlobalCss />
       <CssBaseline />
       <ReactQueryConfigProvider config={ReactQueryConfig}>
-        <App />
+        <Router history={history}>
+          <App />
+        </Router>
       </ReactQueryConfigProvider>
     </ThemeProvider>
   </ErrorBoundary>,
