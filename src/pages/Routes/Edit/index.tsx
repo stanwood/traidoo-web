@@ -17,13 +17,16 @@ const EditRoutePage: React.FC = () => {
   const history = useHistory();
   const { t } = useTranslation();
 
-  const { pageTitle } = t("editRoute");
+  const pageTitle = t("editRoute");
 
   const { id } = useParams<{ id: string }>();
   const routeId = Number(id);
 
   const [edit] = useMutation(editRouteRequest, {
-    onSuccess: () => queryCache.invalidateQueries(["route", routeId]),
+    onSuccess: async () => {
+      await queryCache.invalidateQueries(["route", routeId]);
+      return;
+    },
   });
 
   const { data, status } = useQuery(["route", routeId], getRouteRequest, {

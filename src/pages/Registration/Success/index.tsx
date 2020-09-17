@@ -6,7 +6,7 @@ import Page from "../../../components/Common/Page";
 
 const RegistrationSuccessPage: React.FC = () => {
   const { t } = useTranslation();
-  const { pageTitle } = t("Registration");
+  const pageTitle = t("Registration");
 
   return (
     <Page title={pageTitle}>
