@@ -9,6 +9,7 @@ interface Configuration {
   googleMapsApiKey: string;
   sentryDSN: string;
   gtmID: string;
+  gaTrackingID: string;
   features: {
     routes: boolean;
   };
