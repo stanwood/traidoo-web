@@ -21,7 +21,7 @@ const Products: React.FC = () => {
   const { user } = useContext(UserContext);
 
   const { t } = useTranslation();
-  const { pageTitle } = t("products");
+  const pageTitle = t("products");
 
   const [query, setQuery] = useQueryParams({
     limit: NumberParam,

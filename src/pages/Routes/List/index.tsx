@@ -16,7 +16,7 @@ const RoutesListPage: React.FC = () => {
   const history = useHistory();
 
   const { t } = useTranslation();
-  const { pageTitle } = t("routesList");
+  const pageTitle = t("routesList");
 
   const [query, setQuery] = useQueryParams({
     page: withDefault(NumberParam, 0),

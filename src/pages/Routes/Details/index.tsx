@@ -31,7 +31,7 @@ const RouteDetailsPage: React.FC = () => {
   const { id: routeId } = useParams<{ id: string }>();
 
   const { t } = useTranslation();
-  const { pageTitle } = t("routeDetails");
+  const pageTitle = t("routeDetails");
 
   const { data, status } = useQuery(
     ["route", Number(routeId)],
@@ -39,8 +39,12 @@ const RouteDetailsPage: React.FC = () => {
   );
 
   const [routeDelete] = useMutation(deleteRouteRequest, {
-    onSuccess: () =>
-      queryCache.invalidateQueries((query) => query.queryKey[0] === "routes"),
+    onSuccess: async () => {
+      await queryCache.invalidateQueries(
+        (query) => query.queryKey[0] === "routes"
+      );
+      return;
+    },
   });
 
   const deleteRoute = useCallback(async () => {

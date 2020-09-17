@@ -20,7 +20,7 @@ const AddRoutePage: React.FC = () => {
   const history = useHistory();
 
   const { t } = useTranslation();
-  const { pageTitle } = t("addRoute");
+  const pageTitle = t("addRoute");
 
   const [create] = useMutation(createRouteRequest);
 
