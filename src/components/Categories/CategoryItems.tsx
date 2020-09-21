@@ -50,7 +50,7 @@ const CategoryItems: React.FC<CategoryItemsProps> = (
         className={classes.labelIcon}
         alt={item.name}
       />
-      <Typography variant="body2" className={classes.labelText}>
+      <Typography variant="h6" className={classes.labelText}>
         {item.name}
       </Typography>
     </Box>

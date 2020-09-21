@@ -1,5 +1,5 @@
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import ArrowRightIcon from "@material-ui/icons/ArrowRight";
+import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import Skeleton from "@material-ui/lab/Skeleton";
 import TreeView from "@material-ui/lab/TreeView";
 import React, { useContext, useEffect } from "react";
@@ -46,8 +46,8 @@ const Categories: React.FC = () => {
   return (
     <TreeView
       className={classes.root}
-      defaultCollapseIcon={<ArrowDropDownIcon />}
-      defaultExpandIcon={<ArrowRightIcon />}
+      defaultCollapseIcon={<ArrowDropUpIcon />}
+      defaultExpandIcon={<ArrowDropDownIcon />}
       defaultEndIcon={<div style={{ width: 24 }} />}
       expanded={expanded}
       onNodeToggle={handleChange}
