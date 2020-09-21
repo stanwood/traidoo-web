@@ -5,10 +5,37 @@ let theme = createMuiTheme({
   palette: {
     primary: {
       main: Config.themePalettePrimaryColor,
+      light: '#ff0000',
+      dark: '#00ff00',
+      contrastText: '#ffffff'
     },
     secondary: {
       main: Config.themePaletteSecondaryColor,
+      light: '#0066ff',
+      contrastText: '#ffcc00',
     },
+    text: {
+      primary: '#5e5e5e'
+    }
+  },
+  typography: {
+    fontFamily: [
+      'OpenSans',
+      '-apple-system',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif'
+    ].join(','),
+    fontSize: 12,
+    h5: {
+      fontWeight: 800
+    },
+    h6: {
+      fontWeight: 600,
+      fontSize: 14
+    }
   },
   breakpoints: {
     values: {
