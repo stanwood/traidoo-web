@@ -55,6 +55,7 @@ const useAppBarStyles = makeStyles((theme: Theme) =>
         marginLeft: theme.spacing(1),
         width: "auto",
       },
+      color: theme.palette.common.white
     },
     searchIcon: {
       padding: theme.spacing(0, 2),
@@ -141,8 +142,8 @@ const TraidooAppBar: React.FC<TraidooAppBarProps> = (
         {backButton && <BackButton styleName={classes.menuButton} />}
 
         <Typography
-          color="textPrimary"
-          variant="h6"
+          color="inherit"
+          variant="h5"
           noWrap
           className={classes.title}
           component={Link}
