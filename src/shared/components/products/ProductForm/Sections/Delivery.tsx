@@ -90,47 +90,35 @@ const Delivery: React.FC<DeliveryProps> = (props: DeliveryProps) => {
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
           <Controller
-            control={control}
-            name="container"
-            onChange={useCallback(([, data]) => data, [])}
-            as={
+            render={(props) => (
               <Autocomplete
+                {...props}
                 fullWidth
+                getOptionLabel={(option) =>
+                  typeof option === "string" ? option : option.sizeClass
+                }
                 options={containers}
                 classes={autoCompleteClasses}
-                getOptionLabel={useCallback(
-                  (container) => container.sizeClass,
-                  []
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label={t("containerType")}
+                    variant="outlined"
+                    required
+                    inputProps={inputProps(params)}
+                    error={errors.containerTypeId ? true : false}
+                    helperText={
+                      errors.containerTypeId
+                        ? errors.containerTypeId.message
+                        : ""
+                    }
+                  />
                 )}
-                renderOption={useCallback(
-                  (option) => (
-                    <React.Fragment>
-                      <img src={option.image} alt="" />
-                      {option.sizeClass}
-                    </React.Fragment>
-                  ),
-                  []
-                )}
-                renderInput={useCallback(
-                  (params: AutocompleteRenderInputParams) => (
-                    <TextField
-                      {...params}
-                      label={t("containerType")}
-                      variant="outlined"
-                      required
-                      inputProps={inputProps(params)}
-                      error={errors.containerTypeId ? true : false}
-                      helperText={
-                        errors.containerTypeId
-                          ? errors.containerTypeId.message
-                          : ""
-                      }
-                    />
-                  ),
-                  [t, errors.containerTypeId, inputProps]
-                )}
+                onChange={(_, data) => props.onChange(data)}
               />
-            }
+            )}
+            name="container"
+            control={control}
           />
         </Grid>
         <Grid item xs={12} sm={6}>

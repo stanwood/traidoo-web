@@ -52,37 +52,32 @@ const Internal: React.FC<InternalProps> = (props: InternalProps) => {
 
         <Grid item xs={12} sm={6}>
           <Controller
-            name="tags"
-            control={control}
-            onChange={useCallback(([, data]) => data, [])}
-            as={
+            render={(props) => (
               <Autocomplete
+                {...props}
                 fullWidth
                 multiple
+                autoHighlight
+                getOptionLabel={(option) => option.name}
+                getOptionSelected={(option, value) => option.id === value.id}
                 options={tags}
                 classes={autoCompleteClasses}
-                // defaultValue={categories[0]}
-                autoHighlight
-                getOptionLabel={useCallback((tag) => tag.name, [])}
-                getOptionSelected={useCallback(
-                  (option, value) => option.id === value.id,
-                  []
+                renderInput={(params: AutocompleteRenderInputParams) => (
+                  <TextField
+                    {...params}
+                    label={t("searchTerms")}
+                    variant="outlined"
+                    required
+                    inputProps={inputProps(params)}
+                    error={errors.tags ? true : false}
+                    helperText={errors.tags ? errors.tags.message : ""}
+                  />
                 )}
-                renderInput={useCallback(
-                  (params: AutocompleteRenderInputParams) => (
-                    <TextField
-                      {...params}
-                      label={t("searchTerms")}
-                      variant="outlined"
-                      inputProps={inputProps(params)}
-                      error={errors.tags ? true : false}
-                      helperText={errors.tags ? errors.tags.message : ""}
-                    />
-                  ),
-                  [t, errors.tags, inputProps]
-                )}
+                onChange={(_, data) => props.onChange(data)}
               />
-            }
+            )}
+            name="tags"
+            control={control}
           />
         </Grid>
 
