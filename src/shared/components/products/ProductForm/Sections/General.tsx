@@ -48,36 +48,30 @@ const General: React.FC<GeneralProps> = (props: GeneralProps) => {
 
         <Grid item xs={12} sm={6}>
           <Controller
-            name="category"
-            control={control}
-            onChange={useCallback(([, data]) => data, [])}
-            as={
+            render={(props) => (
               <Autocomplete
-                fullWidth
+                {...props}
+                getOptionLabel={(option) =>
+                  typeof option === "string" ? option : option.name
+                }
                 options={categories}
                 classes={autoCompleteClasses}
-                getOptionLabel={useCallback(
-                  (category: Category) => category.name,
-                  []
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label={t("category")}
+                    variant="outlined"
+                    required
+                    inputProps={inputProps(params)}
+                    error={errors.category ? true : false}
+                    helperText={errors.category ? errors.category.message : ""}
+                  />
                 )}
-                renderInput={useCallback(
-                  (params: AutocompleteRenderInputParams) => (
-                    <TextField
-                      {...params}
-                      label={t("category")}
-                      variant="outlined"
-                      required
-                      inputProps={inputProps(params)}
-                      error={errors.category ? true : false}
-                      helperText={
-                        errors.category ? errors.category.message : ""
-                      }
-                    />
-                  ),
-                  [t, errors.category, inputProps]
-                )}
+                onChange={(_, data) => props.onChange(data)}
               />
-            }
+            )}
+            name="category"
+            control={control}
           />
         </Grid>
 
