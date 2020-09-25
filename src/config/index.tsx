@@ -11,8 +11,7 @@ const Config: Configuration = {
   apiEndpoint: process.env.REACT_APP_API_ENDPOINT,
   googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
   sentryDSN: process.env.REACT_APP_SENTRY_DSN,
-  gtmID: process.env.REACT_APP_GTM_ID,
-  gaTrackingID: process.env.REACT_APP_GTM_ID,
+  gaTrackingID: process.env.REACT_APP_GA_TRACKING_ID,
   features: {
     routes: process.env.REACT_APP_FEATURE_ROUTES,
   },

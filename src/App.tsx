@@ -1,13 +1,11 @@
 import { SnackbarProvider } from "notistack";
 import React from "react";
-import TagManager from "react-gtm-module";
 import { Route, Switch } from "react-router-dom";
 import {
   ExtendedStringifyOptions,
   QueryParamProvider,
   transformSearchStringJsonSafe,
 } from "use-query-params";
-import Config from "./config";
 import CartProvider from "./contexts/CartContext";
 import CategoriesProvider from "./contexts/CategoryContext";
 import DrawerProvider from "./contexts/DrawerContext";
@@ -19,12 +17,6 @@ import { privateRoutes, publicRoutes } from "./routes";
 const queryStringifyOptions: ExtendedStringifyOptions = {
   transformSearchString: transformSearchStringJsonSafe,
 };
-
-const tagManagerArgs = {
-  gtmId: Config.gtmID,
-};
-
-TagManager.initialize(tagManagerArgs);
 
 const App: React.FC = () => {
   usePageTracking();
