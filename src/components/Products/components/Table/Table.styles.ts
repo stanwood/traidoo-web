@@ -45,6 +45,12 @@ const useStyles = makeStyles((theme: Theme) =>
     removeIcon: {
       color: theme.palette.error.main,
     },
+    alternatingRow: {
+        background: "#fafafa"
+    },
+    cell: {
+        padding: 0
+    }
   })
 );
 

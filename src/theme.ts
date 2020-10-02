@@ -32,7 +32,7 @@ let theme = createMuiTheme({
     ].join(','),
     fontSize: 14,
     h5: {
-      fontWeight: 800
+      fontWeight: 600
     },
     h6: {
       fontWeight: 600,
