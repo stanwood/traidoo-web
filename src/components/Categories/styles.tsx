@@ -16,7 +16,7 @@ export const useCategoriesTreeItemStyles = makeStyles((theme: Theme) =>
       color: theme.palette.text.secondary,
     },
     content: {
-      color: theme.palette.text.secondary,
+      color: theme.palette.text.primary,
       fontWeight: theme.typography.fontWeightMedium,
       "$expanded > &": {
         fontWeight: theme.typography.fontWeightRegular,
