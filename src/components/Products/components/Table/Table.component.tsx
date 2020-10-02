@@ -32,6 +32,7 @@ import TableHead from "../TableHead";
 import TableToolbar from "../TableToolbar";
 import ProductsListProps from "./interfaces";
 import useStyles from "./Table.styles";
+import index from "../../../../pages/Routes/Map";
 
 const ProductsList: React.FC<ProductsListProps> = ({
   products,
@@ -164,9 +165,16 @@ const ProductsList: React.FC<ProductsListProps> = ({
             sellerView={sellerView}
           />
           <TableBody>
-            {products?.results.map((row) => (
-              <TableRow key={row.id}>
-                <TableCell component="th" scope="row">
+            {products?.results.map((row, index) => (
+              <TableRow
+                  key={row.id}
+                  className={ index % 2 ? classes.alternatingRow:"" }
+              >
+                <TableCell
+                    component="th"
+                    scope="row"
+                    className={classes.cell}
+                >
                   <LazyLoad>
                     <Img
                       src={row.image}
