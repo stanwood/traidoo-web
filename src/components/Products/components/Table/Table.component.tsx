@@ -189,7 +189,7 @@ const ProductsList: React.FC<ProductsListProps> = ({
                         : `/products/${row.id}`
                     }
                     color="textPrimary"
-                    className={classes.link}
+                    className={classes.mainLink}
                     data-testid="product-link"
                   >
                     {row.name}
@@ -201,7 +201,7 @@ const ProductsList: React.FC<ProductsListProps> = ({
                       <Link
                         component={RouterLink}
                         to={`/seller/products?category=${row.category.id}`}
-                        color="textPrimary"
+                        color="textSecondary"
                         className={classes.link}
                       >
                         {row.category.name}
@@ -211,7 +211,7 @@ const ProductsList: React.FC<ProductsListProps> = ({
                       <Link
                         component={RouterLink}
                         to={`/sellers/${row.seller.id}`}
-                        color="textPrimary"
+                        color="textSecondary"
                         className={classes.link}
                       >
                         {row.seller.firstName} {row.seller.lastName},{" "}
@@ -224,7 +224,7 @@ const ProductsList: React.FC<ProductsListProps> = ({
                       <Link
                         component={RouterLink}
                         to={`/products?category=${row.category.id}`}
-                        color="textPrimary"
+                        color="textSecondary"
                         className={classes.link}
                       >
                         {row.category.name}

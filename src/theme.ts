@@ -12,10 +12,12 @@ let theme = createMuiTheme({
     secondary: {
       main: Config.themePaletteSecondaryColor,
       light: '#0066ff',
+      dark: '#ff0000',
       contrastText: '#ffcc00',
     },
     text: {
-      primary: '#5e5e5e'
+      primary: '#5e5e5e',
+      secondary: '#9a9a9a'
     }
   },
   typography: {
@@ -28,7 +30,7 @@ let theme = createMuiTheme({
       'Arial',
       'sans-serif'
     ].join(','),
-    fontSize: 12,
+    fontSize: 14,
     h5: {
       fontWeight: 800
     },

@@ -31,6 +31,12 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "100%",
       marginBottom: theme.spacing(2),
     },
+    mainLink: {
+        fontWeight: 800,
+        "&:hover": {
+          color: theme.palette.primary.main,
+        }
+    },
     link: {
       "&:hover": {
         color: theme.palette.primary.main,
