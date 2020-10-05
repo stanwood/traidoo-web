@@ -14,6 +14,8 @@ import startOfTomorrow from "date-fns/startOfTomorrow";
 import React, { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import localeMap from "../../core/localeMap";
+import i18n from "../../i18n";
 import { AddProductItemsContext } from "./context";
 import { ProductItemFormData } from "./interfaces";
 import addProductItemsValidationSchema from "./validation";
@@ -125,7 +127,10 @@ const AddItemDialog: React.FC<AddItemDialogProps> = (
               />
             </Grid>
             <Grid item xs={12}>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <MuiPickersUtilsProvider
+                utils={DateFnsUtils}
+                locale={localeMap[i18n.language]}
+              >
                 <DatePicker
                   disablePast={true}
                   minDate={startOfTomorrow()}

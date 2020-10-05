@@ -8,7 +8,9 @@ import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import localeMap from "../../../core/localeMap";
 import countries from "../../../data/Countries/de.json";
+import i18n from "../../../i18n";
 import useStyles from "./RegistrationPersonalForm.styles";
 
 const RegistrationPersonalForm = ({
@@ -127,7 +129,10 @@ const RegistrationPersonalForm = ({
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <MuiPickersUtilsProvider
+              utils={DateFnsUtils}
+              locale={localeMap[i18n.language]}
+            >
               <DatePicker
                 disableFuture={true}
                 autoOk={true}

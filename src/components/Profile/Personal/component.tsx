@@ -9,7 +9,9 @@ import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import localeMap from "../../../core/localeMap";
 import countries from "../../../data/Countries/de.json";
+import i18n from "../../../i18n";
 import { required } from "../../../utils/errors";
 import useStyles from "./styles";
 
@@ -160,7 +162,10 @@ const PersonalProfileForm = ({
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <MuiPickersUtilsProvider
+                utils={DateFnsUtils}
+                locale={localeMap[i18n.language]}
+              >
                 <DatePicker
                   disableFuture={true}
                   autoOk={true}
