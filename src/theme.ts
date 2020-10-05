@@ -41,6 +41,10 @@ let theme = createMuiTheme({
     h6: {
       fontWeight: 600,
       fontSize: 14
+    },
+    subtitle2: {
+      fontSize: 10,
+      fontWeight: 600
     }
   },
   breakpoints: {
