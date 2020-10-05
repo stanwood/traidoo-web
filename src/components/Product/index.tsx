@@ -215,7 +215,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = (
           >
             {t("availableItems")}
           </Typography>
-          <Typography>{product.itemsAvailable}</Typography>
+          <Typography>{product.itemsAvailable || 0}</Typography>
 
           <Typography
             variant="subtitle2"

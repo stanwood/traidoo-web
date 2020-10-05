@@ -5,7 +5,7 @@ interface ProductList {
   price?: number;
   unit?: string;
   amount: number;
-  itemsAvailable: number;
+  itemsAvailable: number | null;
   seller: {
     id: number;
     firstName: string;

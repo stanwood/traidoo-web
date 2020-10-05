@@ -233,7 +233,7 @@ const ProductsList: React.FC<ProductsListProps> = ({
                     {sellerView && (
                       <AvilableItems
                         productId={row.id}
-                        itemsNumber={row.itemsAvailable}
+                        itemsNumber={row.itemsAvailable || 0}
                       />
                     )}
                   </TableCell>

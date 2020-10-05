@@ -13,7 +13,7 @@ type Product = {
   unit: string;
   amount: number;
   vat: number;
-  itemsAvailable: number;
+  itemsAvailable: number | null;
   isOrganic: boolean;
   isVegan: boolean;
   isGlutenFree: boolean;
