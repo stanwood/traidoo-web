@@ -23,7 +23,7 @@ const name: TableHeadCell = {
 
 const seller: TableHeadCell = {
   id: "seller",
-  align: "right",
+  align: "left",
   disablePadding: false,
   label: i18n.t("seller"),
   sortable: true,
@@ -53,7 +53,7 @@ const price: TableHeadCell = {
 
 const category: TableHeadCell = {
   id: "category",
-  align: "right",
+  align: "left",
   disablePadding: false,
   label: i18n.t("category"),
   sortable: true,
@@ -63,7 +63,7 @@ const category: TableHeadCell = {
 
 const region: TableHeadCell = {
   id: "region",
-  align: "right",
+  align: "left",
   disablePadding: false,
   label: i18n.t("region"),
   sortable: false,
