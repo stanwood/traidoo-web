@@ -173,7 +173,7 @@ const ProductsList: React.FC<ProductsListProps> = ({
                 <TableCell
                     component="th"
                     scope="row"
-                    className={classes.cell}
+                    className={classes.imageCell}
                 >
                   <LazyLoad>
                     <Img
@@ -188,7 +188,7 @@ const ProductsList: React.FC<ProductsListProps> = ({
                     />
                   </LazyLoad>
                 </TableCell>
-                <TableCell>
+                <TableCell align="left">
                   <Link
                     component={RouterLink}
                     to={
@@ -204,7 +204,7 @@ const ProductsList: React.FC<ProductsListProps> = ({
                   </Link>
                 </TableCell>
                 <Hidden smDown>
-                  <TableCell align="right">
+                  <TableCell align="left">
                     {sellerView && (
                       <Link
                         component={RouterLink}
@@ -227,7 +227,7 @@ const ProductsList: React.FC<ProductsListProps> = ({
                       </Link>
                     )}
                   </TableCell>
-                  <TableCell align="right">
+                  <TableCell align="left">
                     {!sellerView && (
                       <Link
                         component={RouterLink}
@@ -245,7 +245,7 @@ const ProductsList: React.FC<ProductsListProps> = ({
                       />
                     )}
                   </TableCell>
-                  <TableCell align="right">{row.region.name}</TableCell>
+                  <TableCell align="left">{row.region.name}</TableCell>
                 </Hidden>
                 {canBuy &&
                   loggedInData(

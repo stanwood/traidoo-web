@@ -48,7 +48,8 @@ const useStyles = makeStyles((theme: Theme) =>
     alternatingRow: {
         background: "#fafafa"
     },
-    cell: {
+    imageCell: {
+        lineHeight: 0,
         padding: 0
     }
   })

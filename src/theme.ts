@@ -48,6 +48,24 @@ let theme = createMuiTheme({
       xl: 1440,
     },
   },
+  overrides: {
+    MuiTableCell: {
+      root: {
+        padding: "16px 8px",
+      },
+      head: {
+        background: "#f2f2f2",
+        color: "#5e5e5e",
+        textTransform: "uppercase",
+        size: 10
+      }
+    },
+    MuiTablePagination: {
+      root: {
+        color: "#9a9a9a"
+      }
+    }
+  }
 });
 
 theme = responsiveFontSizes(theme);
