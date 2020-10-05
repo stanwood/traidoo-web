@@ -177,7 +177,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = (
             </Typography>
           )}
           {product.price && (
-            <Typography variant="subtitle2" color="textSecondary">
+            <Typography variant="subtitle2" color="primary">
               {product.vat}% {t("vat")},{" "}
               {grossPrice(product.price, product.vat).toFixed(2)}€ {t("gross")}
             </Typography>
@@ -185,7 +185,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = (
 
           <Typography
             variant="subtitle2"
-            color="textSecondary"
+            color="primary"
             className={classes.subtitle}
           >
             {t("lotSize")}
@@ -196,7 +196,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = (
 
           <Typography
             variant="subtitle2"
-            color="textSecondary"
+            color="primary"
             className={classes.subtitle}
           >
             {t("containerDeposit")}
@@ -210,7 +210,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = (
 
           <Typography
             variant="subtitle2"
-            color="textSecondary"
+            color="primary"
             className={classes.subtitle}
           >
             {t("availableItems")}
@@ -219,7 +219,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = (
 
           <Typography
             variant="subtitle2"
-            color="textSecondary"
+            color="primary"
             className={classes.subtitle}
           >
             {t("deliveryOptions")}
@@ -235,7 +235,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = (
 
           <Typography
             variant="subtitle2"
-            color="textSecondary"
+            color="primary"
             className={classes.subtitle}
           >
             {t("containerType")}
@@ -244,7 +244,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = (
 
           <Typography
             variant="subtitle2"
-            color="textSecondary"
+            color="primary"
             className={classes.subtitle}
           >
             {t("properties")}

@@ -40,7 +40,8 @@ const useProductDetailsStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(6),
     },
     sideBar: {
-      padding: theme.spacing(2),
+      padding: theme.spacing(3),
+      paddingTop: 0,
     },
     addToCart: {
       textTransform: "uppercase",
