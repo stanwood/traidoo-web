@@ -11,7 +11,7 @@ import { useCartStyles } from "./styles";
 
 const RenderCart: React.FC = () => {
   const classes = useCartStyles();
-  const { cart, clear } = useContext(CartContext);
+  const { cart, clear, cartTotal } = useContext(CartContext);
   const { t } = useTranslation();
 
   const renderItems = () => {
@@ -52,7 +52,7 @@ const RenderCart: React.FC = () => {
           color="primary"
           disabled={cart.products.length === 0}
         >
-          {t("checkout")}
+          {t("checkout")} {cartTotal.toFixed(2)}€
         </Button>
       </Grid>
     </Grid>

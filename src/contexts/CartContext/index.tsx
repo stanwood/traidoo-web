@@ -1,4 +1,11 @@
-import React, { ReactElement, useCallback, useEffect, useReducer } from "react";
+import Dinero from "dinero.js";
+import React, {
+  ReactElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+} from "react";
 import { useMutation, useQuery } from "react-query";
 import { getAccessToken } from "../../api/jwt";
 import {
@@ -37,6 +44,17 @@ const CartProvider = (props: CartProviderProps): ReactElement => {
   useEffect(() => {
     if (getAccessToken()) refetch();
   }, [refetch]);
+
+  const cartTotal: number = useMemo(() => {
+    const total = cart.products.reduce((accumulator, product) => {
+      return accumulator + product.amount * product.quantity * product.price;
+    }, 0);
+
+    return Dinero({
+      amount: Math.round(total * 100),
+      currency: "EUR",
+    }).toUnit();
+  }, [cart]);
 
   const addProduct = useCallback(
     (product: CartProduct) => {
@@ -91,6 +109,7 @@ const CartProvider = (props: CartProviderProps): ReactElement => {
 
   const value = {
     cart,
+    cartTotal,
     refetch,
     addProduct,
     removeProduct,

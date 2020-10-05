@@ -19,6 +19,7 @@ export interface CartProviderProps {
 
 export interface CartStateContext {
   cart: CartState;
+  cartTotal: number;
   refetch: () => void;
   addProduct: (product: CartProduct) => void;
   removeProduct: (productId: number) => void;
