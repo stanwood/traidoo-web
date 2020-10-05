@@ -32,7 +32,6 @@ import TableHead from "../TableHead";
 import TableToolbar from "../TableToolbar";
 import ProductsListProps from "./interfaces";
 import useStyles from "./Table.styles";
-import index from "../../../../pages/Routes/Map";
 
 const ProductsList: React.FC<ProductsListProps> = ({
   products,
