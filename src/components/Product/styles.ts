@@ -37,7 +37,10 @@ const useProductDetailsStyles = makeStyles((theme: Theme) =>
       marginBottom: theme.spacing(3),
     },
     content: {
-      padding: theme.spacing(3),
+      padding: theme.spacing(6),
+    },
+    sideBar: {
+      padding: theme.spacing(2),
     },
     addToCart: {
       textTransform: "uppercase",

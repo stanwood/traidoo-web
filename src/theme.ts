@@ -31,6 +31,10 @@ let theme = createMuiTheme({
       'sans-serif'
     ].join(','),
     fontSize: 14,
+    h4: {
+      fontWeight: 800,
+      fontSize: 20
+    },
     h5: {
       fontWeight: 600
     },
