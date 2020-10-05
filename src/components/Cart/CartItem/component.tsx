@@ -23,7 +23,7 @@ const CartItem: React.FC<{
   const classes = useStyles();
 
   const totalPrice = Dinero({
-    amount: Math.round(product.price * 100),
+    amount: Math.round(product.price * product.amount * 100),
     currency: "EUR",
   })
     .multiply(product.quantity)
@@ -66,8 +66,8 @@ const CartItem: React.FC<{
             alignItems="center"
           >
             <Grid key={1} item>
-              {product.quantity} {product.unit} a {product.price.toFixed(2)}€ /{" "}
-              {product.unit}
+              {product.quantity * product.amount} {product.unit} a{" "}
+              {product.price.toFixed(2)}€ / {product.unit}
             </Grid>
           </Grid>
           <Grid
