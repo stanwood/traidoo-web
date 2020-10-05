@@ -132,7 +132,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = (
 
             <Typography
               variant="subtitle1"
-              color="textSecondary"
+              color="primary"
               className={classes.category}
             >
               {product.category.name}
@@ -170,7 +170,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = (
           </LazyLoad>
         </Hidden>
 
-        <Box className={classes.content}>
+        <Box className={classes.sideBar}>
           {product.price && (
             <Typography variant="h4">
               {product.price}€ / {product.unit}
