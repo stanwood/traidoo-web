@@ -7,13 +7,13 @@ const faviconsHtmlPath = "public/favicons.html";
 
 const configuration = {
   path: "%PUBLIC_URL%/",
-  appName: process.env.REACT_APP_CLIENT_NAME,
+  appName: process.env._CLIENT_NAME,
   appShortName: null,
   appDescription: null,
   dir: "auto",
   lang: "de-DE",
-  background: process.env.REACT_APP_THEME_PALETTE_PRIMARY_COLOR,
-  theme_color: process.env.REACT_APP_THEME_PALETTE_SECONDARY_COLOR,
+  background: process.env._THEME_PALETTE_PRIMARY_COLOR,
+  theme_color: process.env._THEME_PALETTE_SECONDARY_COLOR,
   appleStatusBarStyle: "black-translucent",
   display: "standalone",
   orientation: "any",

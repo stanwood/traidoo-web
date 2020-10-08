@@ -71,9 +71,14 @@ Use https://github.com/microsoft/tsdoc.
 npm run i18next
 ```
 
+## Google Cloud Build
+
+- https://cloud.google.com/cloud-build/docs/deploying-builds/deploy-firebase
+
 ## TODO
 
 - Try to use react-hook-from `Controller`: https://react-hook-form.com/api/#Controller
 - Try to implement route-based code splitting: https://reactjs.org/docs/code-splitting.html#route-based-code-splitting
 - Get rid of all `any` in types
 - Context for each page
+- Zustand/Recoil?

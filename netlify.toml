@@ -1,9 +1,0 @@
-[build]
-    base = "/"
-    publish = "build/"
-    command = "bash src/scripts/build.sh"
-[[redirects]]
-    from = "/*"
-    to = "/index.html"
-    status = 200
-    force = false
