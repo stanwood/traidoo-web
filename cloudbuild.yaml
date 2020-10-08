@@ -1,0 +1,29 @@
+steps:
+  - name: node:14.13.0
+    entrypoint: yarn
+    args: ["install"]
+  - name: node:14.13.0
+    entrypoint: bash
+    args: ["src/scripts/prepare.sh"]
+    env:
+      - "FAVICON_URL=${_FAVICON_URL}"
+      - "CLIENT_NAME=${_CLIENT_NAME}"
+  - name: node:14.13.0
+    entrypoint: yarn
+    args: ["run", "build"]
+    env:
+      - "FAVICON_URL=${_FAVICON_URL}"
+      - "PUBLIC_URL=${_PUBLIC_URL}"
+      - "REACT_APP_API_ENDPOINT=${_API_ENDPOINT}"
+      - "REACT_APP_CLIENT_ID=${_CLIENT_ID}"
+      - "REACT_APP_CLIENT_NAME=${_CLIENT_NAME}"
+      - "REACT_APP_DEBUG=${_DEBUG}"
+      - "REACT_APP_ENVIRONMENT=${_ENVIRONMENT}"
+      - "REACT_APP_FEATURE_ROUTES=${_FEATURE_ROUTES}"
+      - "REACT_APP_GA_TRACKING_ID=${_GA_TRACKING_ID}"
+      - "REACT_APP_GOOGLE_MAPS_API_KEY=${_GOOGLE_MAPS_API_KEY}"
+      - "REACT_APP_SENTRY_DSN=${_SENTRY_DSN}"
+      - "REACT_APP_THEME_PALETTE_PRIMARY_COLOR=${_THEME_PALETTE_PRIMARY_COLOR}"
+      - "REACT_APP_THEME_PALETTE_SECONDARY_COLOR=${_THEME_PALETTE_SECONDARY_COLOR}"
+  - name: gcr.io/$PROJECT_ID/firebase
+    args: ["deploy", "--project=$PROJECT_ID", "--only=hosting"]
