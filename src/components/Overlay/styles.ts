@@ -9,7 +9,6 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "25vh",
     },
     actions: {
-      backgroundColor: theme.palette.background.default,
       "& > *": {
         margin: theme.spacing(1),
       },

@@ -92,18 +92,12 @@ const Overlay: React.FC = () => {
             </Button>
           )}
           {!user?.id && (
-            <Button
-              size="small"
-              variant="contained"
-              component={Link}
-              to={"/login"}
-            >
+            <Button component={Link} to={"/login"}>
               {t("signIn")}
             </Button>
           )}
           {user?.id && !user.isEmailVerified && (
             <Button
-              size="small"
               color="primary"
               variant="contained"
               onClick={sendEmail}
@@ -117,12 +111,7 @@ const Overlay: React.FC = () => {
           {overlayData.buttons
             ?.sort((a, b) => a.order - b.order)
             .map((button) => (
-              <Button
-                size="small"
-                variant="contained"
-                href={button.url}
-                key={button.order}
-              >
+              <Button href={button.url} key={button.order}>
                 {button.title}
               </Button>
             ))}

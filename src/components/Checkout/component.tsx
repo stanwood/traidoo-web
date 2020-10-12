@@ -136,7 +136,7 @@ const Checkout: React.FC<CheckoutProps> = (props: CheckoutProps) => {
           <Divider />
 
           <Grid item xs={12} className={classes.actionButtons}>
-            <Button type="submit" variant="contained" component={Link} to={"/"}>
+            <Button type="submit" component={Link} to={"/"}>
               {t("cancel")}
             </Button>
             <Button

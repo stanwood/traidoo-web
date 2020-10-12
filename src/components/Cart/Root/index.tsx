@@ -38,7 +38,6 @@ const RenderCart: React.FC = () => {
       <Grid item className={classes.actionButtons}>
         <Divider className={classes.actionDivider} />
         <Button
-          variant="contained"
           className={classes.actionLeftButton}
           onClick={() => clear()}
           disabled={cart.products.length === 0}
