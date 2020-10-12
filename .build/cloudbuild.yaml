@@ -4,7 +4,7 @@ steps:
     args: ["install"]
   - name: node:14.13.0
     entrypoint: bash
-    args: ["src/scripts/prepare.sh"]
+    args: [".build/prepare.sh"]
     env:
       - "FAVICON_URL=${_FAVICON_URL}"
       - "CLIENT_NAME=${_CLIENT_NAME}"
