@@ -29,6 +29,9 @@ const useTraidooAppBarTabsStyles = makeStyles((theme: Theme) =>
       flexBasis: 0,
       flexShrink: 1,
     },
+    indicator: {
+      backgroundColor: "white",
+    },
   })
 );
 
@@ -52,9 +55,17 @@ const TraidooAppBarTabs: React.FC<TraidooAppBarTabsProps> = (
   props: TraidooAppBarTabsProps
 ) => {
   const { activeTab, tabs } = props;
+  const classes = useTraidooAppBarTabsStyles();
 
   return (
-    <Tabs variant="fullWidth" value={activeTab} aria-label="nav tabs">
+    <Tabs
+      variant="fullWidth"
+      value={activeTab}
+      aria-label="nav tabs"
+      classes={{
+        indicator: classes.indicator,
+      }}
+    >
       {tabs.map((tab) => (
         <LinkTab
           key={tab.key}

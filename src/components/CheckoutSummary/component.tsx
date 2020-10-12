@@ -119,7 +119,6 @@ const CheckoutSummary: React.FC<{
         <Grid item xs={12} md={9} className={classes.actionButtons}>
           <Button
             type="submit"
-            variant="contained"
             className={classes.button}
             component={Link}
             to={"/checkout"}
@@ -128,7 +127,6 @@ const CheckoutSummary: React.FC<{
           </Button>
           <Button
             type="submit"
-            variant="contained"
             className={classes.button}
             component={Link}
             to={"/"}

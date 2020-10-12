@@ -291,12 +291,7 @@ const PersonalProfileForm = ({
           <Grid container justify="flex-end" className={classes.actions}>
             {!editMode && (
               <Grid item>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  component={Link}
-                  to={"/profile/password"}
-                >
+                <Button type="submit" component={Link} to={"/profile/password"}>
                   {t("resetPassword")}
                 </Button>
                 <Button
@@ -312,11 +307,7 @@ const PersonalProfileForm = ({
 
             {editMode && (
               <Grid item>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  onClick={() => cancelButton()}
-                >
+                <Button type="submit" onClick={() => cancelButton()}>
                   {t("cancel")}
                 </Button>
                 <Button

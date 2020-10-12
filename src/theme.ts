@@ -6,13 +6,13 @@ let theme = createMuiTheme({
     primary: {
       main: Config.themePalettePrimaryColor,
       light: "#ff0000",
-      dark: "#00ff00",
+      dark: Config.themePaletteSecondaryColor,
       contrastText: "#ffffff",
     },
     secondary: {
       main: Config.themePaletteSecondaryColor,
       light: "#0066ff",
-      dark: "#ff0000",
+      dark: Config.themePaletteSecondaryColor,
       contrastText: "#ffcc00",
     },
     text: {
@@ -71,6 +71,23 @@ let theme = createMuiTheme({
     MuiTablePagination: {
       root: {
         color: "#9a9a9a",
+      },
+    },
+    MuiButton: {
+      root: {
+        fontWeight: 600,
+        color: Config.themePalettePrimaryColor,
+      },
+    },
+    MuiTab: {
+      root: {
+        fontWeight: 600,
+      },
+    },
+    MuiCardHeader: {
+      title: {
+        fontWeight: 800,
+        fontSize: "18px",
       },
     },
   },
