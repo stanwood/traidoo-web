@@ -1,4 +1,4 @@
-import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
 export const useCategoriesStyles = makeStyles(
   createStyles({
@@ -22,7 +22,7 @@ export const useCategoriesTreeItemStyles = makeStyles((theme: Theme) =>
         fontWeight: theme.typography.fontWeightRegular,
       },
       padding: theme.spacing(1),
-        flexDirection: 'row-reverse'
+      flexDirection: "row-reverse",
     },
     expanded: {},
     group: {
@@ -47,7 +47,7 @@ export const useCategoriesTreeItemStyles = makeStyles((theme: Theme) =>
       marginRight: theme.spacing(1),
       width: "24px",
       height: "24px",
-      opacity: 0.3
+      opacity: 0.3,
     },
     labelText: {
       flexGrow: 1,

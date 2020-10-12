@@ -166,13 +166,13 @@ const ProductsList: React.FC<ProductsListProps> = ({
           <TableBody>
             {products?.results.map((row, index) => (
               <TableRow
-                  key={row.id}
-                  className={ index % 2 ? classes.alternatingRow:"" }
+                key={row.id}
+                className={index % 2 ? classes.alternatingRow : ""}
               >
                 <TableCell
-                    component="th"
-                    scope="row"
-                    className={classes.imageCell}
+                  component="th"
+                  scope="row"
+                  className={classes.imageCell}
                 >
                   <LazyLoad>
                     <Img
