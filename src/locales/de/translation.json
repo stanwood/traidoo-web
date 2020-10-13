@@ -102,7 +102,7 @@
   "enterYourCompanyData": "Geben Sie Ihre Firmendaten ein",
   "enterYourPersonalData": "Geben Sie Ihre persönlichen Daten ein",
   "error": "Fehler",
-  "errorId": "Fehler-ID:",
+  "errorId": "Fehler-ID",
   "errorMessageBody": "Unser Team weiß Bescheid und versucht den Fehler so schnell wie möglich zu beheben. Sollten Sie uns wegen des Fehlers dennoch kontaktieren wollen, geben Sie bitte die Fehler ID an.",
   "errorMessageTitle": "Anscheinend funktioniert etwas nicht so wie es sollte.",
   "fieldRequired": "Pflichtfeld",
