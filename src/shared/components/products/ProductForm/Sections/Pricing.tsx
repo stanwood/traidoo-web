@@ -7,7 +7,7 @@ import Paper from "@material-ui/core/Paper";
 import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import React, { useMemo, useRef } from "react";
+import React, { useMemo } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { GlobalSettings } from "../../../../../core/interfaces/settings";
@@ -24,8 +24,6 @@ const Pricing: React.FC<PricingProps> = (props: PricingProps) => {
   const { t } = useTranslation();
   const { errors, control } = useFormContext();
   const { globalSettings } = props;
-
-  const vatInputLabel = useRef<HTMLLabelElement>(null);
 
   const endAdornment = useMemo(() => {
     return {
@@ -83,15 +81,15 @@ const Pricing: React.FC<PricingProps> = (props: PricingProps) => {
             required
             error={errors.vat ? true : false}
           >
-            <InputLabel ref={vatInputLabel}>{t("vat")}</InputLabel>
+            <InputLabel id="vatLabelId">{t("vat")}</InputLabel>
             <Controller
               name="vat"
               control={control}
               as={
                 <Select
                   labelId="vatLabelId"
+                  label={t("vat")}
                   variant="outlined"
-                  labelWidth={vatInputLabel?.current?.offsetWidth || 0}
                 >
                   {globalSettings?.productVat.map((v: number) => {
                     return (
