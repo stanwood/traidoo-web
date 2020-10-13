@@ -13,5 +13,6 @@ declare namespace NodeJS {
     REACT_APP_SENTRY_DSN: string;
     REACT_APP_FEATURE_ROUTES: boolean;
     REACT_APP_GA_TRACKING_ID: string;
+    REACT_APP_SPONSOR_LOGO: string | null;
   }
 }
