@@ -1,11 +1,18 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
-export const useCategoriesStyles = makeStyles(
+export const useCategoriesStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       height: 264,
       flexGrow: 1,
       maxWidth: 400,
+      paddingBottom: theme.spacing(2),
+    },
+    image: {
+      display: "block",
+      height: "auto",
+      margin: "0 auto",
+      width: "100%",
     },
   })
 );
