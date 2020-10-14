@@ -1,11 +1,11 @@
 import FormControl from "@material-ui/core/FormControl";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Grid from "@material-ui/core/Grid";
+import InputAdornment from "@material-ui/core/InputAdornment";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Paper from "@material-ui/core/Paper";
 import Select from "@material-ui/core/Select";
-import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import React, { useMemo } from "react";
 import { Controller, useFormContext } from "react-hook-form";
@@ -22,8 +22,17 @@ interface PricingProps {
 const Pricing: React.FC<PricingProps> = (props: PricingProps) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { errors, control } = useFormContext();
   const { globalSettings } = props;
+  const { errors, control, watch } = useFormContext();
+  const selectedUnit = watch("unit");
+
+  const priceEndorment = useMemo(() => {
+    return {
+      endAdornment: (
+        <InputAdornment position="end">€ / {selectedUnit}</InputAdornment>
+      ),
+    };
+  }, [selectedUnit]);
 
   const endAdornment = useMemo(() => {
     return {
@@ -56,21 +65,29 @@ const Pricing: React.FC<PricingProps> = (props: PricingProps) => {
       <Typography variant="h5" className={classes.title}>
         {t("pricing")}
       </Typography>
+
       <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <ControlledTextInput
+            name="amount"
+            label={t("unitsPerLot")}
+            type="number"
+            inputProps={endAdornment}
+          />
+        </Grid>
+
         <Grid item xs={12} sm={6}>
           <Controller
             control={control}
-            as={TextField}
-            type="number"
             name="price"
-            defaultValue=""
-            variant="outlined"
-            fullWidth
-            required
-            label={t("price")}
-            error={errors.price ? true : false}
-            helperText={errors.price ? errors.price.message : ""}
-            InputProps={endAdornment}
+            render={() => (
+              <ControlledTextInput
+                name="price"
+                label={t("price")}
+                type="number"
+                inputProps={priceEndorment}
+              />
+            )}
           />
         </Grid>
 
@@ -94,7 +111,7 @@ const Pricing: React.FC<PricingProps> = (props: PricingProps) => {
                   {globalSettings?.productVat.map((v: number) => {
                     return (
                       <MenuItem value={v} key={v}>
-                        {v}
+                        {v}%
                       </MenuItem>
                     );
                   })}
@@ -106,14 +123,6 @@ const Pricing: React.FC<PricingProps> = (props: PricingProps) => {
               {errors.vat ? errors.vat.message : ""}
             </FormHelperText>
           </FormControl>
-        </Grid>
-
-        <Grid item xs={12}>
-          <ControlledTextInput
-            name="amount"
-            label={t("unitsPerLot")}
-            type="number"
-          />
         </Grid>
       </Grid>
     </Paper>
