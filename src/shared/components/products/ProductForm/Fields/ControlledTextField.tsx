@@ -8,12 +8,22 @@ interface ControlledTextInputProps {
   multiline?: boolean;
   type?: string;
   required?: boolean;
+  inputProps?: {
+    endAdornment?: JSX.Element;
+  };
 }
 
 const ControlledTextInput: React.FC<ControlledTextInputProps> = (
   props: ControlledTextInputProps
 ) => {
-  const { name, label, multiline, type = "string", required = true } = props;
+  const {
+    name,
+    label,
+    multiline,
+    inputProps,
+    type = "string",
+    required = true,
+  } = props;
 
   const { errors, control } = useFormContext();
 
@@ -31,6 +41,7 @@ const ControlledTextInput: React.FC<ControlledTextInputProps> = (
       helperText={errors[name]?.message}
       multiline={multiline}
       type={type}
+      InputProps={inputProps}
     />
   );
 };
