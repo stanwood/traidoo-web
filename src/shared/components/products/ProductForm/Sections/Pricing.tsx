@@ -29,7 +29,9 @@ const Pricing: React.FC<PricingProps> = (props: PricingProps) => {
   const priceEndorment = useMemo(() => {
     return {
       endAdornment: (
-        <InputAdornment position="end">€ / {selectedUnit}</InputAdornment>
+        <InputAdornment position="end">
+          € / {productUnits[selectedUnit]}
+        </InputAdornment>
       ),
     };
   }, [selectedUnit]);
