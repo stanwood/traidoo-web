@@ -1,10 +1,11 @@
-import companyTypes from "../../data/CompanyTypes/de.json";
+import Config from "../../config";
+import getCompanyTypes from "../constants/companyTypes";
 
 const requiredDocuments = (seller: boolean, companyType: string) => {
   let fields = ["businessLicense"];
 
   const selectedCompanyParentId =
-    companyTypes.find((company) => company.value === companyType)?.parent || -1;
+    getCompanyTypes(Config.compantTypesVariant).find((company) => company.value === companyType)?.parent || -1;
 
   if (seller) {
     fields.push("image");
