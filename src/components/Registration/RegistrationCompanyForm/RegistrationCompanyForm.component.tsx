@@ -14,7 +14,8 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import companyTypes from "../../../data/CompanyTypes/de.json";
+import Config from "../../../config";
+import getCompanyTypes from "../../../core/constants/companyTypes";
 import useStyles from "./RegistrationCompanyForm.styles";
 
 interface CompanyType {
@@ -125,24 +126,26 @@ const RegistrationCompanyForm = ({
                 labelWidth={labelWidth}
                 onChange={handleCompanyTypeChange}
               >
-                {companyTypes.map((companyType: CompanyType) => {
-                  if (companyType.parent) {
-                    return (
-                      <MenuItem
-                        value={companyType.value}
-                        key={companyType.value}
-                      >
-                        {companyType.label}
-                      </MenuItem>
-                    );
-                  } else {
-                    return (
-                      <ListSubheader key={companyType.value}>
-                        {companyType.label}
-                      </ListSubheader>
-                    );
+                {getCompanyTypes(Config.compantTypesVariant).map(
+                  (companyType: CompanyType) => {
+                    if (companyType.parent) {
+                      return (
+                        <MenuItem
+                          value={companyType.value}
+                          key={companyType.value}
+                        >
+                          {companyType.label}
+                        </MenuItem>
+                      );
+                    } else {
+                      return (
+                        <ListSubheader key={companyType.value}>
+                          {companyType.label}
+                        </ListSubheader>
+                      );
+                    }
                   }
-                })}
+                )}
               </Select>
               <FormHelperText>
                 {errors.companyType ? errors.companyType.message : ""}

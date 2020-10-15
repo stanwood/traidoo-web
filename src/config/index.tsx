@@ -13,6 +13,7 @@ const Config: Configuration = {
   sentryDSN: process.env.REACT_APP_SENTRY_DSN,
   gaTrackingID: process.env.REACT_APP_GA_TRACKING_ID,
   sponsorLogo: process.env.REACT_APP_SPONSOR_LOGO,
+  compantTypesVariant: process.env.COMPANY_TYPES_VARIANT,
   features: {
     routes: process.env.REACT_APP_FEATURE_ROUTES,
   },
