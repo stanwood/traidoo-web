@@ -12,6 +12,6 @@ declare namespace NodeJS {
     FEATURE_ROUTES: boolean;
     GOOGLE_MAPS_API_KEY: string;
     SENTRY_DSN: string;
-    COMPANY_TYPES_VARIANT: "A" | "B";
+    COMPANY_TYPES_VARIANT: null | "A" | "B";
   }
 }
