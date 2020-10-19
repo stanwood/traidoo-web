@@ -10,7 +10,7 @@ interface Configuration {
   sentryDSN: string;
   gaTrackingID: string;
   sponsorLogo: string | null;
-  compantTypesVariant: "A" | "B";
+  compantTypesVariant: null | "A" | "B";
   features: {
     routes: boolean;
   };
