@@ -126,7 +126,11 @@ const companyTypeB = [
   },
 ];
 
-const getCompanyTypes = (companyTypesVariant: "A" | "B") => {
+const getCompanyTypes = (companyTypesVariant: "A" | "B" | null) => {
+  if (!companyTypesVariant) {
+    return companyTypeA;
+  }
+  
   return companyTypesVariant === "B" ? companyTypeB : companyTypeA;
 }
 
