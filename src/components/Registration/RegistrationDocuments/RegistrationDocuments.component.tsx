@@ -1,19 +1,31 @@
 import { yupResolver } from "@hookform/resolvers";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { APIValidationErrors } from "../../../api/errors/parser";
 import requiredDocuments from "../../../core/utils/requiredDocuments";
 import RegistrationDocumentsForm from "../RegistrationDocumentsForm";
 import { DocumentsFormData } from "./interfaces";
 import validationSchema from "./RegistrationDocuments.validation";
 
-const RegistrationDocuments = ({
-  submit,
-  cancel,
-  apiErrors,
-  data,
-  declaredAsSeller,
-  companyType,
-}: any) => {
+interface RegistrationDocumentsProps {
+  submit: any;
+  cancel: any;
+  apiErrors: APIValidationErrors[];
+  data: any;
+  declaredAsSeller: boolean;
+  companyType: string;
+}
+
+const RegistrationDocuments = (props: RegistrationDocumentsProps) => {
+  const {
+    submit,
+    cancel,
+    apiErrors,
+    data,
+    declaredAsSeller,
+    companyType,
+  } = props;
+
   const {
     register,
     handleSubmit,
@@ -56,11 +68,13 @@ const RegistrationDocuments = ({
     setValue("companyType", companyType);
 
     if (apiErrors) {
-      Object.entries(apiErrors).forEach(
-        ([field, errorMessage]: [string, any]) => {
-          setError(field, { type: "incorrectData", message: errorMessage });
-        }
-      );
+      apiErrors.forEach((apiError) => {
+        // @ts-ignore
+        setError(apiError.fieldName, {
+          type: apiError.code,
+          message: apiError.message,
+        });
+      });
     }
   }, [apiErrors, setError, declaredAsSeller, companyType, register, setValue]);
 

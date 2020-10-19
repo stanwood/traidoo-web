@@ -5,6 +5,10 @@ import Stepper from "@material-ui/core/Stepper";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
+import {
+  APIValidationErrors,
+  parseAPI400ResponseError,
+} from "../../../api/errors/parser";
 import { registerRequest } from "../../../api/queries/users/register";
 import Page from "../../../components/Common/Page";
 import RegistrationCompany from "../../../components/Registration/RegistrationCompany";
@@ -55,7 +59,9 @@ const RegistrationFormPage: React.FC = () => {
   const [personalData, setPersonalData] = useState({});
   const [companyData, setCompanyData] = useState({});
   const [documentsData, setDocumentsData] = useState({});
-  const [registrationErrors, setRegistrationErrors] = useState({});
+  const [registrationErrors, setRegistrationErrors] = useState<
+    APIValidationErrors[]
+  >([]);
   const steps = [t("personal"), t("company"), t("documents")];
 
   const handleNext = (): void =>
@@ -74,17 +80,12 @@ const RegistrationFormPage: React.FC = () => {
   }
 
   async function handleError(error: any) {
-    const errors: any = {};
-
-    const errorResponse = await error.response.json();
-
-    Object.entries(errorResponse).forEach(([key, value]: [string, any]) => {
-      errors[key] = value[0].message; // TODO: do not use messages from API
-    });
+    const errorResponse = await error.response;
+    const errors = parseAPI400ResponseError(errorResponse);
 
     setRegistrationErrors(errors);
 
-    for (const field of Object.keys(errors)) {
+    for (const field of errors.map((error) => error.fieldName)) {
       if (personalFormFields.includes(field)) {
         setActiveStep(0);
         break;
