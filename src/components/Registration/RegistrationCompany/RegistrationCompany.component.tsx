@@ -1,12 +1,22 @@
 import { yupResolver } from "@hookform/resolvers";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { APIValidationErrors } from "../../../api/errors/parser";
 import { required } from "../../../utils/errors";
 import RegistrationCompanyForm from "../RegistrationCompanyForm";
 import { FormData } from "./interfaces";
 import validationSchema from "./RegistrationCompany.validation";
 
-const RegistrationCompany = ({ submit, cancel, data, apiErrors }: any) => {
+interface RegistrationCompanyProps {
+  submit: any;
+  cancel: any;
+  data: any;
+  apiErrors: APIValidationErrors[];
+}
+
+const RegistrationCompany = (props: RegistrationCompanyProps) => {
+  const { submit, cancel, data, apiErrors } = props;
+
   const {
     register,
     handleSubmit,
@@ -30,12 +40,13 @@ const RegistrationCompany = ({ submit, cancel, data, apiErrors }: any) => {
     register({ name: "declaredAsSeller" });
 
     if (apiErrors) {
-      Object.entries(apiErrors).forEach(
-        ([field, errorMessage]: [string, any]) => {
-          // @ts-ignore
-          setError(field, "incorrectData", errorMessage);
-        }
-      );
+      apiErrors.forEach((apiError) => {
+        // @ts-ignore
+        setError(apiError.fieldName, {
+          type: apiError.code,
+          message: apiError.message,
+        });
+      });
     }
   }, [register, apiErrors, setError]);
 

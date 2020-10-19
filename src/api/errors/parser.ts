@@ -1,17 +1,33 @@
 import i18n from "../../i18n";
-import apiError from "./interfaces";
 
-const parseApiResponseError = (errorResponse: any) => {
-  // TODO: add type
-  let error: apiError = { status: errorResponse.status };
+interface APIValidationError {
+  message: string;
+  code: string;
+}
 
-  if ([400, 401].includes(errorResponse.status)) {
-    error["message"] = errorResponse.data;
-  } else if (errorResponse.status === 500) {
-    error["message"] = { code: "error", message: i18n.t("unknownError") };
-  }
+interface APIError {
+  status: number;
+  data: Record<string, APIValidationError[]>
+}
 
-  return error;
+export interface APIValidationErrors {
+  fieldName: string;
+  code: string;
+  message: string;
+}
+
+const codesMapping: Record<string, string> = {
+  "required": i18n.t("fieldRequired")
 };
 
-export default parseApiResponseError;
+export const parseAPI400ResponseError = (errorResponse: APIError): APIValidationErrors[] => {
+  const errors: APIValidationErrors[] = [];
+
+  Object.entries(errorResponse.data).forEach(
+    ([field, errorMessage]: [string, APIValidationError[]]) => {
+      errors.push({fieldName: field, code: errorMessage[0].code, message: codesMapping[errorMessage[0].code]})
+    }
+  );
+
+  return errors;
+};

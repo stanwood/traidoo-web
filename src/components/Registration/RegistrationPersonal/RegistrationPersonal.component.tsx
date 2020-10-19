@@ -2,12 +2,21 @@ import { yupResolver } from "@hookform/resolvers";
 import { format } from "date-fns";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { APIValidationErrors } from "../../../api/errors/parser";
 import { required } from "../../../utils/errors";
 import RegistrationPersonalForm from "../RegistrationPersonalForm";
 import { FormData } from "./interfaces";
 import validationSchema from "./RegistrationPersonal.validation";
 
-const RegistrationPersonal = ({ submit, apiErrors, data }: any) => {
+interface RegistrationPersonalProps {
+  submit: any;
+  apiErrors: APIValidationErrors[];
+  data: any;
+}
+
+const RegistrationPersonal = (props: RegistrationPersonalProps) => {
+  const { submit, apiErrors, data } = props;
+
   const {
     register,
     handleSubmit,
@@ -41,12 +50,13 @@ const RegistrationPersonal = ({ submit, apiErrors, data }: any) => {
     );
 
     if (apiErrors) {
-      Object.entries(apiErrors).forEach(
-        ([field, errorMessage]: [string, any]) => {
-          // @ts-ignore
-          setError(field, "incorrectData", errorMessage);
-        }
-      );
+      apiErrors.forEach((apiError) => {
+        // @ts-ignore
+        setError(apiError.fieldName, {
+          type: apiError.code,
+          message: apiError.message,
+        });
+      });
     }
   }, [apiErrors, setError, register]);
 
