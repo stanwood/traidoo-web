@@ -15,5 +15,6 @@ declare namespace NodeJS {
     REACT_APP_GA_TRACKING_ID: string;
     REACT_APP_SPONSOR_LOGO: string | null;
     REACT_APP_COMPANY_TYPES_VARIANT: null | "A" | "B";
+    REACT_APP_INTERCOM_ID: string;
   }
 }
