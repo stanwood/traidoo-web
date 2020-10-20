@@ -28,7 +28,7 @@ const GlobalCss = withStyles({
   "@global": {
     "html, body": {
       height: "100%",
-      background: "white"
+      background: "white",
     },
     "#root": {
       height: "100%",

@@ -11,6 +11,7 @@ interface Configuration {
   gaTrackingID: string;
   sponsorLogo: string | null;
   compantTypesVariant: null | "A" | "B";
+  intercomId: string;
   features: {
     routes: boolean;
   };
