@@ -17,8 +17,7 @@ import useStyles from "./styles";
 
 const CheckoutSummary: React.FC<{
   checkout: CheckoutType | undefined;
-  summaryLeft: { name: string; value: number }[];
-  summaryRight: { name: string; value: number }[];
+  summary: { name: string; value: number }[];
   isProceedDisabled: Function;
   onSubmit: Function;
 }> = (props) => {
@@ -86,30 +85,25 @@ const CheckoutSummary: React.FC<{
           </TableBody>
         </Table>
       </TableContainer>
-      <Grid container spacing={2} className={classes.summary}>
+      <Grid
+        container
+        spacing={2}
+        justify="flex-end"
+        className={classes.summary}
+      >
         <Grid item xs={12} md={6}>
-          {props.summaryLeft.map((item) => (
-            <Grid container item spacing={0} key={item.name}>
-              <Grid item xs={6} className={classes.summaryLabel}>
-                {item.name}
-              </Grid>
-              <Grid item xs={6} className={classes.right}>
-                {item.value.toFixed(2)}€
-              </Grid>
-            </Grid>
-          ))}
-        </Grid>
-        <Grid item xs={12} md={6}>
-          {props.summaryRight.map((item) => (
-            <Grid container item spacing={0} key={item.name}>
-              <Grid item xs={6} className={classes.summaryLabel}>
-                {item.name}
-              </Grid>
-              <Grid item xs={6} className={classes.right}>
-                {item.value.toFixed(2)}€
-              </Grid>
-            </Grid>
-          ))}
+          <Table size="small" aria-label="summary">
+            <TableBody>
+              {props.summary.map((item) => (
+                <TableRow key={item.name}>
+                  <TableCell component="th" scope="row">
+                    {item.name}
+                  </TableCell>
+                  <TableCell align="right">{item.value.toFixed(2)}€</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </Grid>
       </Grid>
       <Grid container xs={12} className={classes.actions}>
