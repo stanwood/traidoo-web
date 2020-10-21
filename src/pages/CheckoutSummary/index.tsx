@@ -32,7 +32,17 @@ const CheckoutSummaryPage: React.FC = () => {
   const roundPrice = (price: number | undefined): number =>
     price ? Math.round((price + Number.EPSILON) * 100) / 100 : 0;
 
-  const summaryLeft = [
+  const vatBreakDown = checkoutData?.vatBreakdown || {};
+  const formattedVatBreakDown = Object.entries(vatBreakDown)
+    .filter(([key, value]: any) => value > 0)
+    .map(([key, value]) => {
+      return {
+        name: `${t("vat")} ${Math.trunc(Number(key))}%`,
+        value: value,
+      };
+    });
+
+  const summary = [
     { name: t("products"), value: roundPrice(checkoutData?.productTotal) },
     {
       name: t("deposit"),
@@ -47,20 +57,6 @@ const CheckoutSummaryPage: React.FC = () => {
       value: roundPrice(checkoutData?.deliveryFeeNet),
     },
     { name: t("totalNet"), value: roundPrice(checkoutData?.netTotal) },
-  ];
-
-  const vatBreakDown = checkoutData?.vatBreakdown || {};
-  const formattedVatBreakDown = Object.entries(vatBreakDown)
-    .filter(([key, value]: any) => value > 0)
-    .map(([key, value]) => {
-      return {
-        name: `vat ${Math.trunc(Number(key))}%`,
-        // @ts-ignore
-        value: value,
-      };
-    });
-
-  const summaryRight = [
     { name: t("totalNet"), value: roundPrice(checkoutData?.netTotal) },
     ...(formattedVatBreakDown || {}),
     { name: t("totalVat"), value: roundPrice(checkoutData?.vatTotal) },
@@ -90,8 +86,7 @@ const CheckoutSummaryPage: React.FC = () => {
       ) : (
         <CheckoutSummary
           checkout={checkoutData}
-          summaryLeft={summaryLeft}
-          summaryRight={summaryRight}
+          summary={summary}
           isProceedDisabled={buttonDisabled}
           onSubmit={onSubmit}
         />
