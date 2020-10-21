@@ -125,7 +125,7 @@ const Delivery: React.FC<DeliveryProps> = (props: DeliveryProps) => {
           {sellerDelivery && (
             <ControlledTextInput
               name="deliveryCharge"
-              label={t("price")}
+              label={t("priceDeliverySeller")}
               type="number"
               required={sellerDelivery}
             />
