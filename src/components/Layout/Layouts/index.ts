@@ -5,3 +5,4 @@ export { default as LayoutD } from "./LayoutD";
 export { default as LayoutE } from "./LayoutE";
 export { default as LayoutF } from "./LayoutF";
 export { default as LayoutG } from "./LayoutG";
+export { default as LayoutH } from "./LayoutH";
