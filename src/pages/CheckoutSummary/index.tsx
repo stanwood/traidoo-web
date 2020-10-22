@@ -1,6 +1,5 @@
 import Skeleton from "@material-ui/lab/Skeleton";
-import { useSnackbar } from "notistack";
-import React, { useCallback, useContext } from "react";
+import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
@@ -14,7 +13,6 @@ import { CartContext } from "../../contexts/CartContext/context";
 
 const CheckoutSummaryPage: React.FC = () => {
   const history = useHistory();
-  const { enqueueSnackbar } = useSnackbar();
   const { initialState } = useContext(CartContext);
   const { t } = useTranslation();
   const pageTitle = t("checkoutSummary");
@@ -66,18 +64,11 @@ const CheckoutSummaryPage: React.FC = () => {
     },
   ];
 
-  const onSubmit = useCallback(async () => {
+  const onSubmit = async () => {
     await checkoutMutation();
-    enqueueSnackbar(t("orderCreated"), {
-      variant: "success",
-      anchorOrigin: {
-        vertical: "bottom",
-        horizontal: "right",
-      },
-    });
     initialState();
-    history.push("/");
-  }, [enqueueSnackbar, checkoutMutation, history, initialState, t]);
+    history.push("/checkout/success");
+  };
 
   return (
     <Page title={pageTitle}>

@@ -131,8 +131,6 @@ const CheckoutSummary: React.FC<{
             variant="contained"
             color="primary"
             className={classes.button}
-            component={Link}
-            to={"/"}
             disabled={props.isProceedDisabled()}
             onClick={() => props.onSubmit()}
           >
