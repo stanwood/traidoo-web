@@ -55,7 +55,6 @@ const CheckoutSummaryPage: React.FC = () => {
       value: roundPrice(checkoutData?.deliveryFeeNet),
     },
     { name: t("totalNet"), value: roundPrice(checkoutData?.netTotal) },
-    { name: t("totalNet"), value: roundPrice(checkoutData?.netTotal) },
     ...(formattedVatBreakDown || {}),
     { name: t("totalVat"), value: roundPrice(checkoutData?.vatTotal) },
     {
