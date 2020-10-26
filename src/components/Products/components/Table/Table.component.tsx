@@ -148,13 +148,11 @@ const ProductsList: React.FC<ProductsListProps> = ({
 
   return (
     <Paper className={classes.paper}>
-      {filterBy && (
-        <TableToolbar
-          filterBy={filterBy}
-          onFilterChange={onFilterChange}
-          onRequestSort={onSortChange}
-        />
-      )}
+      <TableToolbar
+        filterBy={filterBy}
+        onFilterChange={onFilterChange}
+        onRequestSort={onSortChange}
+      />
       <TableContainer>
         <Table aria-label="products list">
           <TableHead

@@ -1,55 +1,29 @@
-import IconButton from "@material-ui/core/IconButton";
-import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import Tooltip from "@material-ui/core/Tooltip";
-import FilterListIcon from "@material-ui/icons/FilterList";
+import Select from "@material-ui/core/Select";
 import React from "react";
 import menuItems from "./menuItems";
+import useProductFilterStyles from "./styles";
 
-const FilterMenu = ({ onFilterChange }: any) => {
-  // TODO: add type
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+const FilterMenu = ({ onFilterChange, selected }: any) => {
+  const classes = useProductFilterStyles();
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = (event: React.MouseEvent<HTMLLIElement>) => {
-    const { filterValue } = event.currentTarget.dataset;
-    onFilterChange(filterValue);
-    setAnchorEl(null);
+  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    onFilterChange(event.target.value as string);
   };
 
   return (
-    <div>
-      <Tooltip title="Filter products">
-        <IconButton
-          aria-label="filter list"
-          aria-controls="filter-menu"
-          aria-haspopup="true"
-          onClick={handleClick}
-        >
-          <FilterListIcon />
-        </IconButton>
-      </Tooltip>
-      <Menu
-        id="filter-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        {menuItems.map((item) => (
-          <MenuItem
-            onClick={handleClose}
-            data-filter-value={item.value}
-            key={item.value}
-          >
-            {item.name}
-          </MenuItem>
-        ))}
-      </Menu>
-    </div>
+    <Select
+      value={selected || "all"}
+      onChange={handleChange}
+      classes={{ select: classes.select }}
+      disableUnderline
+    >
+      {menuItems.map((item) => (
+        <MenuItem key={item.value} value={item.value}>
+          {item.name}
+        </MenuItem>
+      ))}
+    </Select>
   );
 };
 

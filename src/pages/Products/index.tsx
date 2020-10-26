@@ -34,6 +34,7 @@ const Products: React.FC = () => {
     order: StringParam,
     orderBy: StringParam,
     seller: NumberParam,
+    filterBy: StringParam,
   });
 
   const { status, data } = useQuery(
@@ -46,7 +47,7 @@ const Products: React.FC = () => {
     }
   );
 
-  const [filterBy, setFilterBy] = useState<string>("");
+  const [filterBy, setFilterBy] = useState<string>(query.filterBy || "all");
   const [order, setOrder] = useState<Order>("asc");
   const [orderBy, setOrderBy] = useState<keyof TableColumnsWithSorting>(
     "createdAt"
