@@ -57,7 +57,7 @@ const addProductSchemaValidator: yup.ObjectSchema<ProductFormData> = yup
     // Availability
     regions: yup.array<Region>().notRequired(),
     // Internal
-    sellersProductIdentifier: yup.string().notRequired(),
+    sellersProductIdentifier: yup.string().notRequired().nullable(),
     tags: yup.array<Tag>().notRequired(),
     ean8: yup.string().notRequired().nullable(),
     ean13: yup.string().notRequired().nullable(),
