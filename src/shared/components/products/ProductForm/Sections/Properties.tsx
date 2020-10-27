@@ -26,9 +26,14 @@ const Properties: React.FC = () => {
               control={
                 <Controller
                   control={control}
-                  as={Checkbox}
                   color="primary"
                   name={item.name}
+                  render={(props) => (
+                    <Checkbox
+                      onChange={(e) => props.onChange(e.target.checked)}
+                      checked={props.value}
+                    />
+                  )}
                 />
               }
               label={item.label}
