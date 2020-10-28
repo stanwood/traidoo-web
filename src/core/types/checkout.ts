@@ -37,7 +37,7 @@ export type CheckoutItemType = {
 };
 
 export type DepositType = {
-  depositPerUnit: string;
+  depositNet: string;
   depositTotal: number;
   sizeClass: string;
   unit: string;
