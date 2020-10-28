@@ -74,8 +74,10 @@ const CheckoutSummary: React.FC<{
                   {item.sizeClass}
                 </TableCell>
                 <TableCell align="right">{item.count}</TableCell>
-                <TableCell align="right">{item.depositPerUnit}</TableCell>
-                <TableCell align="right">{item.unit}</TableCell>
+                <TableCell align="right">
+                  {item.depositNet.toFixed(2)}€ / {item.unit}
+                </TableCell>
+                <TableCell align="right">1 {item.unit}</TableCell>
                 <TableCell align="right">
                   {item.depositTotal.toFixed(2)}€
                 </TableCell>
