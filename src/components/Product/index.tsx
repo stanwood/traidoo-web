@@ -173,7 +173,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = (
         <Box className={classes.sideBar}>
           {product.price && (
             <Typography variant="h4">
-              {product.price}€ / {product.unit}
+              {product.price.toFixed(2)}€ / {product.unit}
             </Typography>
           )}
           {product.price && (
