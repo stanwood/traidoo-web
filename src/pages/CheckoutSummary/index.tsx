@@ -35,7 +35,7 @@ const CheckoutSummaryPage: React.FC = () => {
     .filter(([key, value]: any) => value > 0)
     .map(([key, value]) => {
       return {
-        name: `${t("vat")} ${Math.trunc(Number(key))}%`,
+        name: `${t("vat")} ${Number(key).toFixed(2)}%`,
         value: value,
       };
     });
