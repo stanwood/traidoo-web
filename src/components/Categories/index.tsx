@@ -47,18 +47,14 @@ const Categories: React.FC = () => {
   }
 
   return (
-    <Grid
-      container
-      direction="column"
-      justify="space-between"
-      className={classes.root}
-    >
+    <Grid container direction="row" className={classes.root}>
       <TreeView
         defaultCollapseIcon={<ArrowDropUpIcon />}
         defaultExpandIcon={<ArrowDropDownIcon />}
         defaultEndIcon={<div style={{ width: 24 }} />}
         expanded={expanded}
         onNodeToggle={handleChange}
+        className={classes.treeView}
       >
         <CategoryItems categories={categories} />
       </TreeView>

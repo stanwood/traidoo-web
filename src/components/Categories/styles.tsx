@@ -1,18 +1,22 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { leftDrawerWidth } from "../Layout/constants";
 
 export const useCategoriesStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      height: 264,
       flexGrow: 1,
-      maxWidth: 400,
+      width: leftDrawerWidth - 1,
       paddingBottom: theme.spacing(2),
     },
-    image: {
-      display: "block",
-      height: "auto",
-      margin: "0 auto",
+    treeView: {
+      marginBottom: theme.spacing(4),
       width: "100%",
+    },
+    image: {
+      height: "auto",
+      maxHeight: "78px",
+      marginTop: "auto",
+      width: leftDrawerWidth,
     },
   })
 );
