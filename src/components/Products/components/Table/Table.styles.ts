@@ -4,6 +4,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     image: {
       objectFit: "cover",
+      imageOrientation: "none",
       width: 200,
       height: 100,
       [theme.breakpoints.down("lg")]: {
@@ -32,10 +33,10 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: theme.spacing(2),
     },
     mainLink: {
-        fontWeight: 800,
-        "&:hover": {
-          color: theme.palette.primary.main,
-        }
+      fontWeight: 800,
+      "&:hover": {
+        color: theme.palette.primary.main,
+      },
     },
     link: {
       "&:hover": {
@@ -46,12 +47,12 @@ const useStyles = makeStyles((theme: Theme) =>
       color: theme.palette.error.main,
     },
     alternatingRow: {
-        background: "#fafafa"
+      background: "#fafafa",
     },
     imageCell: {
-        lineHeight: 0,
-        padding: 0
-    }
+      lineHeight: 0,
+      padding: 0,
+    },
   })
 );
 
