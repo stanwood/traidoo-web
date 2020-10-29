@@ -11,6 +11,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 import RemoveIcon from "@material-ui/icons/Remove";
 import Dinero from "dinero.js";
 import React, { useContext } from "react";
+import { useTranslation } from "react-i18next";
 import { CartContext } from "../../../contexts/CartContext/context";
 import { CartProduct } from "../../../contexts/CartContext/interfaces";
 import useStyles from "./styles";
@@ -18,9 +19,10 @@ import useStyles from "./styles";
 const CartItem: React.FC<{
   product: CartProduct;
 }> = (props: { product: CartProduct }) => {
+  const classes = useStyles();
   const { product } = props;
   const { removeProduct, setProductQuantity } = useContext(CartContext);
-  const classes = useStyles();
+  const { t } = useTranslation();
 
   const totalPrice = Dinero({
     amount: Math.round(product.price * product.amount * 100),
@@ -66,8 +68,8 @@ const CartItem: React.FC<{
             alignItems="center"
           >
             <Grid key={1} item>
-              {product.quantity * product.amount} {product.unit} a{" "}
-              {product.price.toFixed(2)}€ / {product.unit}
+              {product.quantity * product.amount} {t(product.unit)} a{" "}
+              {product.price.toFixed(2)}€ / {t(product.unit)}
             </Grid>
           </Grid>
           <Grid

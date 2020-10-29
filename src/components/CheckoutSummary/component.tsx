@@ -49,10 +49,10 @@ const CheckoutSummary: React.FC<{
                 </TableCell>
                 <TableCell align="right">{item.quantity}</TableCell>
                 <TableCell align="right">
-                  {item.product.price.toFixed(2)}€ / {item.product.unit}
+                  {item.product.price.toFixed(2)}€ / {t(item.product.unit)}
                 </TableCell>
                 <TableCell align="right">
-                  {item.product.amount} {item.product.unit}
+                  {item.product.amount} {t(item.product.unit)}
                 </TableCell>
                 <TableCell align="right">{item.priceNet.toFixed(2)}€</TableCell>
                 <TableCell align="right">{item.product.vat}%</TableCell>
@@ -75,9 +75,9 @@ const CheckoutSummary: React.FC<{
                 </TableCell>
                 <TableCell align="right">{item.count}</TableCell>
                 <TableCell align="right">
-                  {item.depositNet.toFixed(2)}€ / {item.unit}
+                  {item.depositNet.toFixed(2)}€ / {t(item.unit)}
                 </TableCell>
-                <TableCell align="right">1 {item.unit}</TableCell>
+                <TableCell align="right">1 {t(item.unit)}</TableCell>
                 <TableCell align="right">
                   {item.depositTotal.toFixed(2)}€
                 </TableCell>

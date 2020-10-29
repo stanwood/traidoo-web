@@ -173,7 +173,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = (
         <Box className={classes.sideBar}>
           {product.price && (
             <Typography variant="h4">
-              {product.price.toFixed(2)}€ / {product.unit}
+              {product.price.toFixed(2)}€ / {t(product.unit)}
             </Typography>
           )}
           {product.price && (
@@ -191,7 +191,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = (
             {t("lotSize")}
           </Typography>
           <Typography>
-            {product.amount} {product.unit}
+            {product.amount} {t(product.unit)}
           </Typography>
 
           <Typography
