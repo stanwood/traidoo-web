@@ -6,11 +6,12 @@ export const productUnits: Record<string, string> = {
   g: i18n.t("g"),
   l: i18n.t("l"),
   ml: i18n.t("ml"),
-  piece: i18n.t("piece"),
-  glass: i18n.t("glass"),
-  net: i18n.t("net"),
-  bundle: i18n.t("bundle"),
-  bottle: i18n.t("bottle"),
+  // INFO: Uppercase letters are intended to correctly translate production data.
+  Piece: i18n.t("Piece"),
+  Glass: i18n.t("Glass"),
+  Net: i18n.t("Net"),
+  Bundle: i18n.t("Bundle"),
+  Bottle: i18n.t("Bottle"),
 };
 
 export const deliveryOptions: DeliveryOption[] = [
