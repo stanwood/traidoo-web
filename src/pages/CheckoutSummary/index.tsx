@@ -31,14 +31,14 @@ const CheckoutSummaryPage: React.FC = () => {
     price ? Math.round((price + Number.EPSILON) * 100) / 100 : 0;
 
   const vatBreakDown = checkoutData?.vatBreakdown || {};
-  const formattedVatBreakDown = Object.entries(vatBreakDown)
-    .filter(([key, value]: any) => value > 0)
-    .map(([key, value]) => {
+  const formattedVatBreakDown = Object.entries(vatBreakDown).map(
+    ([key, value]) => {
       return {
         name: `${t("vat")} ${Number(key).toFixed(2)}%`,
         value: value,
       };
-    });
+    }
+  );
 
   const summary = [
     { name: t("products"), value: roundPrice(checkoutData?.productTotal) },
