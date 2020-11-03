@@ -42,7 +42,7 @@
   "centralLogisticsPrices": "*Die Preise für die zentrale Logistik hängen vom Gesamtvolumen des Warenkorbs ab. Erfahren Sie hier mehr darüber.",
   "changePassword": "Passwort ändern",
   "checkout": "Zur Kasse",
-  "checkoutSuccess": "__MISSING__",
+  "checkoutPriceTooLow": "Der Mindestbestellwert beträgt",
   "checkoutSummary": "Gesamtbetrag",
   "chooseDeliveryOptions": "Lieferoptionen auswählen",
   "city": "Stadt",
