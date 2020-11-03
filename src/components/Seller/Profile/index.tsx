@@ -30,7 +30,7 @@ const Profile = (props: any) => {
     <>
       <LazyLoad>
         <Img
-          src={seller.image}
+          src={seller.image || seller.imageUrl}
           loader={<Skeleton variant="rect" className={classes.imageLoader} />}
           className={classes.image}
         />
@@ -41,6 +41,7 @@ const Profile = (props: any) => {
         flex="1"
         flexDirection="column"
       >
+        <Typography>{seller.companyName}</Typography>
         <Typography>
           {seller.firstName} {seller.lastName}
         </Typography>
