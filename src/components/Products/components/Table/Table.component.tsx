@@ -219,8 +219,7 @@ const ProductsList: React.FC<ProductsListProps> = ({
                         color="textSecondary"
                         className={classes.link}
                       >
-                        {row.seller.firstName} {row.seller.lastName},{" "}
-                        {row.seller.city}
+                        {row.seller.companyName}, {row.seller.city}
                       </Link>
                     )}
                   </TableCell>
