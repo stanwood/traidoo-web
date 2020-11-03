@@ -11,6 +11,7 @@ interface ProductList {
     firstName: string;
     lastName: string;
     city: string;
+    companyName: string;
   };
   category: {
     id: number;
