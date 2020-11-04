@@ -4,7 +4,10 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import {
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -133,7 +136,7 @@ const RegistrationPersonalForm = ({
               utils={DateFnsUtils}
               locale={localeMap[i18n.language]}
             >
-              <DatePicker
+              <KeyboardDatePicker
                 disableFuture={true}
                 autoOk={true}
                 variant="inline"
