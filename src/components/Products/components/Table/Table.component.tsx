@@ -135,7 +135,7 @@ const ProductsList: React.FC<ProductsListProps> = ({
         <>
           <Hidden smDown>
             <TableCell align="right">
-              {price.toFixed(2)}€ / {unit}
+              {price.toFixed(2)}€ / {t(unit)}
             </TableCell>
           </Hidden>
           <TableCell align="right">
