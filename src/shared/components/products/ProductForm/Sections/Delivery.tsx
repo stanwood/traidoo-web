@@ -152,15 +152,20 @@ const Delivery: React.FC<DeliveryProps> = (props: DeliveryProps) => {
             ))}
             {Config.features.routes && sellerDelivery && (
               <FormControlLabel
-                label={t("thirdPartyDelivery")}
                 control={
                   <Controller
                     control={control}
-                    as={Checkbox}
-                    name="thirdPartyDelivery"
                     color="primary"
+                    name="thirdPartyDelivery"
+                    render={(props) => (
+                      <Checkbox
+                        onChange={(e) => props.onChange(e.target.checked)}
+                        checked={props.value}
+                      />
+                    )}
                   />
                 }
+                label={t("thirdPartyDelivery")}
               />
             )}
           </FormGroup>
