@@ -26,6 +26,7 @@ import LazyLoad from "react-lazyload";
 import { Link as RouterLink } from "react-router-dom";
 import { CartContext } from "../../../../contexts/CartContext/context";
 import { UserContext } from "../../../../contexts/UserContext/context";
+import { getCurrencySymbol } from "../../../../core/constants/currencies";
 import AvilableItems from "../../availableItems";
 import TablePaginationActions from "../Pagination/Pagination.component";
 import TableHead from "../TableHead";
@@ -117,7 +118,8 @@ const ProductsList: React.FC<ProductsListProps> = ({
         return (
           <>
             <TableCell align="right">
-              {price.toFixed(2)}€ / {t(unit)}
+              {price.toFixed(2)}
+              {getCurrencySymbol()} / {t(unit)}
             </TableCell>
             <TableCell align="right">
               <IconButton
@@ -135,7 +137,8 @@ const ProductsList: React.FC<ProductsListProps> = ({
         <>
           <Hidden smDown>
             <TableCell align="right">
-              {price.toFixed(2)}€ / {t(unit)}
+              {price.toFixed(2)}
+              {getCurrencySymbol()} / {t(unit)}
             </TableCell>
           </Hidden>
           <TableCell align="right">

@@ -10,6 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import React, { useMemo } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { getCurrencySymbol } from "../../../../../core/constants/currencies";
 import { GlobalSettings } from "../../../../../core/interfaces/settings";
 import { productUnits } from "../../constants";
 import ControlledTextInput from "../Fields/ControlledTextField";
@@ -30,7 +31,7 @@ const Pricing: React.FC<PricingProps> = (props: PricingProps) => {
     return {
       endAdornment: (
         <InputAdornment position="end">
-          € / {productUnits[selectedUnit]}
+          {getCurrencySymbol()} / {productUnits[selectedUnit]}
         </InputAdornment>
       ),
     };
