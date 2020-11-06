@@ -28,5 +28,6 @@ steps:
       - "REACT_APP_SPONSOR_LOGO=${_SPONSOR_LOGO}"
       - "REACT_APP_COMPANY_TYPES_VARIANT=${_COMPANY_TYPES_VARIANT}"
       - "REACT_APP_INTERCOM_ID=${_INTERCOM_ID}"
+      - "REACT_APP_CURRENCY=${_CURRENCY}"
   - name: gcr.io/$PROJECT_ID/firebase
     args: ["deploy", "--project=$PROJECT_ID", "--only=hosting"]
