@@ -14,6 +14,10 @@ import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { CartContext } from "../../../contexts/CartContext/context";
 import { CartProduct } from "../../../contexts/CartContext/interfaces";
+import {
+  getCurrencyCode,
+  getCurrencySymbol,
+} from "../../../core/constants/currencies";
 import useStyles from "./styles";
 
 const CartItem: React.FC<{
@@ -26,7 +30,7 @@ const CartItem: React.FC<{
 
   const totalPrice = Dinero({
     amount: Math.round(product.price * product.amount * 100),
-    currency: "EUR",
+    currency: getCurrencyCode(),
   })
     .multiply(product.quantity)
     .toUnit();
@@ -69,7 +73,8 @@ const CartItem: React.FC<{
           >
             <Grid key={1} item>
               {product.quantity * product.amount} {t(product.unit)} a{" "}
-              {product.price.toFixed(2)}€ / {t(product.unit)}
+              {product.price.toFixed(2)}
+              {getCurrencySymbol()} / {t(product.unit)}
             </Grid>
           </Grid>
           <Grid
@@ -79,7 +84,10 @@ const CartItem: React.FC<{
             alignItems="center"
           >
             <Grid key={1} item>
-              <Typography variant="h6">{totalPrice.toFixed(2)}€</Typography>
+              <Typography variant="h6">
+                {totalPrice.toFixed(2)}
+                {getCurrencySymbol}
+              </Typography>
             </Grid>
             <Grid key={2} item>
               <ButtonGroup

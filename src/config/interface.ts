@@ -12,6 +12,7 @@ interface Configuration {
   sponsorLogo: string | null;
   compantTypesVariant: null | "A" | "B";
   intercomId: string;
+  currency: string;
   features: {
     routes: boolean;
   };

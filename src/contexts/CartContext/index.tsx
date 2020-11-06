@@ -14,6 +14,7 @@ import {
   modifyCartRequest,
   removeFromCartRequest,
 } from "../../api/queries/cart";
+import { getCurrencyCode } from "../../core/constants/currencies";
 import {
   CART_ADD,
   CART_CLEAN,
@@ -52,7 +53,7 @@ const CartProvider = (props: CartProviderProps): ReactElement => {
 
     return Dinero({
       amount: Math.round(total * 100),
-      currency: "EUR",
+      currency: getCurrencyCode(),
     }).toUnit();
   }, [cart]);
 
