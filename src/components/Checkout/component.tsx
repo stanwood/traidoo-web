@@ -11,6 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { getCurrencySymbol } from "../../core/constants/currencies";
 import DeliveryAddress from "../../core/interfaces/deliveryAddress";
 import { CheckoutType } from "../../core/types/checkout";
 import CheckoutList from "./List";
@@ -66,7 +67,8 @@ const Checkout: React.FC<CheckoutProps> = (props: CheckoutProps) => {
 
         <Grid item xs={12} className={classes.totalDelivery}>
           <Typography>
-            {t("totalDeliveryCost")} {checkout?.deliveryFeeNet.toFixed(2)}€
+            {t("totalDeliveryCost")} {checkout?.deliveryFeeNet.toFixed(2)}
+            {getCurrencySymbol()}
           </Typography>
         </Grid>
         <Grid container item className={classes.selects}>

@@ -4,6 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import React from "react";
+import { getCurrencySymbol } from "../../../core/constants/currencies";
 import { deliveryOptionsMapping } from "./deliveryMapping";
 import useStyles from "./styles";
 
@@ -36,7 +37,8 @@ const CheckoutList: React.FC<{
                 {item.deliveryOptions.map((deliveryOption: any) => (
                   <MenuItem value={deliveryOption.id} key={deliveryOption.id}>
                     {deliveryOptionsMapping[deliveryOption.id]}{" "}
-                    {deliveryOption.value.toFixed(2)}€
+                    {deliveryOption.value.toFixed(2)}
+                    {getCurrencySymbol()}
                   </MenuItem>
                 ))}
               </Select>

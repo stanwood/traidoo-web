@@ -10,6 +10,7 @@ import { Img } from "react-image";
 import LazyLoad from "react-lazyload";
 import { CartContext } from "../../contexts/CartContext/context";
 import { UserContext } from "../../contexts/UserContext/context";
+import { getCurrencySymbol } from "../../core/constants/currencies";
 import { default as DeliveryOptionType } from "../../core/types/deliveryOption";
 import { ProductIcon } from "../ProductIcon/ProductIcon.component";
 import DeliveryOption from "./DeliveryOption";
@@ -173,13 +174,15 @@ const ProductDetails: React.FC<ProductDetailsProps> = (
         <Box className={classes.sideBar}>
           {product.price && (
             <Typography variant="h4">
-              {product.price.toFixed(2)}€ / {t(product.unit)}
+              {product.price.toFixed(2)}
+              {getCurrencySymbol()} / {t(product.unit)}
             </Typography>
           )}
           {product.price && (
             <Typography variant="subtitle2" color="primary">
               {product.vat}% {t("vat")},{" "}
-              {grossPrice(product.price, product.vat).toFixed(2)}€ {t("gross")}
+              {grossPrice(product.price, product.vat).toFixed(2)}
+              {getCurrencySymbol()} {t("gross")}
             </Typography>
           )}
 
@@ -205,7 +208,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = (
             {product.containerType.deposit
               ? product.containerType.deposit.toFixed(2)
               : 0}
-            €
+            {getCurrencySymbol()}
           </Typography>
 
           <Typography

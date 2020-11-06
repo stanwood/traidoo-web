@@ -8,6 +8,7 @@ import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import { getSettingsRequest } from "../../../api/queries/settings/settings";
 import { CartContext } from "../../../contexts/CartContext/context";
+import { getCurrencySymbol } from "../../../core/constants/currencies";
 import Cart from "../Cart/component";
 import CartItem from "../CartItem/component";
 import { useCartStyles } from "./styles";
@@ -85,12 +86,15 @@ const RenderCart = () => {
         </Button>
         {isPriceTooLow ? (
           <Tooltip
-            title={`${t("checkoutPriceTooLow")} ${settings?.minPurchaseValue}€`}
+            title={`${t("checkoutPriceTooLow")} ${
+              settings?.minPurchaseValue
+            }${getCurrencySymbol()}`}
             arrow
           >
             <span>
               <Button variant="contained" color="primary" disabled>
-                {t("checkout")} {cartTotal.toFixed(2)}€
+                {t("checkout")} {cartTotal.toFixed(2)}
+                {getCurrencySymbol()}
               </Button>
             </span>
           </Tooltip>
@@ -102,7 +106,8 @@ const RenderCart = () => {
             color="primary"
             disabled={disableButton}
           >
-            {t("checkout")} {cartTotal.toFixed(2)}€
+            {t("checkout")} {cartTotal.toFixed(2)}
+            {getCurrencySymbol()}
           </Button>
         )}
       </Grid>
