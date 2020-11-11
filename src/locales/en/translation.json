@@ -42,7 +42,7 @@
   "centralLogisticsPrices": "*Central logistics prices depend on total cart volume. Learn more.",
   "changePassword": "change password",
   "checkout": "checkout",
-  "checkoutSuccess": "__MISSING__",
+  "checkoutPriceTooLow": "To checkout your cart the total price must be minimum",
   "checkoutSummary": "Checkout summary",
   "chooseDeliveryOptions": "Choose delivery options",
   "city": "City",

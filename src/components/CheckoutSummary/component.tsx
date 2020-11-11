@@ -12,6 +12,7 @@ import Typography from "@material-ui/core/Typography";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { getCurrencySymbol } from "../../core/constants/currencies";
 import { CheckoutType } from "../../core/types/checkout";
 import useStyles from "./styles";
 
@@ -49,12 +50,16 @@ const CheckoutSummary: React.FC<{
                 </TableCell>
                 <TableCell align="right">{item.quantity}</TableCell>
                 <TableCell align="right">
-                  {item.product.price.toFixed(2)}€ / {t(item.product.unit)}
+                  {item.product.price.toFixed(2)}
+                  {getCurrencySymbol()} / {t(item.product.unit)}
                 </TableCell>
                 <TableCell align="right">
                   {item.product.amount} {t(item.product.unit)}
                 </TableCell>
-                <TableCell align="right">{item.priceNet.toFixed(2)}€</TableCell>
+                <TableCell align="right">
+                  {item.priceNet.toFixed(2)}
+                  {getCurrencySymbol()}
+                </TableCell>
                 <TableCell align="right">{item.product.vat}%</TableCell>
               </TableRow>
             ))}
@@ -75,11 +80,13 @@ const CheckoutSummary: React.FC<{
                 </TableCell>
                 <TableCell align="right">{item.count}</TableCell>
                 <TableCell align="right">
-                  {item.depositNet.toFixed(2)}€ / {t(item.unit)}
+                  {item.depositNet.toFixed(2)}
+                  {getCurrencySymbol()} / {t(item.unit)}
                 </TableCell>
                 <TableCell align="right">1 {t(item.unit)}</TableCell>
                 <TableCell align="right">
-                  {item.depositTotal.toFixed(2)}€
+                  {item.depositTotal.toFixed(2)}
+                  {getCurrencySymbol()}
                 </TableCell>
                 <TableCell align="right">{item.vat}%</TableCell>
               </TableRow>
@@ -101,7 +108,10 @@ const CheckoutSummary: React.FC<{
                   <TableCell component="th" scope="row">
                     {item.name}
                   </TableCell>
-                  <TableCell align="right">{item.value.toFixed(2)}€</TableCell>
+                  <TableCell align="right">
+                    {item.value.toFixed(2)}
+                    {getCurrencySymbol()}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

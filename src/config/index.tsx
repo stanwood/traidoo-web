@@ -15,6 +15,7 @@ const Config: Configuration = {
   sponsorLogo: process.env.REACT_APP_SPONSOR_LOGO,
   compantTypesVariant: process.env.REACT_APP_COMPANY_TYPES_VARIANT || "A",
   intercomId: process.env.REACT_APP_INTERCOM_ID,
+  currency: process.env.REACT_APP_CURRENCY,
   features: {
     routes: process.env.REACT_APP_FEATURE_ROUTES,
   },

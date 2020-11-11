@@ -2,6 +2,7 @@ import { Typography } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { getCurrencySymbol } from "../../core/constants/currencies";
 
 const DeliveryOption = (props: {
   id: number;
@@ -30,7 +31,8 @@ const DeliveryOption = (props: {
       </Grid>
       <Grid item>
         <Typography variant="subtitle1">
-          {props.price ? props.price.toFixed(2) : "0.00"}€
+          {props.price ? props.price.toFixed(2) : "0.00"}
+          {getCurrencySymbol()}
         </Typography>
       </Grid>
     </Grid>
