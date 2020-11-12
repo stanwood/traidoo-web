@@ -55,7 +55,7 @@ const useAppBarStyles = makeStyles((theme: Theme) =>
         marginLeft: theme.spacing(1),
         width: "auto",
       },
-      color: theme.palette.common.white
+      color: theme.palette.common.white,
     },
     searchIcon: {
       padding: theme.spacing(0, 2),
@@ -166,6 +166,7 @@ const TraidooAppBar: React.FC<TraidooAppBarProps> = (
             }}
             inputProps={{ "aria-label": "search" }}
             onKeyPress={keyPressed}
+            type="search"
           />
         </div>
         {cartButton && user.id && <CartButton styleName={classes.menuButton} />}

@@ -4,6 +4,8 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import clsx from "clsx";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import useStyles from "./RegistrationDocumentsForm.styles";
@@ -19,9 +21,16 @@ const RegistrationDocumentsForm = ({
   onCancel,
   data,
   requiredFields,
+  watch,
 }: any) => {
   const classes = useStyles();
   const { t } = useTranslation();
+
+  const watchBusinessLicense = watch("businessLicense", []);
+  const watchIdentityProof = watch("identityProof", []);
+  const watchImage = watch("image", []);
+  const watchRegistrationProof = watch("registrationProof", []);
+  const watchArticlesOfAssociation = watch("articlesOfAssociation", []);
 
   const [termAndConditions, setTermAndConditions] = useState(false);
 
@@ -61,7 +70,10 @@ const RegistrationDocumentsForm = ({
                   size="large"
                   component="span"
                   fullWidth
-                  className={classes.button}
+                  classes={{
+                    label: clsx(watchBusinessLicense.length && classes.button),
+                  }}
+                  endIcon={watchBusinessLicense.length && <CheckCircleIcon />}
                 >
                   {t("businessLicense")}
                 </Button>
@@ -89,7 +101,10 @@ const RegistrationDocumentsForm = ({
                   size="large"
                   component="span"
                   fullWidth
-                  className={classes.button}
+                  classes={{
+                    label: clsx(watchIdentityProof.length && classes.button),
+                  }}
+                  endIcon={watchIdentityProof.length && <CheckCircleIcon />}
                 >
                   {t("uploadIdentityProof")}
                 </Button>
@@ -115,7 +130,10 @@ const RegistrationDocumentsForm = ({
                   size="large"
                   component="span"
                   fullWidth
-                  className={classes.button}
+                  classes={{
+                    label: clsx(watchImage.length && classes.button),
+                  }}
+                  endIcon={watchImage.length && <CheckCircleIcon />}
                 >
                   {t("uploadCompanyLogo")}
                 </Button>
@@ -141,7 +159,12 @@ const RegistrationDocumentsForm = ({
                   size="large"
                   component="span"
                   fullWidth
-                  className={classes.button}
+                  classes={{
+                    label: clsx(
+                      watchRegistrationProof.length && classes.button
+                    ),
+                  }}
+                  endIcon={watchRegistrationProof.length && <CheckCircleIcon />}
                 >
                   {t("uploadRegistrationProof")}
                 </Button>
@@ -169,7 +192,14 @@ const RegistrationDocumentsForm = ({
                   size="large"
                   component="span"
                   fullWidth
-                  className={classes.button}
+                  classes={{
+                    label: clsx(
+                      watchArticlesOfAssociation.length && classes.button
+                    ),
+                  }}
+                  endIcon={
+                    watchArticlesOfAssociation.length && <CheckCircleIcon />
+                  }
                 >
                   {t("uploadArticlesOfAssociation")}
                 </Button>
