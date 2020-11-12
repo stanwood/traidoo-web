@@ -73,7 +73,9 @@ const RegistrationDocumentsForm = ({
                   classes={{
                     label: clsx(watchBusinessLicense.length && classes.button),
                   }}
-                  endIcon={watchBusinessLicense.length && <CheckCircleIcon />}
+                  endIcon={
+                    watchBusinessLicense.length > 0 ? <CheckCircleIcon /> : null
+                  }
                 >
                   {t("businessLicense")}
                 </Button>
@@ -104,7 +106,9 @@ const RegistrationDocumentsForm = ({
                   classes={{
                     label: clsx(watchIdentityProof.length && classes.button),
                   }}
-                  endIcon={watchIdentityProof.length && <CheckCircleIcon />}
+                  endIcon={
+                    watchIdentityProof.length > 0 ? <CheckCircleIcon /> : null
+                  }
                 >
                   {t("uploadIdentityProof")}
                 </Button>
@@ -133,7 +137,7 @@ const RegistrationDocumentsForm = ({
                   classes={{
                     label: clsx(watchImage.length && classes.button),
                   }}
-                  endIcon={watchImage.length && <CheckCircleIcon />}
+                  endIcon={watchImage.length > 0 ? <CheckCircleIcon /> : null}
                 >
                   {t("uploadCompanyLogo")}
                 </Button>
@@ -164,7 +168,11 @@ const RegistrationDocumentsForm = ({
                       watchRegistrationProof.length && classes.button
                     ),
                   }}
-                  endIcon={watchRegistrationProof.length && <CheckCircleIcon />}
+                  endIcon={
+                    watchRegistrationProof.length > 0 ? (
+                      <CheckCircleIcon />
+                    ) : null
+                  }
                 >
                   {t("uploadRegistrationProof")}
                 </Button>
@@ -198,7 +206,9 @@ const RegistrationDocumentsForm = ({
                     ),
                   }}
                   endIcon={
-                    watchArticlesOfAssociation.length && <CheckCircleIcon />
+                    watchArticlesOfAssociation.length > 0 ? (
+                      <CheckCircleIcon />
+                    ) : null
                   }
                 >
                   {t("uploadArticlesOfAssociation")}
