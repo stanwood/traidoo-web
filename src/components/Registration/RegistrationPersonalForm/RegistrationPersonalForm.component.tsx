@@ -144,7 +144,6 @@ const RegistrationPersonalForm = ({
                 variant="inline"
                 format="dd.MM.yyyy"
                 id="birthday"
-                type="datetime-local"
                 name="birthday"
                 label={t("birthday")}
                 value={values.birthday || null}
