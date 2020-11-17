@@ -13,6 +13,10 @@ interface Configuration {
   compantTypesVariant: null | "A" | "B";
   intercomId: string;
   currency: string;
+  registration: {
+    companyID: boolean;
+    uid: boolean;
+  };
   features: {
     routes: boolean;
   };
