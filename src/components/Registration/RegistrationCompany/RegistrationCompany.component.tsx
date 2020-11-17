@@ -2,6 +2,7 @@ import { yupResolver } from "@hookform/resolvers";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { APIValidationErrors } from "../../../api/errors/parser";
+import Config from "../../../config";
 import { required } from "../../../utils/errors";
 import RegistrationCompanyForm from "../RegistrationCompanyForm";
 import { FormData } from "./interfaces";
@@ -29,6 +30,7 @@ const RegistrationCompany = (props: RegistrationCompanyProps) => {
   } = useForm<FormData>({
     defaultValues: data,
     resolver: yupResolver(validationSchema),
+    context: { companyID: Config.registration.companyID },
   });
   const onSubmit = (formData: FormData) => submit(formData);
   const onCancel = (formData: FormData) => cancel(formData);
