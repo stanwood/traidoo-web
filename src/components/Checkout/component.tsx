@@ -34,7 +34,7 @@ const Checkout = () => {
   const { t } = useTranslation();
   const { closeSnackbar } = useSnackbar();
   const {
-    checkout,
+    checkoutDelivery,
     deliveryAddresses,
     updateDeliveryDate,
     isCheckoutEnabled,
@@ -43,7 +43,7 @@ const Checkout = () => {
     deliveryOption,
   } = React.useContext(CheckoutContext);
 
-  if (checkout && checkout.items.length < 1) {
+  if (checkoutDelivery && checkoutDelivery.items.length < 1) {
     return <EmptyCartMessage />;
   }
 
@@ -85,13 +85,14 @@ const Checkout = () => {
 
           <Grid item xs={12} className={classes.totalDelivery}>
             <Typography>
-              {t("totalDeliveryCost")} {checkout?.deliveryFeeNet.toFixed(2)}
+              {t("totalDeliveryCost")}{" "}
+              {checkoutDelivery?.deliveryFeeNet.toFixed(2)}
               {getCurrencySymbol()}
             </Typography>
           </Grid>
           <Grid container item className={classes.selects}>
             <Grid item xs={12} md={6}>
-              {checkout && (
+              {checkoutDelivery && (
                 <FormControl variant="outlined" className={classes.formControl}>
                   <InputLabel id="deliveryDateLabel">
                     {t("deliveryDate")}
@@ -101,7 +102,7 @@ const Checkout = () => {
                     id="deliveryDate"
                     labelId="deliveryDateLabel"
                     label={t("deliveryDate")}
-                    defaultValue={checkout.earliestDeliveryDate}
+                    defaultValue={checkoutDelivery.earliestDeliveryDate}
                     onChange={(event) =>
                       updateDeliveryDate({ date: event.target.value as string })
                     }
@@ -140,7 +141,7 @@ const Checkout = () => {
                     onChange={(event) =>
                       updateDeliveryAddress(Number(event.target.value))
                     }
-                    value={checkout?.deliveryAddress || ""}
+                    value={checkoutDelivery?.deliveryAddress || ""}
                     label={t("deliveryAddress")}
                   >
                     {deliveryAddresses?.map((deliveryAddress: any) => (

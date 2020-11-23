@@ -10,7 +10,7 @@ const CheckoutList = () => {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const {
-    checkout,
+    checkoutDelivery,
     updateDeliveryOption,
     setDeliveryOption,
   } = React.useContext(CheckoutContext);
@@ -26,9 +26,9 @@ const CheckoutList = () => {
     }).then(() => {
       if (
         index === 0 &&
-        checkout &&
-        checkout.items.length > 0 &&
-        checkout.items.filter((item) =>
+        checkoutDelivery &&
+        checkoutDelivery.items.length > 0 &&
+        checkoutDelivery.items.filter((item) =>
           item.deliveryOptions
             .map((item) => item.id)
             .includes(Number(event.target.value))
@@ -44,7 +44,7 @@ const CheckoutList = () => {
 
   return (
     <Box>
-      {checkout?.items?.map((item, index) => (
+      {checkoutDelivery?.items?.map((item, index) => (
         <Grid container spacing={0} key={item.id} className={classes.item}>
           <Grid item xs={12} md={6} className={classes.productName}>
             {item.product.name}

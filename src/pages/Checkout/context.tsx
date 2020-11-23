@@ -6,15 +6,15 @@ import {
   cartDeliveryOptionBulkEditRequest,
   cartItemDeliveryOptionRequest,
 } from "../../api/queries/cart";
-import { getCheckoutRequest } from "../../api/queries/checkout";
+import { getCheckoutDeliveryOptionsRequest } from "../../api/queries/checkout";
 import { getUserDeliveryAddressesRequest } from "../../api/queries/users/profile";
 import DeliveryAddress from "../../core/interfaces/deliveryAddress";
-import { CheckoutType } from "../../core/types/checkout";
+import { CheckoutDeliveryOptions } from "../../core/types/checkoutDeliveryOptions";
 
 interface CheckoutStateContext {
   isDataLoaded: boolean;
   isCheckoutEnabled: boolean;
-  checkout: CheckoutType | undefined;
+  checkoutDelivery: CheckoutDeliveryOptions | undefined;
   deliveryAddresses: DeliveryAddress[] | undefined;
   updateDeliveryDate: MutateFunction<
     any,
@@ -60,10 +60,10 @@ export const CheckoutProvider = (
   const [deliveryOption, setDeliveryOption] = React.useState<number>(0);
 
   const {
-    data: checkout,
-    refetch: refetchCheckout,
-    isFetching: isCheckoutFetching,
-  } = useQuery("/checkout", getCheckoutRequest);
+    data: checkoutDelivery,
+    refetch: refetchCheckoutDelivery,
+    isFetching: isCheckoutDeliveryFetching,
+  } = useQuery("/checkout/delivery", getCheckoutDeliveryOptionsRequest);
 
   const { data: deliveryAddresses } = useQuery(
     "/delivery_addresses",
@@ -80,7 +80,7 @@ export const CheckoutProvider = (
     { isLoading: isUpdateDeliveryOptionLoading },
   ] = useMutation(cartItemDeliveryOptionRequest, {
     onSuccess: () => {
-      refetchCheckout();
+      refetchCheckoutDelivery();
     },
   });
 
@@ -89,38 +89,38 @@ export const CheckoutProvider = (
     { isLoading: isUpdateDeliveryOptionBulkLoading },
   ] = useMutation(cartDeliveryOptionBulkEditRequest, {
     onSuccess: () => {
-      refetchCheckout();
+      refetchCheckoutDelivery();
     },
   });
 
   const [updateDeliveryAddress] = useMutation(cartDeliveryAddressRequest, {
     onSuccess: () => {
-      refetchCheckout();
+      refetchCheckoutDelivery();
     },
   });
 
   const isDataLoaded = React.useMemo((): boolean => {
-    return checkout !== undefined && deliveryAddresses !== undefined;
-  }, [checkout, deliveryAddresses]);
+    return checkoutDelivery !== undefined && deliveryAddresses !== undefined;
+  }, [checkoutDelivery, deliveryAddresses]);
 
   const isCheckoutEnabled = React.useMemo((): boolean => {
     return (
       !isUpdateDeliveryDateLoading &&
       !isUpdateDeliveryOptionLoading &&
       !isUpdateDeliveryOptionBulkLoading &&
-      !isCheckoutFetching
+      !isCheckoutDeliveryFetching
     );
   }, [
     isUpdateDeliveryDateLoading,
     isUpdateDeliveryOptionLoading,
     isUpdateDeliveryOptionBulkLoading,
-    isCheckoutFetching,
+    isCheckoutDeliveryFetching,
   ]);
 
   const value = {
     isDataLoaded,
     isCheckoutEnabled,
-    checkout,
+    checkoutDelivery,
     deliveryAddresses,
     updateDeliveryDate,
     updateDeliveryOption,
