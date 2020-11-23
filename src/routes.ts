@@ -6,9 +6,10 @@ import {
   LayoutE,
   LayoutF,
   LayoutG,
-  LayoutH
+  LayoutH,
 } from "./components/Layout/Layouts";
 import Checkout from "./pages/Checkout";
+import { CheckoutProvider } from "./pages/Checkout/context";
 import CheckoutSuccessPage from "./pages/CheckoutSuccess";
 import CheckoutSummaryPage from "./pages/CheckoutSummary";
 import ContactPage from "./pages/Contact";
@@ -32,7 +33,7 @@ import CompanyDocuments from "./pages/Profile/Documents";
 import PersonalProfile from "./pages/Profile/Personal";
 import {
   RegistrationFormPage,
-  RegistrationSuccessPage
+  RegistrationSuccessPage,
 } from "./pages/Registration";
 import RegistrationConfirmPage from "./pages/RegistrationConfirm";
 import AddRoutePage from "./pages/Routes/Add";
@@ -258,6 +259,7 @@ export const privateRoutes = [
     layout: LayoutA,
     exact: true,
     component: Checkout,
+    provider: CheckoutProvider,
   },
   {
     key: "checkoutSummary",

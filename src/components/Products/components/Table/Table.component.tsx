@@ -15,16 +15,13 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableFooter from "@material-ui/core/TableFooter";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
-import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import DeleteIcon from "@material-ui/icons/Delete";
-import RemoveShoppingCartIcon from "@material-ui/icons/RemoveShoppingCart";
 import Skeleton from "@material-ui/lab/Skeleton";
 import React, { ReactElement, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Img } from "react-image";
 import LazyLoad from "react-lazyload";
 import { Link as RouterLink } from "react-router-dom";
-import { CartContext } from "../../../../contexts/CartContext/context";
 import { UserContext } from "../../../../contexts/UserContext/context";
 import { getCurrencySymbol } from "../../../../core/constants/currencies";
 import AvilableItems from "../../availableItems";
@@ -33,6 +30,7 @@ import TableHead from "../TableHead";
 import TableToolbar from "../TableToolbar";
 import ProductsListProps from "./interfaces";
 import useStyles from "./Table.styles";
+import ProductCartButton from "../CartButton";
 
 const ProductsList: React.FC<ProductsListProps> = ({
   products,
@@ -49,9 +47,6 @@ const ProductsList: React.FC<ProductsListProps> = ({
   const classes = useStyles();
   const { t } = useTranslation();
   const { canBuy } = useContext(UserContext);
-  const { isProductInCart, addProduct, removeProduct } = useContext(
-    CartContext
-  );
 
   const [open, setOpen] = React.useState<boolean>(false);
   const [selectedProductId, setSelectedProductId] = React.useState<
@@ -75,43 +70,13 @@ const ProductsList: React.FC<ProductsListProps> = ({
     setOpen(false);
   };
 
-  const cartButton = (
-    productId: number,
-    price: number,
-    unit: string,
-    name: string,
-    amount: number
-  ): ReactElement => {
-    if (isProductInCart(productId)) {
-      return (
-        <IconButton
-          className={classes.removeIcon}
-          aria-label="add to cart"
-          onClick={() => removeProduct(productId)}
-        >
-          <RemoveShoppingCartIcon />
-        </IconButton>
-      );
-    }
-
-    return (
-      <IconButton
-        aria-label="add to cart"
-        onClick={() =>
-          addProduct({ id: productId, amount, name, price, unit, quantity: 1 })
-        }
-      >
-        <AddShoppingCartIcon />
-      </IconButton>
-    );
-  };
-
   const loggedInData = (
     productId: number,
     name: string,
     price: number | undefined,
     unit = "",
-    amount: number
+    amount: number,
+    itemsAvailable: number | null
   ): ReactElement | undefined => {
     if (price) {
       if (sellerView) {
@@ -142,7 +107,14 @@ const ProductsList: React.FC<ProductsListProps> = ({
             </TableCell>
           </Hidden>
           <TableCell align="right">
-            {cartButton(productId, price, unit, name, amount)}
+            <ProductCartButton
+              productId={productId}
+              price={price}
+              unit={unit}
+              name={name}
+              amount={amount}
+              itemsAvailable={itemsAvailable}
+            />
           </TableCell>
         </>
       );
@@ -252,7 +224,8 @@ const ProductsList: React.FC<ProductsListProps> = ({
                     row.name,
                     row.price,
                     row.unit,
-                    row.amount
+                    row.amount,
+                    row.itemsAvailable
                   )}
               </TableRow>
             ))}
