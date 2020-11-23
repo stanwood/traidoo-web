@@ -38,38 +38,73 @@ const validationSchema = yup.object().shape({
   termAndConditions: yup
     .bool()
     .oneOf([true], i18n.t("mustAcceptTermsAndConditions")),
-  businessLicense: yup.mixed().when("companyType", {
-    is: (value) => requiredDocuments(false, value)?.includes("businessLicense"),
-    then: yup
-      .mixed()
-      .test(
-        "businessLicense",
-        i18n.t("businessLicenseRequired"),
-        (value) => value.length > 0
-      )
-      .test("fileSize", i18n.t("fileTooLarge"), (value) =>
-        validateFileSize(value)
-      )
-      .test("fileType", i18n.t("incorrectFileFormat"), (value) =>
-        validateFileType(SUPPORTED_DOCUMENTS, value)
-      ),
-  }),
-  identityProof: yup.mixed().when("companyType", {
-    is: (value) => requiredDocuments(false, value)?.includes("identityProof"),
-    then: yup
-      .mixed()
-      .test(
-        "identityProof",
-        i18n.t("identityProofRequired"),
-        (value) => value.length > 0
-      )
-      .test("fileSize", i18n.t("fileTooLarge"), (value) =>
-        validateFileSize(value)
-      )
-      .test("fileType", i18n.t("incorrectFileFormat"), (value) =>
-        validateFileType(SUPPORTED_DOCUMENTS, value)
-      ),
-  }),
+  businessLicense: yup
+    .mixed()
+    .when(["companyType", "isDeclaredAsSeller"], {
+      is: (companyType, isDeclaredAsSeller) =>
+        requiredDocuments(false, companyType)?.includes("businessLicense") &&
+        isDeclaredAsSeller,
+
+      then: yup
+        .mixed()
+        .test(
+          "businessLicense",
+          i18n.t("businessLicenseRequired"),
+          (value) => value.length > 0
+        )
+        .test("fileSize", i18n.t("fileTooLarge"), (value) =>
+          validateFileSize(value)
+        )
+        .test("fileType", i18n.t("incorrectFileFormat"), (value) =>
+          validateFileType(SUPPORTED_DOCUMENTS, value)
+        ),
+    })
+    .when(["companyType", "isDeclaredAsSeller"], {
+      is: (companyType, isDeclaredAsSeller) =>
+        requiredDocuments(false, companyType)?.includes("businessLicense") &&
+        !isDeclaredAsSeller,
+      then: yup
+        .mixed()
+        .test("fileSize", i18n.t("fileTooLarge"), (value) =>
+          validateFileSize(value)
+        )
+        .test("fileType", i18n.t("incorrectFileFormat"), (value) =>
+          validateFileType(SUPPORTED_DOCUMENTS, value)
+        ),
+    }),
+  identityProof: yup
+    .mixed()
+    .when(["companyType", "isDeclaredAsSeller"], {
+      is: (companyType, isDeclaredAsSeller) =>
+        requiredDocuments(false, companyType)?.includes("identityProof") &&
+        isDeclaredAsSeller,
+      then: yup
+        .mixed()
+        .test(
+          "identityProof",
+          i18n.t("identityProofRequired"),
+          (value) => value.length > 0
+        )
+        .test("fileSize", i18n.t("fileTooLarge"), (value) =>
+          validateFileSize(value)
+        )
+        .test("fileType", i18n.t("incorrectFileFormat"), (value) =>
+          validateFileType(SUPPORTED_DOCUMENTS, value)
+        ),
+    })
+    .when(["companyType", "isDeclaredAsSeller"], {
+      is: (companyType, isDeclaredAsSeller) =>
+        requiredDocuments(false, companyType)?.includes("identityProof") &&
+        !isDeclaredAsSeller,
+      then: yup
+        .mixed()
+        .test("fileSize", i18n.t("fileTooLarge"), (value) =>
+          validateFileSize(value)
+        )
+        .test("fileType", i18n.t("incorrectFileFormat"), (value) =>
+          validateFileType(SUPPORTED_DOCUMENTS, value)
+        ),
+    }),
   image: yup.mixed().when("declaredAsSeller", {
     is: true,
     then: yup
@@ -82,40 +117,74 @@ const validationSchema = yup.object().shape({
         validateFileType(SUPPORTED_IMAGES, value)
       ),
   }),
-  registrationProof: yup.mixed().when("companyType", {
-    is: (value) =>
-      requiredDocuments(false, value)?.includes("registrationProof"),
-    then: yup
-      .mixed()
-      .test(
-        "registrationProof",
-        i18n.t("registrationProofRequired"),
-        (value) => value.length > 0
-      )
-      .test("fileSize", i18n.t("fileTooLarge"), (value) =>
-        validateFileSize(value)
-      )
-      .test("fileType", i18n.t("incorrectFileFormat"), (value) =>
-        validateFileType(SUPPORTED_DOCUMENTS, value)
-      ),
-  }),
-  articlesOfAssociation: yup.mixed().when("companyType", {
-    is: (value) =>
-      requiredDocuments(false, value)?.includes("articlesOfAssociation"),
-    then: yup
-      .mixed()
-      .test(
-        "articlesOfAssociation",
-        i18n.t("articlesOfAssociationRequired"),
-        (value) => value.length > 0
-      )
-      .test("fileSize", i18n.t("fileTooLarge"), (value) =>
-        validateFileSize(value)
-      )
-      .test("fileType", i18n.t("incorrectFileFormat"), (value) =>
-        validateFileType(SUPPORTED_DOCUMENTS, value)
-      ),
-  }),
+  registrationProof: yup
+    .mixed()
+    .when(["companyType", "isDeclaredAsSeller"], {
+      is: (companyType, isDeclaredAsSeller) =>
+        requiredDocuments(false, companyType)?.includes("registrationProof") &&
+        isDeclaredAsSeller,
+      then: yup
+        .mixed()
+        .test(
+          "registrationProof",
+          i18n.t("registrationProofRequired"),
+          (value) => value.length > 0
+        )
+        .test("fileSize", i18n.t("fileTooLarge"), (value) =>
+          validateFileSize(value)
+        )
+        .test("fileType", i18n.t("incorrectFileFormat"), (value) =>
+          validateFileType(SUPPORTED_DOCUMENTS, value)
+        ),
+    })
+    .when(["companyType", "isDeclaredAsSeller"], {
+      is: (companyType, isDeclaredAsSeller) =>
+        requiredDocuments(false, companyType)?.includes("registrationProof") &&
+        !isDeclaredAsSeller,
+      then: yup
+        .mixed()
+        .test("fileSize", i18n.t("fileTooLarge"), (value) =>
+          validateFileSize(value)
+        )
+        .test("fileType", i18n.t("incorrectFileFormat"), (value) =>
+          validateFileType(SUPPORTED_DOCUMENTS, value)
+        ),
+    }),
+  articlesOfAssociation: yup
+    .mixed()
+    .when(["companyType", "isDeclaredAsSeller"], {
+      is: (companyType, isDeclaredAsSeller) =>
+        requiredDocuments(false, companyType)?.includes(
+          "articlesOfAssociation"
+        ) && isDeclaredAsSeller,
+      then: yup
+        .mixed()
+        .test(
+          "articlesOfAssociation",
+          i18n.t("articlesOfAssociationRequired"),
+          (value) => value.length > 0
+        )
+        .test("fileSize", i18n.t("fileTooLarge"), (value) =>
+          validateFileSize(value)
+        )
+        .test("fileType", i18n.t("incorrectFileFormat"), (value) =>
+          validateFileType(SUPPORTED_DOCUMENTS, value)
+        ),
+    })
+    .when(["companyType", "isDeclaredAsSeller"], {
+      is: (companyType, isDeclaredAsSeller) =>
+        requiredDocuments(false, companyType)?.includes(
+          "articlesOfAssociation"
+        ) && !isDeclaredAsSeller,
+      then: yup
+        .mixed()
+        .test("fileSize", i18n.t("fileTooLarge"), (value) =>
+          validateFileSize(value)
+        )
+        .test("fileType", i18n.t("incorrectFileFormat"), (value) =>
+          validateFileType(SUPPORTED_DOCUMENTS, value)
+        ),
+    }),
 });
 
 export default validationSchema;
