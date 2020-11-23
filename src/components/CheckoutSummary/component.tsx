@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { getCurrencySymbol } from "../../core/constants/currencies";
 import { CheckoutType } from "../../core/types/checkout";
+import EmptyCartMessage from "../EmptyCartMessage";
 import useStyles from "./styles";
 
 const CheckoutSummary: React.FC<{
@@ -24,6 +25,10 @@ const CheckoutSummary: React.FC<{
 }> = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();
+
+  if (props.checkout && props.checkout.items.length < 1) {
+    return <EmptyCartMessage />;
+  }
 
   return (
     <Container component={Paper} maxWidth="md" disableGutters>
