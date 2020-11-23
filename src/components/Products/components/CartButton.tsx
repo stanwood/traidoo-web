@@ -8,6 +8,7 @@ import Divider from "@material-ui/core/Divider";
 import clsx from "clsx";
 import { CartContext } from "../../../contexts/CartContext/context";
 import RemoveShoppingCartIcon from "@material-ui/icons/RemoveShoppingCart";
+import { useTranslation } from "react-i18next";
 
 const useProductCartButtonStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -54,6 +55,7 @@ interface ProductCartButtonProps {
 const ProductCartButton = (props: ProductCartButtonProps): JSX.Element => {
   const { productId, price, unit, name, amount, itemsAvailable } = props;
   const classes = useProductCartButtonStyles();
+  const { t } = useTranslation();
   const [quantity, setQuantity] = React.useState<number | string>(1);
   const { isProductInCart, addProduct, removeProduct } = useContext(
     CartContext
@@ -63,19 +65,19 @@ const ProductCartButton = (props: ProductCartButtonProps): JSX.Element => {
 
   let isValid = useMemo((): string | null => {
     if (quantity === "") {
-      return "Incorrect value.";
+      return t("incorrectValue");
     }
 
     if (Number(quantity) < 1) {
-      return "Incorrect value.";
+      return t("incorrectValue");
     }
 
     if (itemsAvailable && Number(quantity) > itemsAvailable) {
-      return `Only ${itemsAvailable} available.`;
+      return t("onlyNItemsAvailable", { itemsAvailable });
     }
 
     if (!Number.isInteger(Number(quantity))) {
-      return "Incorrect value.";
+      return t("incorrectValue");
     }
 
     return null;

@@ -5,10 +5,11 @@ import React, { useEffect } from "react";
 import { getCurrencySymbol } from "../../../core/constants/currencies";
 import { deliveryOptionsMapping } from "./deliveryMapping";
 import { CheckoutItemType } from "../../../core/types/checkout";
+import { CheckoutDeliveryOptionsItem } from "../../../core/types/checkoutDeliveryOptions";
 
 interface SelectDeliveryOptionProps {
   index: number;
-  item: CheckoutItemType;
+  item: CheckoutDeliveryOptionsItem;
   handleChange: (
     event: React.ChangeEvent<{
       value: unknown;
