@@ -72,7 +72,6 @@ const ProductEditPage: React.FC = () => {
       <Container maxWidth="md">
         <ProductForm
           onSubmit={onSubmit}
-          categories={categories}
           containers={containers}
           regions={regions?.results}
           tags={tags}

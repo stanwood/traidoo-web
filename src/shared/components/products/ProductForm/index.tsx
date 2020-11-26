@@ -6,7 +6,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { Container } from "../../../../api/queries/containers";
 import { Region } from "../../../../api/queries/regions";
 import { Tag } from "../../../../api/queries/tags";
-import { Category } from "../../../../core/interfaces/categories";
+import { CategoriesContext } from "../../../../contexts/CategoryContext/context";
 import { GlobalSettings } from "../../../../core/interfaces/settings";
 import Product from "../../../../core/types/product";
 import Availability from "./Sections/Availability";
@@ -25,7 +25,6 @@ import {
 
 interface ProductFormProps {
   onSubmit: (formData: ProductFormData) => void;
-  categories: Category[];
   containers: Container[];
   regions: Region[];
   tags: Tag[];
@@ -37,7 +36,6 @@ interface ProductFormProps {
 const ProductForm: React.FC<ProductFormProps> = (props: ProductFormProps) => {
   const {
     onSubmit,
-    categories,
     containers,
     regions,
     tags,
@@ -45,6 +43,8 @@ const ProductForm: React.FC<ProductFormProps> = (props: ProductFormProps) => {
     buttonName,
     product,
   } = props;
+
+  const { categories } = React.useContext(CategoriesContext);
 
   const defaultValues: ProductFormData = {
     name: product ? product.name : "",
@@ -93,7 +93,7 @@ const ProductForm: React.FC<ProductFormProps> = (props: ProductFormProps) => {
         onSubmit={form.handleSubmit(onSubmit)}
         noValidate
       >
-        <General categories={categories} />
+        <General />
 
         <Grid container spacing={3} className={classes.imageContainer}>
           <Grid item xs={12} sm={6}>
@@ -108,7 +108,7 @@ const ProductForm: React.FC<ProductFormProps> = (props: ProductFormProps) => {
 
         <Delivery containers={containers} />
 
-        <Availability regions={regions} />
+        {regions.length > 0 && <Availability regions={regions} />}
 
         <Internal tags={tags} />
 
