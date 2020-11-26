@@ -4,8 +4,10 @@ import Hidden from "@material-ui/core/Hidden";
 import Typography from "@material-ui/core/Typography";
 import Alert from "@material-ui/lab/Alert";
 import Skeleton from "@material-ui/lab/Skeleton";
+import { Link as RouterLink } from "react-router-dom";
 import React, { useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import Link from "@material-ui/core/Link";
 import { Img } from "react-image";
 import LazyLoad from "react-lazyload";
 import { CartContext } from "../../contexts/CartContext/context";
@@ -126,18 +128,26 @@ const ProductDetails: React.FC<ProductDetailsProps> = (
               {product.name}
             </Typography>
 
-            <Typography>{product.seller.companyName}</Typography>
+            <Link
+              variant="body1"
+              component={RouterLink}
+              to={`/sellers/${product.seller.id}`}
+            >
+              {product.seller.companyName}
+            </Link>
             <Typography className={classes.marginBottom}>
               {t("from")} {product.seller.city}, {product.region.name}
             </Typography>
 
-            <Typography
+            <Link
+              component={RouterLink}
+              to={`/products?category=${product.category.id}`}
               variant="subtitle1"
               color="primary"
               className={classes.category}
             >
               {product.category.name}
-            </Typography>
+            </Link>
 
             <Typography className={classes.productDescription}>
               {product.description}
