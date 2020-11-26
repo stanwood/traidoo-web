@@ -7,13 +7,11 @@ import { CategoriesContext } from "./context";
 import { CategoriesProviderProps } from "./interfaces";
 
 const CategoriesProvider = (props: CategoriesProviderProps): ReactElement => {
-  const [categories, setCategories] = useState<Tree<Category>[] | undefined>(
-    []
-  );
+  const [categories, setCategories] = useState<Tree<Category>[]>([]);
 
   useQuery(["/categories", true], getCategoriesRequest, {
     onSuccess: (data: Category[]) => {
-      setCategories(arrayToTree(data, { parentProperty: "parent" }));
+      setCategories(arrayToTree(data, { parentProperty: "parent" }) || []);
     },
   });
 
