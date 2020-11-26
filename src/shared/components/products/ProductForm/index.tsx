@@ -108,7 +108,7 @@ const ProductForm: React.FC<ProductFormProps> = (props: ProductFormProps) => {
 
         <Delivery containers={containers} />
 
-        <Availability regions={regions} />
+        {regions.length > 0 && <Availability regions={regions} />}
 
         <Internal tags={tags} />
 
