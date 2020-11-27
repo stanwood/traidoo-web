@@ -8,6 +8,6 @@ export type CheckoutDeliveryOptionsItem = {
 export type CheckoutDeliveryOptions = {
   deliveryFeeNet: number;
   deliveryAddress: number | null;
-  earliestDeliveryDate: number | null;
+  earliestDeliveryDate: string | null;
   items: CheckoutDeliveryOptionsItem[];
 };

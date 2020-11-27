@@ -2,7 +2,10 @@ import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Divider from "@material-ui/core/Divider";
 import FormControl from "@material-ui/core/FormControl";
+import i18n from "../../i18n";
+import DateFnsUtils from "@date-io/date-fns";
 import Grid from "@material-ui/core/Grid";
+import localeMap from "../../core/localeMap";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -16,18 +19,13 @@ import { SnackbarProvider, useSnackbar } from "notistack";
 import { getCurrencySymbol } from "../../core/constants/currencies";
 import EmptyCartMessage from "../EmptyCartMessage";
 import CheckoutList from "./List";
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import useStyles from "./styles";
 import { CheckoutContext } from "../../pages/Checkout/context";
 import addDays from "date-fns/addDays";
-import eachDayOfInterval from "date-fns/eachDayOfInterval";
-import formatISO from "date-fns/formatISO";
+import { format } from "date-fns";
 
 const now = Date.now();
-
-const deliveryDays = eachDayOfInterval({
-  start: addDays(now, 1),
-  end: addDays(now, 8),
-}).map((day) => formatISO(day, { representation: "date" }));
 
 const Checkout = () => {
   const classes = useStyles();
@@ -42,6 +40,10 @@ const Checkout = () => {
     updateDeliveryOptionBulk,
     deliveryOption,
   } = React.useContext(CheckoutContext);
+
+  const [deliveryDate, setDeliveryDate] = React.useState<
+    string | null | undefined
+  >(checkoutDelivery?.earliestDeliveryDate);
 
   if (checkoutDelivery && checkoutDelivery.items.length < 1) {
     return <EmptyCartMessage />;
@@ -94,26 +96,36 @@ const Checkout = () => {
             <Grid item xs={12} md={6}>
               {checkoutDelivery && (
                 <FormControl variant="outlined" className={classes.formControl}>
-                  <InputLabel id="deliveryDateLabel">
-                    {t("deliveryDate")}
-                  </InputLabel>
-
-                  <Select
-                    id="deliveryDate"
-                    labelId="deliveryDateLabel"
-                    label={t("deliveryDate")}
-                    defaultValue={checkoutDelivery.earliestDeliveryDate}
-                    onChange={(event) =>
-                      updateDeliveryDate({ date: event.target.value as string })
-                    }
-                    fullWidth
+                  <MuiPickersUtilsProvider
+                    utils={DateFnsUtils}
+                    locale={localeMap[i18n.language]}
                   >
-                    {deliveryDays.map((day) => (
-                      <MenuItem value={day} key={day}>
-                        {day}
-                      </MenuItem>
-                    ))}
-                  </Select>
+                    <DatePicker
+                      disablePast={true}
+                      minDate={addDays(now, 1)}
+                      maxDate={addDays(now, 8)}
+                      autoOk={true}
+                      variant="inline"
+                      margin="normal"
+                      format="dd.MM.yyyy"
+                      id="deliveryDate"
+                      name="deliveryDate"
+                      label={t("deliveryDate")}
+                      value={deliveryDate}
+                      onChange={(date) =>
+                        date &&
+                        updateDeliveryDate({
+                          date: format(date, "yyyy-MM-dd"),
+                        }) &&
+                        setDeliveryDate(format(date, "yyyy-MM-dd"))
+                      }
+                      fullWidth
+                      required
+                      inputVariant="outlined"
+                      data-testid="input-product-item-latest-delivery-date"
+                      className={classes.noTopMargin}
+                    />
+                  </MuiPickersUtilsProvider>
                 </FormControl>
               )}
             </Grid>
