@@ -126,7 +126,7 @@ const CompanyDocumentsForm = ({
             t("businessLicense"),
             false,
             documentUpload,
-            documents
+            documents.businessLicense
           )}
         {requiredFields.includes("image") &&
           renderUploadButton(
@@ -135,7 +135,7 @@ const CompanyDocumentsForm = ({
             t("companyLogo"),
             false,
             documentUpload,
-            documents
+            documents.image
           )}
         {requiredFields.includes("identityProof") &&
           renderUploadButton(
