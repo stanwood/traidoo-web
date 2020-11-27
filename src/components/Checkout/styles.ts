@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme: Theme) =>
     proceed: {
       marginLeft: theme.spacing(2),
     },
+    noTopMargin: {
+      marginTop: 0,
+    },
     formControl: {
       width: "98%",
       [theme.breakpoints.down("sm")]: {
