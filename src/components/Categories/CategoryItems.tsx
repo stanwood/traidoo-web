@@ -1,14 +1,11 @@
-import { Box } from "@material-ui/core";
-import Typography from "@material-ui/core/Typography";
 import TreeItem from "@material-ui/lab/TreeItem";
-import { Tree } from "array-to-tree";
 import clsx from "clsx";
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { StringParam, useQueryParams } from "use-query-params";
 import { DrawerContext } from "../../contexts/DrawerContext/context";
-import { Category } from "../../core/interfaces/categories";
 import { CategoryItemsProps } from "./interfaces";
+import RenderLabel from "./Label";
 import { useCategoriesTreeItemStyles } from "./styles";
 
 const CategoryItems: React.FC<CategoryItemsProps> = (
@@ -39,29 +36,21 @@ const CategoryItems: React.FC<CategoryItemsProps> = (
     event.preventDefault();
   };
 
-  const renderLabel = (item: Tree<Category>) => (
-    <Box
-      display="flex"
-      className={classes.labelRoot}
-      onClick={(event) => onCategoryClick(event, item.id)}
-    >
-      <img
-        src={item.icon.iconUrl}
-        className={classes.labelIcon}
-        alt={item.name}
-      />
-      <Typography variant="h6" className={classes.labelText}>
-        {item.name}
-      </Typography>
-    </Box>
-  );
-
   return (
     <div>
       {categories?.map((item) => {
         return (
           <TreeItem
-            label={renderLabel(item)}
+            label={
+              <RenderLabel
+                item={item}
+                onClick={(event) =>
+                  item.ordering === -1
+                    ? history.push("/")
+                    : onCategoryClick(event, item.id)
+                }
+              />
+            }
             onKeyDown={(event) => {
               if (event.keyCode === 13) {
                 onCategorySelect(item.id);
