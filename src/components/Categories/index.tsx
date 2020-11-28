@@ -12,10 +12,10 @@ import CategoryItems from "./CategoryItems";
 import { useCategoriesStyles } from "./styles";
 import { findCategoryTreeById } from "./uitls";
 
-const Categories: React.FC = () => {
+const Categories = () => {
   const classes = useCategoriesStyles();
   const [expanded, setExpanded] = React.useState<string[]>([]);
-  const { categories } = useContext(CategoriesContext);
+  const { categoriesWithMainPageLink } = useContext(CategoriesContext);
 
   const [query] = useQueryParams({
     category: StringParam,
@@ -26,17 +26,21 @@ const Categories: React.FC = () => {
   };
 
   useEffect(() => {
-    if (categories && categories.length > 0 && query.category) {
+    if (
+      categoriesWithMainPageLink &&
+      categoriesWithMainPageLink.length > 0 &&
+      query.category
+    ) {
       setExpanded(
         findCategoryTreeById(
-          categories,
+          categoriesWithMainPageLink,
           query.category ? query.category : undefined
         )
       );
     }
-  }, [categories, query.category]);
+  }, [categoriesWithMainPageLink, query.category]);
 
-  if (categories && categories.length < 1) {
+  if (categoriesWithMainPageLink && categoriesWithMainPageLink.length < 1) {
     return (
       <>
         {Array.from(Array(10).keys()).map((number) => (
@@ -56,7 +60,7 @@ const Categories: React.FC = () => {
         onNodeToggle={handleChange}
         className={classes.treeView}
       >
-        <CategoryItems categories={categories} />
+        <CategoryItems categories={categoriesWithMainPageLink} />
       </TreeView>
       {Config.sponsorLogo && (
         <Img src={Config.sponsorLogo} className={classes.image} />

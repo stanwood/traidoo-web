@@ -49,19 +49,5 @@ export const useCategoriesTreeItemStyles = makeStyles((theme: Theme) =>
       fontWeight: "inherit",
       color: "inherit",
     },
-    labelRoot: {
-      display: "flex",
-      alignItems: "center",
-      padding: theme.spacing(0.5, 0),
-    },
-    labelIcon: {
-      marginRight: theme.spacing(1),
-      width: "24px",
-      height: "24px",
-      opacity: 0.3,
-    },
-    labelText: {
-      flexGrow: 1,
-    },
   })
 );
