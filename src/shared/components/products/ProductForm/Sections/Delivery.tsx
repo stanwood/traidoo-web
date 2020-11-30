@@ -13,11 +13,13 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Container } from "../../../../../api/queries/containers";
+import InputAdornment from "@material-ui/core/InputAdornment";
 import Config from "../../../../../config";
 import DeliveryOption from "../../../../../core/types/deliveryOption";
 import { deliveryOptions } from "../../constants";
 import ControlledTextInput from "../Fields/ControlledTextField";
 import useStyles from "../styles";
+import { getCurrencySymbol } from "../../../../../core/constants/currencies";
 
 interface DeliveryProps {
   containers: Container[];
@@ -27,6 +29,9 @@ const Delivery: React.FC<DeliveryProps> = (props: DeliveryProps) => {
   const { containers } = props;
   const classes = useStyles();
   const { t } = useTranslation();
+  const sellerDeliveryOption = deliveryOptions.find(
+    (option) => option.name === "seller"
+  );
   const { errors, control, getValues, register, setValue } = useFormContext();
   const [selectedDeliveryOptions, setSelectedDeliveryOptions] = useState<
     DeliveryOption[]
@@ -80,6 +85,13 @@ const Delivery: React.FC<DeliveryProps> = (props: DeliveryProps) => {
     }
 
     setSelectedDeliveryOptions(getValues().deliveryOptions);
+
+    if (
+      !event.target.checked &&
+      Number(event.target.value) === sellerDeliveryOption?.id
+    ) {
+      setValue("thirdPartyDelivery", false);
+    }
   };
 
   return (
@@ -128,6 +140,13 @@ const Delivery: React.FC<DeliveryProps> = (props: DeliveryProps) => {
               label={t("priceDeliverySeller")}
               type="number"
               required={sellerDelivery}
+              inputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    {getCurrencySymbol()}
+                  </InputAdornment>
+                ),
+              }}
             />
           )}
         </Grid>
@@ -150,15 +169,16 @@ const Delivery: React.FC<DeliveryProps> = (props: DeliveryProps) => {
                 }
               />
             ))}
-            {Config.features.routes && sellerDelivery && (
+            {Config.features.routes && (
               <FormControlLabel
                 control={
                   <Controller
                     control={control}
-                    color="primary"
                     name="thirdPartyDelivery"
                     render={(props) => (
                       <Checkbox
+                        disabled={!sellerDelivery}
+                        color="primary"
                         onChange={(e) => props.onChange(e.target.checked)}
                         checked={props.value}
                       />
