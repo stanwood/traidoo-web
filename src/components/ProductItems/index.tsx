@@ -51,8 +51,13 @@ const ProductItems: React.FC<ProductItemsProps> = (
             </TableRow>
           </TableHead>
           <TableBody>
-            {items?.results.map((item: any) => (
-              <ProductItem key={item.id} item={item} onDelete={onDelete} />
+            {items.map((item: any) => (
+              <ProductItem
+                key={item.id}
+                productId={productId}
+                item={item}
+                onDelete={onDelete}
+              />
             ))}
           </TableBody>
         </Table>

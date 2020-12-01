@@ -81,7 +81,7 @@ const ProductCartButton = (props: ProductCartButtonProps): JSX.Element => {
     }
 
     return null;
-  }, [quantity]);
+  }, [quantity, itemsAvailable, t]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuantity(event.target.value);
