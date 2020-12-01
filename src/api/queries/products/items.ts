@@ -1,25 +1,7 @@
 import axios from "../../../core/axios";
-import { Order } from "../../../core/types/queries";
 
-export const getProductItemsRequest = async (
-  key: string,
-  id: number,
-  queryParams?: {
-    limit?: number;
-    offset?: number;
-    order?: Order;
-    orderBy?: string;
-  }
-) => {
-  const offset = queryParams?.offset || 0;
-  const limit = queryParams?.limit || 1000;
-  const order = queryParams?.order || "desc";
-  const orderBy = queryParams?.orderBy || "quantity";
-
-  const response = await axios.get(
-    `products/${id}/items?offset=${offset}&limit=${limit}&order=${order}&orderBy=${orderBy}`
-  );
-
+export const getProductItemsRequest = async (key: string, id: number) => {
+  const response = await axios.get(`items/${id}`);
   return response.data;
 };
 
@@ -32,8 +14,26 @@ export const addProductItemsRequest = async ({
   quantity: number;
   latestDeliveryDate: string;
 }) => {
-  const response = await axios.post(`items`, {
-    productId,
+  const response = await axios.post(`items/${productId}`, {
+    quantity,
+    latestDeliveryDate,
+  });
+
+  return response.data;
+};
+
+export const editProductItemsRequest = async ({
+  productId,
+  itemId,
+  quantity,
+  latestDeliveryDate,
+}: {
+  productId: number;
+  itemId: number;
+  quantity: number;
+  latestDeliveryDate: string;
+}) => {
+  const response = await axios.patch(`items/${productId}/${itemId}`, {
     quantity,
     latestDeliveryDate,
   });
@@ -48,6 +48,6 @@ export const deleteProductItemsRequest = async ({
   productId: number;
   itemId: number;
 }) => {
-  const response = await axios.delete(`products/${productId}/items/${itemId}`);
+  const response = await axios.delete(`items/${productId}/${itemId}`);
   return response.data;
 };

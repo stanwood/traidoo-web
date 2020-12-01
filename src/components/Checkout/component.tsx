@@ -15,7 +15,7 @@ import Typography from "@material-ui/core/Typography";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { SnackbarProvider, useSnackbar } from "notistack";
+import { SnackbarProvider } from "notistack";
 import { getCurrencySymbol } from "../../core/constants/currencies";
 import EmptyCartMessage from "../EmptyCartMessage";
 import CheckoutList from "./List";
@@ -30,7 +30,7 @@ const now = Date.now();
 const Checkout = () => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { closeSnackbar } = useSnackbar();
+  const notistackRef = React.createRef<any>();
   const {
     checkoutDelivery,
     deliveryAddresses,
@@ -53,26 +53,23 @@ const Checkout = () => {
     <Container maxWidth="md">
       <SnackbarProvider
         maxSnack={1}
+        ref={notistackRef}
         anchorOrigin={{
           vertical: "top",
           horizontal: "right",
         }}
-        autoHideDuration={3000}
+        autoHideDuration={6000}
         action={(key) => (
           <>
             <Button
               onClick={() => {
                 updateDeliveryOptionBulk({ deliveryOption });
-                closeSnackbar(key);
+                notistackRef.current.closeSnackbar(key);
               }}
             >
               Yes
             </Button>
-            <Button
-              onClick={() => {
-                closeSnackbar(key);
-              }}
-            >
+            <Button onClick={() => notistackRef.current.closeSnackbar(key)}>
               No
             </Button>
           </>
