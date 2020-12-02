@@ -5,10 +5,12 @@ import useStyles from "./styles";
 import { useSnackbar } from "notistack";
 import { CheckoutContext } from "../../../pages/Checkout/context";
 import SelectDeliveryOption from "./SelectDeliveryOption";
+import { useTranslation } from "react-i18next";
 
 const CheckoutList = () => {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
+  const { t } = useTranslation();
   const {
     checkoutDelivery,
     updateDeliveryOption,
@@ -35,9 +37,7 @@ const CheckoutList = () => {
         ).length > 1
       ) {
         setDeliveryOption(Number(event.target.value));
-        enqueueSnackbar(
-          "Would you like to set the selected delivery for all items?"
-        );
+        enqueueSnackbar(t("updateDeliveryMethodQuestion"));
       }
     });
   };
