@@ -67,10 +67,10 @@ const Checkout = () => {
                 notistackRef.current.closeSnackbar(key);
               }}
             >
-              Yes
+              {t("Yes")}
             </Button>
             <Button onClick={() => notistackRef.current.closeSnackbar(key)}>
-              No
+              {t("No")}
             </Button>
           </>
         )}

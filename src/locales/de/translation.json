@@ -179,6 +179,7 @@
   "newPasswordRequired": "Neues Passwort ist erforderlich",
   "newPasswordSet": "Neues Passwort gesetzt.",
   "next": "Nächste",
+  "No": "Nein",
   "onlyNItemsAvailable": "Nur {{ itemsAvailable }} Gebinde verfügbar.",
   "onlyOrganic": "Nur Bio",
   "orderConfirmation": "Order confirmation",
@@ -293,6 +294,7 @@
   "unitRequired": "Einheit ist erforderlich",
   "unitsPerLot": "Gebindegröße",
   "unknownError": "Unbekannter Fehler",
+  "updateDeliveryMethodQuestion": "Möchten Sie die Lieferoption für alle Gebinde übernehmen?",
   "updatePassword": "Kennwort aktualisieren",
   "upload": "hochladen",
   "uploadArticlesOfAssociation": "Statuten hochladen",
@@ -313,6 +315,7 @@
   "Waypoint": "Wegpunkt",
   "waypoints": "Wegpunkte",
   "wednesday": "Mittwoch",
+  "Yes": "Ja",
   "zip": "PLZ",
   "zipRequired": "PZL ist erforderlich"
 }

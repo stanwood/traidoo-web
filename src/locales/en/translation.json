@@ -179,6 +179,7 @@
   "newPasswordRequired": "New password is required",
   "newPasswordSet": "New password set.",
   "next": "Next",
+  "No": "No",
   "onlyNItemsAvailable": "Only {{ itemsAvailable }} available.",
   "onlyOrganic": "Only organic",
   "orderConfirmation": "Order confirmation",
@@ -293,6 +294,7 @@
   "unitRequired": "Unit is required",
   "unitsPerLot": "Units per lot",
   "unknownError": "Unknown error.",
+  "updateDeliveryMethodQuestion": "Would you like to set the selected delivery for all items?",
   "updatePassword": "Update password",
   "upload": "upload",
   "uploadArticlesOfAssociation": "Upload Articles Of Association",
@@ -313,6 +315,7 @@
   "Waypoint": "Waypoint",
   "waypoints": "Waypoints",
   "wednesday": "Wednesday",
+  "Yes": "Yes",
   "zip": "ZIP",
   "zipRequired": "ZIP is required"
 }
