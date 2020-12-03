@@ -16,6 +16,11 @@ const Config: Configuration = {
   compantTypesVariant: process.env.REACT_APP_COMPANY_TYPES_VARIANT || "A",
   intercomId: process.env.REACT_APP_INTERCOM_ID,
   currency: process.env.REACT_APP_CURRENCY,
+  registration: {
+    companyID:
+      process.env.REACT_APP_REGISTRATION_COMPANY_ID === "true" ? true : false,
+    uid: process.env.REACT_APP_REGISTRATION_UID === "true" ? true : false,
+  },
   features: {
     routes: process.env.REACT_APP_FEATURE_ROUTES,
   },

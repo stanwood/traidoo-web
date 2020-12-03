@@ -54,3 +54,14 @@ export const getCartRequest = async () => {
   const response = await axios.get("cart");
   return response.data;
 };
+
+export const cartDeliveryOptionBulkEditRequest = async ({
+  deliveryOption,
+}: {
+  deliveryOption: number;
+}) => {
+  const response = await axios.post(`cart/deliveryOption`, {
+    deliveryOption,
+  });
+  return response.data;
+};

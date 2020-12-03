@@ -32,13 +32,14 @@
     "react-error-boundary": "^3.0.2",
     "react-ga": "^3.1.2",
     "react-helmet": "^6.1.0",
-    "react-hook-form": "^6.8.2",
+    "react-hook-form": "6.8.2",
     "react-i18next": "^11.7.2",
     "react-image": "^4.0.3",
     "react-lazyload": "^3.0.0",
     "react-query": "^2.21.0",
     "react-router-dom": "^5.2.0",
     "react-use-intercom": "^1.1.2",
+    "react-window": "^1.8.6",
     "sanitize-html": "^1.27.4",
     "use-query-params": "^1.1.7",
     "yup": "^0.29.3"
@@ -62,6 +63,7 @@
     "@types/react-lazyload": "^2.6.0",
     "@types/react-query": "^1.1.2",
     "@types/react-router-dom": "^5.1.5",
+    "@types/react-window": "^1.8.2",
     "@types/sanitize-html": "^1.27.0",
     "@types/yup": "^0.29.7",
     "@welldone-software/why-did-you-render": "^4.3.1",
@@ -78,7 +80,7 @@
     "standard-version": "^9.0.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "BROWSER=none react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

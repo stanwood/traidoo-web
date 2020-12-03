@@ -1,4 +1,3 @@
-import Skeleton from "@material-ui/lab/Skeleton";
 import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
@@ -9,6 +8,7 @@ import {
 } from "../../api/queries/checkout";
 import CheckoutSummary from "../../components/CheckoutSummary";
 import Page from "../../components/Common/Page";
+import { SkeletonList } from "../../components/Sekeleton";
 import { CartContext } from "../../contexts/CartContext/context";
 
 const CheckoutSummaryPage: React.FC = () => {
@@ -72,7 +72,7 @@ const CheckoutSummaryPage: React.FC = () => {
   return (
     <Page title={pageTitle}>
       {checkoutStatus === "loading" ? (
-        Array.from(Array(10).keys()).map((number) => <Skeleton key={number} />)
+        <SkeletonList />
       ) : (
         <CheckoutSummary
           checkout={checkoutData}

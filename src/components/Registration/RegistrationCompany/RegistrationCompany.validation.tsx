@@ -7,7 +7,11 @@ const schema = yup.object().shape({
   taxID: yup.string().required(i18n.t("taxIdRequired")),
   companyRegistrationId: yup
     .string()
-    .required(i18n.t("registryNumberRequired")),
+    .when("$companyID", (companyID: boolean, schema: any) => {
+      return companyID
+        ? schema.required(i18n.t("fieldRequired"))
+        : schema.notRequired();
+    }),
   street: yup.string().required(i18n.t("streetRequired")),
   city: yup.string().required(i18n.t("cityRequired")),
   zip: yup.string().required(i18n.t("zipRequired")),

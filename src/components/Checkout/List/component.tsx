@@ -1,48 +1,60 @@
 import Box from "@material-ui/core/Box";
-import FormControl from "@material-ui/core/FormControl";
 import Grid from "@material-ui/core/Grid";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
 import React from "react";
-import { getCurrencySymbol } from "../../../core/constants/currencies";
-import { deliveryOptionsMapping } from "./deliveryMapping";
 import useStyles from "./styles";
+import { useSnackbar } from "notistack";
+import { CheckoutContext } from "../../../pages/Checkout/context";
+import SelectDeliveryOption from "./SelectDeliveryOption";
+import { useTranslation } from "react-i18next";
 
-const CheckoutList: React.FC<{
-  items: any[] | undefined;
-  onDeliveryOptionUpdate: Function;
-}> = (props) => {
+const CheckoutList = () => {
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
+  const { t } = useTranslation();
+  const {
+    checkoutDelivery,
+    updateDeliveryOption,
+    setDeliveryOption,
+  } = React.useContext(CheckoutContext);
 
   const handleChange = (
     event: React.ChangeEvent<{ value: unknown }>,
+    index: number,
     productId: number
   ) => {
-    props.onDeliveryOptionUpdate(productId, event.target.value);
+    updateDeliveryOption({
+      productId,
+      deliveryOption: Number(event.target.value),
+    }).then(() => {
+      if (
+        index === 0 &&
+        checkoutDelivery &&
+        checkoutDelivery.items.length > 0 &&
+        checkoutDelivery.items.filter((item) =>
+          item.deliveryOptions
+            .map((item) => item.id)
+            .includes(Number(event.target.value))
+        ).length > 1
+      ) {
+        setDeliveryOption(Number(event.target.value));
+        enqueueSnackbar(t("updateDeliveryMethodQuestion"));
+      }
+    });
   };
 
   return (
     <Box>
-      {props.items?.map((item) => (
+      {checkoutDelivery?.items?.map((item, index) => (
         <Grid container spacing={0} key={item.id} className={classes.item}>
           <Grid item xs={12} md={6} className={classes.productName}>
             {item.product.name}
           </Grid>
           <Grid item xs={12} md={6} className={classes.delivery}>
-            <FormControl variant="outlined" className={classes.formControl}>
-              <Select
-                defaultValue={item.deliveryOption.id}
-                onChange={(event) => handleChange(event, item.product.id)}
-              >
-                {item.deliveryOptions.map((deliveryOption: any) => (
-                  <MenuItem value={deliveryOption.id} key={deliveryOption.id}>
-                    {deliveryOptionsMapping[deliveryOption.id]}{" "}
-                    {deliveryOption.value.toFixed(2)}
-                    {getCurrencySymbol()}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <SelectDeliveryOption
+              index={index}
+              item={item}
+              handleChange={handleChange}
+            />
           </Grid>
         </Grid>
       ))}

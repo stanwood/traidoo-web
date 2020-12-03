@@ -56,7 +56,13 @@ const App: React.FC = () => {
                         exact={route.exact}
                       >
                         <route.layout activeTab={route.activeTab}>
-                          <route.component />
+                          {route.provider ? (
+                            <route.provider>
+                              <route.component />
+                            </route.provider>
+                          ) : (
+                            <route.component />
+                          )}
                         </route.layout>
                       </PrivateRoute>
                     ))}

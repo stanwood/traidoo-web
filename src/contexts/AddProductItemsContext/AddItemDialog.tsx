@@ -9,7 +9,7 @@ import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
 import startOfTomorrow from "date-fns/startOfTomorrow";
 import React, { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -38,6 +38,15 @@ const AddItemDialog: React.FC<AddItemDialogProps> = (
 ) => {
   const classes = useAddItemDialogStyles();
   const { t } = useTranslation();
+  const { onSuccess } = props;
+  const { dialog, close, addItem, editItem } = useContext(
+    AddProductItemsContext
+  );
+
+  const dialogDate = dialog.date
+    ? parse(dialog.date, "yyyy-MM-dd", new Date())
+    : startOfTomorrow();
+
   const {
     clearErrors,
     errors,
@@ -45,14 +54,14 @@ const AddItemDialog: React.FC<AddItemDialogProps> = (
     register,
     setError,
     setValue,
-  } = useForm({ resolver: yupResolver(addProductItemsValidationSchema) });
-  const { dialog, close, addItem } = useContext(AddProductItemsContext);
-  const { onSuccess } = props;
+  } = useForm({
+    resolver: yupResolver(addProductItemsValidationSchema),
+  });
 
   const [
     selectedLatestDeliveryDate,
     setSelectedLatestDeliveryDate,
-  ] = React.useState<Date | null>(startOfTomorrow());
+  ] = React.useState<Date | null>(dialogDate);
 
   const handlelatestDeliveryDateChange = (date: Date | null) => {
     setSelectedLatestDeliveryDate(date);
@@ -62,8 +71,9 @@ const AddItemDialog: React.FC<AddItemDialogProps> = (
 
   useEffect(() => {
     register({ name: "latestDeliveryDate" });
-    setValue("latestDeliveryDate", startOfTomorrow());
-  }, [register, setValue]);
+    setValue("latestDeliveryDate", dialogDate);
+    setSelectedLatestDeliveryDate(dialogDate);
+  }, [dialog]);
 
   const handleError = (error: any) => {
     const errorResponse = error.response;
@@ -84,17 +94,31 @@ const AddItemDialog: React.FC<AddItemDialogProps> = (
       "yyyy-MM-dd"
     );
 
-    addItem(
-      // @ts-ignore
-      { productId: dialog.productId, ...formData },
-      {
-        onSuccess: () => {
-          onSuccess();
-          close();
-        },
-        onError: (err: any) => handleError(err),
-      }
-    );
+    if (dialog.itemId) {
+      editItem(
+        // @ts-ignore
+        { productId: dialog.productId, itemId: dialog.itemId, ...formData },
+        {
+          onSuccess: () => {
+            onSuccess();
+            close();
+          },
+          onError: (err: any) => handleError(err),
+        }
+      );
+    } else {
+      addItem(
+        // @ts-ignore
+        { productId: dialog.productId, ...formData },
+        {
+          onSuccess: () => {
+            onSuccess();
+            close();
+          },
+          onError: (err: any) => handleError(err),
+        }
+      );
+    }
   };
 
   return (
@@ -117,6 +141,7 @@ const AddItemDialog: React.FC<AddItemDialogProps> = (
                 inputProps={{ min: 1 }}
                 required
                 fullWidth
+                defaultValue={dialog.itemsNumber}
                 name="quantity"
                 label={t("quantity")}
                 id="quantity"

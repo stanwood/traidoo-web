@@ -1,6 +1,6 @@
 steps:
   - name: node:14.13.0
-    entrypoint: yarn
+    entrypoint: npm
     args: ["install"]
   - name: node:14.13.0
     entrypoint: bash
@@ -9,7 +9,7 @@ steps:
       - "FAVICON_URL=${_FAVICON_URL}"
       - "CLIENT_NAME=${_CLIENT_NAME}"
   - name: node:14.13.0
-    entrypoint: yarn
+    entrypoint: npm
     args: ["run", "build"]
     env:
       - "FAVICON_URL=${_FAVICON_URL}"
@@ -29,5 +29,7 @@ steps:
       - "REACT_APP_COMPANY_TYPES_VARIANT=${_COMPANY_TYPES_VARIANT}"
       - "REACT_APP_INTERCOM_ID=${_INTERCOM_ID}"
       - "REACT_APP_CURRENCY=${_CURRENCY}"
+      - "REACT_APP_REGISTRATION_COMPANY_ID=${_REGISTRATION_COMPANY_ID}"
+      - "REACT_APP_REGISTRATION_UID=${_REGISTRATION_UID}"
   - name: gcr.io/$PROJECT_ID/firebase
     args: ["deploy", "--project=$PROJECT_ID", "--only=hosting"]

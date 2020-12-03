@@ -2,7 +2,11 @@ import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Divider from "@material-ui/core/Divider";
 import FormControl from "@material-ui/core/FormControl";
+import i18n from "../../i18n";
+import DateFnsUtils from "@date-io/date-fns";
 import Grid from "@material-ui/core/Grid";
+import localeMap from "../../core/localeMap";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Paper from "@material-ui/core/Paper";
@@ -11,149 +15,182 @@ import Typography from "@material-ui/core/Typography";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { SnackbarProvider } from "notistack";
 import { getCurrencySymbol } from "../../core/constants/currencies";
-import DeliveryAddress from "../../core/interfaces/deliveryAddress";
-import { CheckoutType } from "../../core/types/checkout";
+import EmptyCartMessage from "../EmptyCartMessage";
 import CheckoutList from "./List";
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import useStyles from "./styles";
+import { CheckoutContext } from "../../pages/Checkout/context";
+import addDays from "date-fns/addDays";
+import { format } from "date-fns";
 
-interface CheckoutProps {
-  checkout: CheckoutType;
-  deliveryDays: string[];
-  deliveryAddresses: DeliveryAddress[];
-  onDeliveryOptionUpdate: Function;
-  onDeliveryDateUpdate: Function;
-  onDeliveryAddressUpdate: Function;
-  checkoutPath: string;
-}
+const now = Date.now();
 
-const Checkout: React.FC<CheckoutProps> = (props: CheckoutProps) => {
+const Checkout = () => {
   const classes = useStyles();
   const { t } = useTranslation();
-
+  const notistackRef = React.createRef<any>();
   const {
-    checkout,
-    deliveryDays,
+    checkoutDelivery,
     deliveryAddresses,
-    onDeliveryOptionUpdate,
-    onDeliveryDateUpdate,
-    onDeliveryAddressUpdate,
-    checkoutPath,
-  } = props;
+    updateDeliveryDate,
+    isCheckoutEnabled,
+    updateDeliveryAddress,
+    updateDeliveryOptionBulk,
+    deliveryOption,
+  } = React.useContext(CheckoutContext);
 
-  const handleDateChange = (
-    event: React.ChangeEvent<{ name?: string | undefined; value: unknown }>
-  ): void => {
-    onDeliveryDateUpdate(event.target.value);
-  };
+  const [deliveryDate, setDeliveryDate] = React.useState<
+    string | null | undefined
+  >(checkoutDelivery?.earliestDeliveryDate);
 
-  const handleAddressChange = (
-    event: React.ChangeEvent<{ name?: string | undefined; value: unknown }>
-  ): void => {
-    onDeliveryAddressUpdate(event.target.value);
-  };
+  if (checkoutDelivery && checkoutDelivery.items.length < 1) {
+    return <EmptyCartMessage />;
+  }
 
   return (
     <Container maxWidth="md">
-      <Paper className={classes.paper}>
-        <Typography variant="h4" component="h1" className={classes.header}>
-          {t("chooseDeliveryOptions")}
-        </Typography>
-
-        <CheckoutList
-          items={checkout?.items}
-          onDeliveryOptionUpdate={onDeliveryOptionUpdate}
-        />
-
-        <Grid item xs={12} className={classes.totalDelivery}>
-          <Typography>
-            {t("totalDeliveryCost")} {checkout?.deliveryFeeNet.toFixed(2)}
-            {getCurrencySymbol()}
+      <SnackbarProvider
+        maxSnack={1}
+        ref={notistackRef}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        autoHideDuration={6000}
+        action={(key) => (
+          <>
+            <Button
+              onClick={() => {
+                updateDeliveryOptionBulk({ deliveryOption });
+                notistackRef.current.closeSnackbar(key);
+              }}
+            >
+              {t("Yes")}
+            </Button>
+            <Button onClick={() => notistackRef.current.closeSnackbar(key)}>
+              {t("No")}
+            </Button>
+          </>
+        )}
+      >
+        <Paper className={classes.paper}>
+          <Typography variant="h4" component="h1" className={classes.header}>
+            {t("chooseDeliveryOptions")}
           </Typography>
-        </Grid>
-        <Grid container item className={classes.selects}>
-          <Grid item xs={12} md={6}>
-            {checkout && (
-              <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel id="deliveryDateLabel">
-                  {t("deliveryDate")}
-                </InputLabel>
 
-                <Select
-                  id="deliveryDate"
-                  labelId="deliveryDateLabel"
-                  label={t("deliveryDate")}
-                  defaultValue={checkout.earliestDeliveryDate}
-                  onChange={(event) => handleDateChange(event)}
-                  fullWidth
-                >
-                  {deliveryDays.map((day) => (
-                    <MenuItem value={day} key={day}>
-                      {day}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            )}
+          <CheckoutList />
+
+          <Grid item xs={12} className={classes.totalDelivery}>
+            <Typography>
+              {t("totalDeliveryCost")}{" "}
+              {checkoutDelivery?.deliveryFeeNet.toFixed(2)}
+              {getCurrencySymbol()}
+            </Typography>
           </Grid>
-          <Grid item xs={12} md={6} className={classes.address}>
-            {deliveryAddresses.length < 1 && (
+          <Grid container item className={classes.selects}>
+            <Grid item xs={12} md={6}>
+              {checkoutDelivery && (
+                <FormControl variant="outlined" className={classes.formControl}>
+                  <MuiPickersUtilsProvider
+                    utils={DateFnsUtils}
+                    locale={localeMap[i18n.language]}
+                  >
+                    <DatePicker
+                      disablePast={true}
+                      minDate={addDays(now, 1)}
+                      maxDate={addDays(now, 8)}
+                      autoOk={true}
+                      variant="inline"
+                      margin="normal"
+                      format="dd.MM.yyyy"
+                      id="deliveryDate"
+                      name="deliveryDate"
+                      label={t("deliveryDate")}
+                      value={deliveryDate}
+                      onChange={(date) =>
+                        date &&
+                        updateDeliveryDate({
+                          date: format(date, "yyyy-MM-dd"),
+                        }) &&
+                        setDeliveryDate(format(date, "yyyy-MM-dd"))
+                      }
+                      fullWidth
+                      required
+                      inputVariant="outlined"
+                      data-testid="input-product-item-latest-delivery-date"
+                      className={classes.noTopMargin}
+                    />
+                  </MuiPickersUtilsProvider>
+                </FormControl>
+              )}
+            </Grid>
+            <Grid item xs={12} md={6} className={classes.address}>
+              {deliveryAddresses && deliveryAddresses.length < 1 && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  component={Link}
+                  to={"/profile/company"}
+                >
+                  {t("addDeliveryAddress")}
+                </Button>
+              )}
+              {deliveryAddresses && deliveryAddresses.length > 0 && (
+                <FormControl variant="outlined" className={classes.formControl}>
+                  <InputLabel id="deliveryAddressLabel">
+                    {t("deliveryAddress")}
+                  </InputLabel>
+
+                  <Select
+                    labelId="deliveryAddressLabel"
+                    id="deliveryAddress"
+                    onChange={(event) =>
+                      updateDeliveryAddress(Number(event.target.value))
+                    }
+                    value={checkoutDelivery?.deliveryAddress || ""}
+                    label={t("deliveryAddress")}
+                  >
+                    {deliveryAddresses?.map((deliveryAddress: any) => (
+                      <MenuItem
+                        key={deliveryAddress.id}
+                        value={deliveryAddress.id}
+                      >
+                        {deliveryAddress.street}, {deliveryAddress.zip}{" "}
+                        {deliveryAddress.city}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              )}
+            </Grid>
+
+            <Divider />
+
+            <Grid item xs={12} className={classes.actionButtons}>
+              <Button type="submit" component={Link} to={"/"}>
+                {t("cancel")}
+              </Button>
               <Button
                 variant="contained"
                 color="primary"
-                fullWidth
+                className={classes.proceed}
                 component={Link}
-                to={"/profile/company"}
+                to="/checkout/summary"
+                disabled={!isCheckoutEnabled}
               >
-                {t("addDeliveryAddress")}
+                {!isCheckoutEnabled ? (
+                  <CircularProgress size={24} />
+                ) : (
+                  t("proceed")
+                )}
               </Button>
-            )}
-            {deliveryAddresses.length > 0 && (
-              <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel id="deliveryAddressLabel">
-                  {t("deliveryAddress")}
-                </InputLabel>
-
-                <Select
-                  labelId="deliveryAddressLabel"
-                  id="deliveryAddress"
-                  onChange={(event) => handleAddressChange(event)}
-                  value={checkout.deliveryAddress || ""}
-                  label={t("deliveryAddress")}
-                >
-                  {deliveryAddresses?.map((deliveryAddress: any) => (
-                    <MenuItem
-                      key={deliveryAddress.id}
-                      value={deliveryAddress.id}
-                    >
-                      {deliveryAddress.street}, {deliveryAddress.zip}{" "}
-                      {deliveryAddress.city}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            )}
+            </Grid>
           </Grid>
-
-          <Divider />
-
-          <Grid item xs={12} className={classes.actionButtons}>
-            <Button type="submit" component={Link} to={"/"}>
-              {t("cancel")}
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.proceed}
-              component={Link}
-              to={checkoutPath}
-              disabled={!checkout.deliveryAddress}
-            >
-              {t("proceed")}
-            </Button>
-          </Grid>
-        </Grid>
-      </Paper>
+        </Paper>
+      </SnackbarProvider>
     </Container>
   );
 };

@@ -46,6 +46,7 @@ const LoginForm = ({
             required
             fullWidth
             id="email"
+            type="email"
             label={t("emailAddress")}
             name="email"
             autoComplete="email"

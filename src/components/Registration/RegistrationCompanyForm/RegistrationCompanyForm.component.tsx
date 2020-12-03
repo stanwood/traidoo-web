@@ -152,32 +152,34 @@ const RegistrationCompanyForm = ({
               </FormHelperText>
             </FormControl>
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              id="companyRegistrationId"
-              label={t("registryNumber")}
-              name="companyRegistrationId"
-              autoComplete="companyRegistrationId"
-              inputRef={register}
-              error={errors.companyRegistrationId ? true : false}
-              helperText={
-                errors.companyRegistrationId
-                  ? errors.companyRegistrationId.message
-                  : ""
-              }
-              defaultValue={data?.companyRegistrationId}
-            />
-          </Grid>
+          {Config.registration.companyID && (
+            <Grid item xs={12} sm={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="companyRegistrationId"
+                label={t("registryNumber")}
+                name="companyRegistrationId"
+                autoComplete="companyRegistrationId"
+                inputRef={register}
+                error={errors.companyRegistrationId ? true : false}
+                helperText={
+                  errors.companyRegistrationId
+                    ? errors.companyRegistrationId.message
+                    : ""
+                }
+                defaultValue={data?.companyRegistrationId}
+              />
+            </Grid>
+          )}
           <Grid item xs={12} sm={6}>
             <TextField
               variant="outlined"
               required
               fullWidth
               name="taxID"
-              label={t("taxId")}
+              label={Config.registration.uid ? "UID" : t("taxId")}
               id="taxID"
               inputRef={register}
               error={errors.taxID ? true : false}

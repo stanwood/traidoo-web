@@ -16,8 +16,8 @@ export const productUnits: Record<string, string> = {
 
 export const deliveryOptions: DeliveryOption[] = [
   { id: 0, name: "centralLogistic", label: i18n.t("byCentralLogistic") },
-  { id: 1, name: "seller", label: i18n.t("bySeller") },
   { id: 2, name: "buyer", label: i18n.t("byBuyer") },
+  { id: 1, name: "seller", label: i18n.t("bySeller") },
 ];
 
 export const productProperties = [

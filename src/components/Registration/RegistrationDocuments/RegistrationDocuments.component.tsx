@@ -26,14 +26,9 @@ const RegistrationDocuments = (props: RegistrationDocumentsProps) => {
     companyType,
   } = props;
 
-  const {
-    register,
-    handleSubmit,
-    errors,
-    setError,
-    getValues,
-    setValue,
-  } = useForm<DocumentsFormData>({
+  const { register, handleSubmit, errors, setError, setValue, watch } = useForm<
+    DocumentsFormData
+  >({
     defaultValues: data,
     resolver: yupResolver(validationSchema),
   });
@@ -86,7 +81,7 @@ const RegistrationDocuments = (props: RegistrationDocumentsProps) => {
       onSubmit={onSubmit}
       onCancel={onCancel}
       data={data}
-      getValues={getValues}
+      watch={watch}
       requiredFields={requiredDocuments(declaredAsSeller, companyType)}
     />
   );

@@ -17,5 +17,7 @@ declare namespace NodeJS {
     REACT_APP_COMPANY_TYPES_VARIANT: null | "A" | "B";
     REACT_APP_INTERCOM_ID: string;
     REACT_APP_CURRENCY: string;
+    REACT_APP_REGISTRATION_COMPANY_ID: "true" | "false";
+    REACT_APP_REGISTRATION_UID: "true" | "false";
   }
 }

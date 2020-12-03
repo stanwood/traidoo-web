@@ -35,6 +35,7 @@ const ResetForm = ({
             id="email"
             label={t("emailAddress")}
             name="email"
+            type="email"
             autoComplete="email"
             autoFocus
             inputRef={register}
