@@ -1,4 +1,5 @@
 import axios from "../../../core/axios";
+import * as Sentry from "@sentry/react";
 
 export const modifyCartRequest = async ({
   productId,
@@ -42,6 +43,11 @@ export const removeFromCartRequest = async ({
   productId: number;
 }) => {
   const response = await axios.delete(`cart/${productId}`);
+  Sentry.addBreadcrumb({
+    category: "cart",
+    message: `Remove product ${productId} from cart.`,
+    level: Sentry.Severity.Info,
+  });
   return response.data;
 };
 
