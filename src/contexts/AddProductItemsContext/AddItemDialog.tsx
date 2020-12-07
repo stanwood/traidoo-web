@@ -73,7 +73,7 @@ const AddItemDialog: React.FC<AddItemDialogProps> = (
     register({ name: "latestDeliveryDate" });
     setValue("latestDeliveryDate", dialogDate);
     setSelectedLatestDeliveryDate(dialogDate);
-  }, [dialog]);
+  }, [dialogDate, register, setValue]);
 
   const handleError = (error: any) => {
     const errorResponse = error.response;

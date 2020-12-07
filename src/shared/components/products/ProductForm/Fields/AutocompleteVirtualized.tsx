@@ -182,6 +182,7 @@ const AutocompleteVirtualized = (props: VirtualizeProps) => {
           renderOption={(option) => (
             <React.Fragment>
               <img
+                alt={option.category.name}
                 className={classes.image}
                 src={option.category.icon.iconUrl}
                 style={{ paddingLeft: option.index * 25 }}
