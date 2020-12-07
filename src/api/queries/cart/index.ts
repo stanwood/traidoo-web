@@ -8,16 +8,31 @@ export const modifyCartRequest = async ({
   productId: number;
   quantity: number;
 }) => {
+  Sentry.addBreadcrumb({
+    category: "cart",
+    message: `Update the cart: product ID: ${productId}, quantity: ${quantity}.`,
+    level: Sentry.Severity.Info,
+  });
   const response = await axios.post("cart", { productId, quantity });
   return response.data;
 };
 
 export const cartDeliveryDateRequest = async ({ date }: { date: string }) => {
+  Sentry.addBreadcrumb({
+    category: "cart",
+    message: `Set delivery date to ${date}.`,
+    level: Sentry.Severity.Info,
+  });
   const response = await axios.post("cart/delivery", { date });
   return response.data;
 };
 
 export const cartDeliveryAddressRequest = async (deliveryAddress: number) => {
+  Sentry.addBreadcrumb({
+    category: "cart",
+    message: `Set delivery address to ${deliveryAddress}.`,
+    level: Sentry.Severity.Info,
+  });
   const response = await axios.post("cart/deliveryAddress", {
     deliveryAddress,
   });
@@ -31,6 +46,11 @@ export const cartItemDeliveryOptionRequest = async ({
   productId: number;
   deliveryOption: number;
 }) => {
+  Sentry.addBreadcrumb({
+    category: "cart",
+    message: `Set delivery option: product ID: ${productId}, delivery option ID: ${deliveryOption}.`,
+    level: Sentry.Severity.Info,
+  });
   const response = await axios.post(`cart/${productId}/delivery_option`, {
     deliveryOption,
   });
@@ -42,12 +62,12 @@ export const removeFromCartRequest = async ({
 }: {
   productId: number;
 }) => {
-  const response = await axios.delete(`cart/${productId}`);
   Sentry.addBreadcrumb({
     category: "cart",
     message: `Remove product ${productId} from cart.`,
     level: Sentry.Severity.Info,
   });
+  const response = await axios.delete(`cart/${productId}`);
   return response.data;
 };
 
@@ -66,6 +86,11 @@ export const cartDeliveryOptionBulkEditRequest = async ({
 }: {
   deliveryOption: number;
 }) => {
+  Sentry.addBreadcrumb({
+    category: "cart",
+    message: `Bulk delivery option update: ${deliveryOption}.`,
+    level: Sentry.Severity.Info,
+  });
   const response = await axios.post(`cart/deliveryOption`, {
     deliveryOption,
   });
