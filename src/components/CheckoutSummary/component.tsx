@@ -1,4 +1,5 @@
 import Button from "@material-ui/core/Button";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
@@ -17,16 +18,19 @@ import { CheckoutType } from "../../core/types/checkout";
 import EmptyCartMessage from "../EmptyCartMessage";
 import useStyles from "./styles";
 
-const CheckoutSummary: React.FC<{
+interface CheckoutSummaryProps {
   checkout: CheckoutType | undefined;
   summary: { name: string; value: number }[];
-  isProceedDisabled: Function;
-  onSubmit: Function;
-}> = (props) => {
+  isProceedDisabled: boolean;
+  onSubmit: () => void;
+}
+
+const CheckoutSummary = (props: CheckoutSummaryProps) => {
   const classes = useStyles();
   const { t } = useTranslation();
+  const { checkout, summary, isProceedDisabled, onSubmit } = props;
 
-  if (props.checkout && props.checkout.items.length < 1) {
+  if (checkout && checkout.items.length < 1) {
     return <EmptyCartMessage />;
   }
 
@@ -48,7 +52,7 @@ const CheckoutSummary: React.FC<{
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.checkout?.items.map((item: any) => (
+            {checkout?.items.map((item: any) => (
               <TableRow key={item.id}>
                 <TableCell component="th" scope="row">
                   {item.product.name}
@@ -78,7 +82,7 @@ const CheckoutSummary: React.FC<{
               <TableCell align="right"></TableCell>
               <TableCell align="right"></TableCell>
             </TableRow>
-            {props.checkout?.deposit.map((item: any) => (
+            {checkout?.deposit.map((item: any) => (
               <TableRow key={item.sizeClass}>
                 <TableCell component="th" scope="row">
                   {item.sizeClass}
@@ -108,7 +112,7 @@ const CheckoutSummary: React.FC<{
         <Grid item xs={12} md={6}>
           <Table size="small" aria-label="summary">
             <TableBody>
-              {props.summary.map((item) => (
+              {summary.map((item) => (
                 <TableRow key={item.name}>
                   <TableCell component="th" scope="row">
                     {item.name}
@@ -148,10 +152,14 @@ const CheckoutSummary: React.FC<{
             variant="contained"
             color="primary"
             className={classes.button}
-            disabled={props.isProceedDisabled()}
-            onClick={() => props.onSubmit()}
+            disabled={isProceedDisabled}
+            onClick={() => onSubmit()}
           >
-            {t("orderWithObligationToPay")}
+            {isProceedDisabled ? (
+              <CircularProgress size={24} />
+            ) : (
+              t("orderWithObligationToPay")
+            )}
           </Button>
         </Grid>
       </Grid>

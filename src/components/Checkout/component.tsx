@@ -179,9 +179,11 @@ const Checkout = () => {
                 className={classes.proceed}
                 component={Link}
                 to="/checkout/summary"
-                disabled={!isCheckoutEnabled}
+                disabled={
+                  !isCheckoutEnabled || !checkoutDelivery?.deliveryAddress
+                }
               >
-                {!isCheckoutEnabled ? (
+                {!isCheckoutEnabled && checkoutDelivery?.deliveryAddress ? (
                   <CircularProgress size={24} />
                 ) : (
                   t("proceed")

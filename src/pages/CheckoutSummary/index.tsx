@@ -22,10 +22,17 @@ const CheckoutSummaryPage: React.FC = () => {
     getCheckoutRequest
   );
 
-  const [checkoutMutation] = useMutation(checkoutRequest);
+  const [checkoutMutation, { status: checkoutMutationStatus }] = useMutation(
+    checkoutRequest
+  );
 
-  const buttonDisabled = () =>
-    checkoutStatus === "loading" || checkoutData?.items.length === 0;
+  const buttonDisabled = React.useMemo(() => {
+    return (
+      checkoutStatus === "loading" ||
+      checkoutData?.items.length === 0 ||
+      checkoutMutationStatus === "loading"
+    );
+  }, [checkoutStatus, checkoutData, checkoutMutationStatus]);
 
   const roundPrice = (price: number | undefined): number =>
     price ? Math.round((price + Number.EPSILON) * 100) / 100 : 0;
