@@ -45,7 +45,11 @@ const Checkout = () => {
     string | null | undefined
   >(checkoutDelivery?.earliestDeliveryDate);
 
-  if (checkoutDelivery && checkoutDelivery.items.length < 1) {
+  if (
+    checkoutDelivery &&
+    checkoutDelivery.items &&
+    checkoutDelivery.items.length < 1
+  ) {
     return <EmptyCartMessage />;
   }
 

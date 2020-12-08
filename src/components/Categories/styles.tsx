@@ -12,11 +12,17 @@ export const useCategoriesStyles = makeStyles((theme: Theme) =>
       marginBottom: theme.spacing(4),
       width: "100%",
     },
+    logos: {
+      marginTop: "auto",
+    },
     image: {
+      display: "block",
+      margin: "0 auto",
       height: "auto",
       maxHeight: "78px",
-      marginTop: "auto",
-      width: leftDrawerWidth,
+      width: "auto",
+      maxWidth: "100%",
+      marginBottom: theme.spacing(1),
     },
   })
 );
