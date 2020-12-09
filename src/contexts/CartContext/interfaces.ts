@@ -27,4 +27,5 @@ export interface CartStateContext {
   isProductInCart: (productId: number) => boolean;
   clear: () => void;
   initialState: () => void;
+  productsLimitReached: boolean;
 }

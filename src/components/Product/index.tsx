@@ -15,6 +15,7 @@ import { UserContext } from "../../contexts/UserContext/context";
 import { getCurrencySymbol } from "../../core/constants/currencies";
 import { default as DeliveryOptionType } from "../../core/types/deliveryOption";
 import { ProductIcon } from "../ProductIcon/ProductIcon.component";
+import Tooltip from "@material-ui/core/Tooltip";
 import DeliveryOption from "./DeliveryOption";
 import EditButton from "./editButton";
 import { ProductDetailsProps } from "./interfaces";
@@ -34,8 +35,18 @@ const ProductDetails: React.FC<ProductDetailsProps> = (
     product.seller.id,
   ]);
 
-  const { isProductInCart, addProduct, removeProduct } = useContext(
-    CartContext
+  const {
+    isProductInCart,
+    addProduct,
+    removeProduct,
+    productsLimitReached,
+  } = useContext(CartContext);
+
+  const productInCart = isProductInCart(product.id);
+  const tooltipText = React.useMemo(
+    () =>
+      !productInCart && productsLimitReached ? t("checkoutPriceTooLow") : "",
+    [productInCart, productsLimitReached]
   );
 
   const grossPrice = (price: number, vat: number): number => {
@@ -65,7 +76,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = (
       return null;
     }
 
-    if (isProductInCart(productId)) {
+    if (productInCart) {
       return (
         <Button
           variant="contained"
@@ -79,16 +90,27 @@ const ProductDetails: React.FC<ProductDetailsProps> = (
     }
 
     return (
-      <Button
-        variant="contained"
-        color="primary"
-        className={classes.addToCart}
-        onClick={() =>
-          addProduct({ id: productId, amount, name, price, unit, quantity: 1 })
-        }
-      >
-        {t("addToCart")}
-      </Button>
+      <Tooltip title={tooltipText} arrow>
+        <span className={classes.addToCart}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() =>
+              addProduct({
+                id: productId,
+                amount,
+                name,
+                price,
+                unit,
+                quantity: 1,
+              })
+            }
+            disabled={!productInCart && productsLimitReached}
+          >
+            {t("addToCart")}
+          </Button>
+        </span>
+      </Tooltip>
     );
   };
 

@@ -108,6 +108,10 @@ const CartProvider = (props: CartProviderProps): ReactElement => {
     return cart.products.some((product) => product.id === productId);
   };
 
+  const productsLimitReached = useMemo(() => cart.products.length > 2, [
+    cart.products,
+  ]);
+
   const value = {
     cart,
     cartTotal,
@@ -118,6 +122,7 @@ const CartProvider = (props: CartProviderProps): ReactElement => {
     clear,
     isProductInCart,
     initialState,
+    productsLimitReached,
   };
 
   return (

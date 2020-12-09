@@ -4,6 +4,7 @@ import Paper from "@material-ui/core/Paper";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import React, { useContext, useMemo } from "react";
 import InputBase from "@material-ui/core/InputBase";
+import Tooltip from "@material-ui/core/Tooltip";
 import Divider from "@material-ui/core/Divider";
 import clsx from "clsx";
 import { CartContext } from "../../../contexts/CartContext/context";
@@ -57,11 +58,19 @@ const ProductCartButton = (props: ProductCartButtonProps): JSX.Element => {
   const classes = useProductCartButtonStyles();
   const { t } = useTranslation();
   const [quantity, setQuantity] = React.useState<number | string>(1);
-  const { isProductInCart, addProduct, removeProduct } = useContext(
-    CartContext
-  );
+  const {
+    isProductInCart,
+    addProduct,
+    removeProduct,
+    productsLimitReached,
+  } = useContext(CartContext);
 
   const productInCart = isProductInCart(productId);
+  const tooltipText = React.useMemo(
+    () =>
+      !productInCart && productsLimitReached ? t("checkoutPriceTooLow") : "",
+    [productInCart, productsLimitReached]
+  );
 
   let isValid = useMemo((): string | null => {
     if (quantity === "") {
@@ -124,25 +133,35 @@ const ProductCartButton = (props: ProductCartButtonProps): JSX.Element => {
           disabled={productInCart}
         />
         <Divider className={classes.divider} orientation="vertical" />
-        <IconButton
-          aria-label="add to cart"
-          className={clsx(productInCart && classes.removeIcon)}
-          disabled={Boolean(isValid)}
-          onClick={() =>
-            productInCart
-              ? removeProduct(productId)
-              : addProduct({
-                  id: productId,
-                  amount,
-                  name,
-                  price,
-                  unit,
-                  quantity: Number(quantity),
-                })
-          }
-        >
-          {productInCart ? <RemoveShoppingCartIcon /> : <AddShoppingCartIcon />}
-        </IconButton>
+        <Tooltip title={tooltipText} arrow>
+          <span>
+            <IconButton
+              aria-label="add to cart"
+              className={clsx(productInCart && classes.removeIcon)}
+              disabled={
+                (!productInCart && productsLimitReached) || Boolean(isValid)
+              }
+              onClick={() =>
+                productInCart
+                  ? removeProduct(productId)
+                  : addProduct({
+                      id: productId,
+                      amount,
+                      name,
+                      price,
+                      unit,
+                      quantity: Number(quantity),
+                    })
+              }
+            >
+              {productInCart ? (
+                <RemoveShoppingCartIcon />
+              ) : (
+                <AddShoppingCartIcon />
+              )}
+            </IconButton>
+          </span>
+        </Tooltip>
       </Paper>
       {isValid && <div className={classes.error}>{isValid}</div>}
     </>
