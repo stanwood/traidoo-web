@@ -67,8 +67,7 @@ const ProductCartButton = (props: ProductCartButtonProps): JSX.Element => {
 
   const productInCart = isProductInCart(productId);
   const tooltipText = React.useMemo(
-    () =>
-      !productInCart && productsLimitReached ? t("checkoutPriceTooLow") : "",
+    () => (!productInCart && productsLimitReached ? t("cartLimitMessage") : ""),
     [productInCart, productsLimitReached]
   );
 

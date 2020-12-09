@@ -44,8 +44,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = (
 
   const productInCart = isProductInCart(product.id);
   const tooltipText = React.useMemo(
-    () =>
-      !productInCart && productsLimitReached ? t("checkoutPriceTooLow") : "",
+    () => (!productInCart && productsLimitReached ? t("cartLimitMessage") : ""),
     [productInCart, productsLimitReached]
   );
 
