@@ -45,7 +45,11 @@ const Checkout = () => {
     string | null | undefined
   >(checkoutDelivery?.earliestDeliveryDate);
 
-  if (checkoutDelivery && checkoutDelivery.items.length < 1) {
+  if (
+    checkoutDelivery &&
+    checkoutDelivery.items &&
+    checkoutDelivery.items.length < 1
+  ) {
     return <EmptyCartMessage />;
   }
 
@@ -179,9 +183,11 @@ const Checkout = () => {
                 className={classes.proceed}
                 component={Link}
                 to="/checkout/summary"
-                disabled={!isCheckoutEnabled}
+                disabled={
+                  !isCheckoutEnabled || !checkoutDelivery?.deliveryAddress
+                }
               >
-                {!isCheckoutEnabled ? (
+                {!isCheckoutEnabled && checkoutDelivery?.deliveryAddress ? (
                   <CircularProgress size={24} />
                 ) : (
                   t("proceed")

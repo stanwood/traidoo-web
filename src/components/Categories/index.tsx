@@ -1,4 +1,5 @@
 import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import Skeleton from "@material-ui/lab/Skeleton";
@@ -62,9 +63,12 @@ const Categories = () => {
       >
         <CategoryItems categories={categoriesWithMainPageLink} />
       </TreeView>
-      {Config.sponsorLogo && (
-        <Img src={Config.sponsorLogo} className={classes.image} />
-      )}
+      <Box className={classes.logos}>
+        {Config.sponsorLogo &&
+          Config.sponsorLogo
+            .split(",")
+            .map((logo) => <Img src={logo} className={classes.image} />)}
+      </Box>
     </Grid>
   );
 };
