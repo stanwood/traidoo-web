@@ -9,6 +9,7 @@ import { getContainersRequest } from "../../api/queries/containers";
 import { addProductRequest } from "../../api/queries/products/addProduct";
 import { getRegionsRequest } from "../../api/queries/regions";
 import { getGlobalSettingsRequest } from "../../api/queries/settings/global";
+import { getSettingsRequest } from "../../api/queries/settings/settings";
 import { getTagsRequest } from "../../api/queries/tags";
 import Page from "../../components/Common/Page";
 import Product from "../../core/types/product";
@@ -23,6 +24,7 @@ const ProductAddPage: React.FC = () => {
 
   const [addProduct] = useMutation(addProductRequest);
 
+  const { data: settings } = useQuery(["/settings", false], getSettingsRequest);
   const { data: categories } = useQuery(
     ["/categories", false],
     getCategoriesRequest
@@ -49,7 +51,7 @@ const ProductAddPage: React.FC = () => {
     [addProduct, history]
   );
 
-  if (!categories || !containers || !regions || !tags) {
+  if (!categories || !containers || !regions || !tags || !settings) {
     return (
       <Page title={pageTitle}>
         {Array.from(Array(10).keys()).map((number) => (
@@ -68,6 +70,7 @@ const ProductAddPage: React.FC = () => {
           regions={regions?.results}
           tags={tags}
           globalSettings={globalSettings}
+          settings={settings}
           buttonName={t("add")}
         />
       </Container>

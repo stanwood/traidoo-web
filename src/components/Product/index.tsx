@@ -45,7 +45,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = (
   const productInCart = isProductInCart(product.id);
   const tooltipText = React.useMemo(
     () => (!productInCart && productsLimitReached ? t("cartLimitMessage") : ""),
-    [productInCart, productsLimitReached]
+    [productInCart, productsLimitReached, t]
   );
 
   const grossPrice = (price: number, vat: number): number => {

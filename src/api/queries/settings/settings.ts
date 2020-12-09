@@ -1,8 +1,5 @@
 import axios from "../../../core/axios";
-
-interface Settings {
-  minPurchaseValue: number;
-}
+import { Settings } from "../../../core/interfaces/settings";
 
 export const getSettingsRequest = async (): Promise<Settings> => {
   const response = await axios.get("settings");
