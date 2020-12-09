@@ -108,7 +108,7 @@ const CartProvider = (props: CartProviderProps): ReactElement => {
     return cart.products.some((product) => product.id === productId);
   };
 
-  const productsLimitReached = useMemo(() => cart.products.length > 2, [
+  const productsLimitReached = useMemo(() => cart.products.length > 10, [
     cart.products,
   ]);
 
