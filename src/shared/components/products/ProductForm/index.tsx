@@ -1,12 +1,13 @@
 import { yupResolver } from "@hookform/resolvers";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
+import { Tree } from "array-to-tree";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Container } from "../../../../api/queries/containers";
 import { Region } from "../../../../api/queries/regions";
 import { Tag } from "../../../../api/queries/tags";
-import { CategoriesContext } from "../../../../contexts/CategoryContext/context";
+import { Category } from "../../../../core/interfaces/categories";
 import { GlobalSettings, Settings } from "../../../../core/interfaces/settings";
 import Product from "../../../../core/types/product";
 import Availability from "./Sections/Availability";
@@ -26,6 +27,7 @@ import {
 interface ProductFormProps {
   onSubmit: (formData: ProductFormData) => void;
   containers: Container[];
+  categories: Tree<Category>[];
   regions: Region[];
   tags: Tag[];
   globalSettings?: GlobalSettings;
@@ -38,6 +40,7 @@ const ProductForm: React.FC<ProductFormProps> = (props: ProductFormProps) => {
   const {
     onSubmit,
     containers,
+    categories,
     regions,
     tags,
     settings,
@@ -45,8 +48,6 @@ const ProductForm: React.FC<ProductFormProps> = (props: ProductFormProps) => {
     buttonName,
     product,
   } = props;
-
-  const { categories } = React.useContext(CategoriesContext);
 
   const defaultValues: ProductFormData = {
     name: product ? product.name : "",
@@ -95,7 +96,7 @@ const ProductForm: React.FC<ProductFormProps> = (props: ProductFormProps) => {
         onSubmit={form.handleSubmit(onSubmit)}
         noValidate
       >
-        <General />
+        <General categories={categories} />
 
         <Grid container spacing={3} className={classes.imageContainer}>
           <Grid item xs={12} sm={6}>
