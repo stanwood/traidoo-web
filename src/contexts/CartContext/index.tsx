@@ -14,6 +14,7 @@ import {
   modifyCartRequest,
   removeFromCartRequest,
 } from "../../api/queries/cart";
+import Config from "../../config";
 import { getCurrencyCode } from "../../core/constants/currencies";
 import {
   CART_ADD,
@@ -108,9 +109,10 @@ const CartProvider = (props: CartProviderProps): ReactElement => {
     return cart.products.some((product) => product.id === productId);
   };
 
-  const productsLimitReached = useMemo(() => cart.products.length > 10, [
-    cart.products,
-  ]);
+  const productsLimitReached = useMemo(
+    () => cart.products.length > Config.cartLimit,
+    [cart.products]
+  );
 
   const value = {
     cart,

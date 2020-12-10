@@ -19,5 +19,6 @@ declare namespace NodeJS {
     REACT_APP_CURRENCY: string;
     REACT_APP_REGISTRATION_COMPANY_ID: "true" | "false";
     REACT_APP_REGISTRATION_UID: "true" | "false";
+    REACT_APP_CART_LIMIT: number;
   }
 }
