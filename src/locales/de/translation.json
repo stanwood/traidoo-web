@@ -36,6 +36,7 @@
   "bySeller": "durch Verkäufer",
   "cancel": "abbrechen",
   "Cart": "Warenkorb",
+  "cartLimitMessage": "Die maximale Menge an Produkten im Warenkorb ist erreicht. Wir arbeiten daran, dieses Limit zu erhöhen.",
   "category": "Kategorie",
   "categoryRequired": "Kategorie ist erforderlich",
   "centralLogistics*": "Zentrale Logistik*",

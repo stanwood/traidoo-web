@@ -31,5 +31,6 @@ steps:
       - "REACT_APP_CURRENCY=${_CURRENCY}"
       - "REACT_APP_REGISTRATION_COMPANY_ID=${_REGISTRATION_COMPANY_ID}"
       - "REACT_APP_REGISTRATION_UID=${_REGISTRATION_UID}"
+      - "REACT_APP_CART_LIMIT=${_CART_LIMIT}"
   - name: gcr.io/$PROJECT_ID/firebase
     args: ["deploy", "--project=$PROJECT_ID", "--only=hosting"]

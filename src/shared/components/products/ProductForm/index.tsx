@@ -7,7 +7,7 @@ import { Container } from "../../../../api/queries/containers";
 import { Region } from "../../../../api/queries/regions";
 import { Tag } from "../../../../api/queries/tags";
 import { CategoriesContext } from "../../../../contexts/CategoryContext/context";
-import { GlobalSettings } from "../../../../core/interfaces/settings";
+import { GlobalSettings, Settings } from "../../../../core/interfaces/settings";
 import Product from "../../../../core/types/product";
 import Availability from "./Sections/Availability";
 import Delivery from "./Sections/Delivery";
@@ -29,6 +29,7 @@ interface ProductFormProps {
   regions: Region[];
   tags: Tag[];
   globalSettings?: GlobalSettings;
+  settings?: Settings;
   product?: Product;
   buttonName: string;
 }
@@ -39,6 +40,7 @@ const ProductForm: React.FC<ProductFormProps> = (props: ProductFormProps) => {
     containers,
     regions,
     tags,
+    settings,
     globalSettings,
     buttonName,
     product,
@@ -106,7 +108,7 @@ const ProductForm: React.FC<ProductFormProps> = (props: ProductFormProps) => {
 
         <Pricing globalSettings={globalSettings} />
 
-        <Delivery containers={containers} />
+        <Delivery containers={containers} settings={settings} />
 
         {regions.length > 0 && <Availability regions={regions} />}
 

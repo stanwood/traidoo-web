@@ -20,18 +20,26 @@ import { deliveryOptions } from "../../constants";
 import ControlledTextInput from "../Fields/ControlledTextField";
 import useStyles from "../styles";
 import { getCurrencySymbol } from "../../../../../core/constants/currencies";
+import { Settings } from "../../../../../core/interfaces/settings";
 
 interface DeliveryProps {
   containers: Container[];
+  settings?: Settings;
 }
 
 const Delivery: React.FC<DeliveryProps> = (props: DeliveryProps) => {
-  const { containers } = props;
   const classes = useStyles();
+  const { containers } = props;
   const { t } = useTranslation();
-  const sellerDeliveryOption = deliveryOptions.find(
+
+  const regionDeliveryOptions = props.settings?.centralLogisticsCompany
+    ? deliveryOptions
+    : deliveryOptions.slice(1);
+
+  const sellerDeliveryOption = regionDeliveryOptions.find(
     (option) => option.name === "seller"
   );
+
   const { errors, control, getValues, register, setValue } = useFormContext();
   const [selectedDeliveryOptions, setSelectedDeliveryOptions] = useState<
     DeliveryOption[]
@@ -71,7 +79,7 @@ const Delivery: React.FC<DeliveryProps> = (props: DeliveryProps) => {
     if (event.target.checked) {
       setValue("deliveryOptions", [
         ...currentValues,
-        deliveryOptions.find(
+        regionDeliveryOptions.find(
           (deliveryOption) => deliveryOption.id === Number(event.target.value)
         ),
       ]);
@@ -152,7 +160,7 @@ const Delivery: React.FC<DeliveryProps> = (props: DeliveryProps) => {
         </Grid>
         <Grid item xs={12}>
           <FormGroup row>
-            {deliveryOptions.map((deliveryOption) => (
+            {regionDeliveryOptions.map((deliveryOption) => (
               <FormControlLabel
                 key={deliveryOption.id}
                 label={deliveryOption.label}

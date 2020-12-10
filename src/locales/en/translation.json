@@ -36,6 +36,7 @@
   "bySeller": "by seller",
   "cancel": "cancel",
   "Cart": "Cart",
+  "cartLimitMessage": "The maximum amount of products in the shopping cart has been reached. We are working on increasing this limit.",
   "category": "Category",
   "categoryRequired": "Category is required",
   "centralLogistics*": "Central logistics*",
