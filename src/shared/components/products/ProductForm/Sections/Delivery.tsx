@@ -200,6 +200,14 @@ const Delivery: React.FC<DeliveryProps> = (props: DeliveryProps) => {
           <FormHelperText className={classes.error}>
             {errors.deliveryOptions ? errors.deliveryOptions.message : ""}
           </FormHelperText>
+          {Config.features.routes && (
+            <Typography
+              variant="body2"
+              className={classes.thirdPartyDeliveryMessage}
+            >
+              {t("thirdPartyDeliveryMessage")}
+            </Typography>
+          )}
         </Grid>
       </Grid>
     </Paper>
