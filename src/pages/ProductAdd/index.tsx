@@ -1,5 +1,6 @@
 import Container from "@material-ui/core/Container";
 import Skeleton from "@material-ui/lab/Skeleton";
+import arrayToTree from "array-to-tree";
 import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
@@ -67,6 +68,7 @@ const ProductAddPage: React.FC = () => {
         <ProductForm
           onSubmit={onSubmit}
           containers={containers}
+          categories={arrayToTree(categories, { parentProperty: "parent" })}
           regions={regions?.results}
           tags={tags}
           globalSettings={globalSettings}
