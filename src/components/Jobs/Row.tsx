@@ -92,7 +92,7 @@ const Row = ({
       <TableCell>
         <Box>{job.orderItem.deliveryFee}&euro;</Box>
         <Box>
-          {job.detour} {t("km")}
+          {(job.detour / 1000).toFixed(1)} {t("km")}
         </Box>
       </TableCell>
       <TableCell>
