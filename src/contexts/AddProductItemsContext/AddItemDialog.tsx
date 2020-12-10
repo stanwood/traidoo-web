@@ -43,9 +43,13 @@ const AddItemDialog: React.FC<AddItemDialogProps> = (
     AddProductItemsContext
   );
 
-  const dialogDate = dialog.date
-    ? parse(dialog.date, "yyyy-MM-dd", new Date())
-    : startOfTomorrow();
+  const dialogDate = React.useMemo(
+    () =>
+      dialog.date
+        ? parse(dialog.date, "yyyy-MM-dd", new Date())
+        : startOfTomorrow(),
+    [dialog.date]
+  );
 
   const {
     clearErrors,
