@@ -16,6 +16,7 @@ const Config: Configuration = {
   compantTypesVariant: process.env.REACT_APP_COMPANY_TYPES_VARIANT || "A",
   intercomId: process.env.REACT_APP_INTERCOM_ID,
   currency: process.env.REACT_APP_CURRENCY,
+  cartLimit: process.env.REACT_APP_CART_LIMIT,
   registration: {
     companyID:
       process.env.REACT_APP_REGISTRATION_COMPANY_ID === "true" ? true : false,

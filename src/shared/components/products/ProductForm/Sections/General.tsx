@@ -6,14 +6,19 @@ import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import ControlledTextInput from "../Fields/ControlledTextField";
 import useStyles from "../styles";
-import { CategoriesContext } from "../../../../../contexts/CategoryContext/context";
 import AutocompleteVirtualized from "../Fields/AutocompleteVirtualized";
+import { Tree } from "array-to-tree";
+import { Category } from "../../../../../core/interfaces/categories";
 
-const General = () => {
+interface GeneralProps {
+  categories: Tree<Category>[];
+}
+
+const General = (props: GeneralProps) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const { control, errors } = useFormContext();
-  const { categories } = React.useContext(CategoriesContext);
+  const { categories } = props;
 
   return (
     <Paper className={classes.paper}>

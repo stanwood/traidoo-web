@@ -55,6 +55,9 @@ const useStyles = makeStyles((theme) =>
     editButton: {
       marginLeft: theme.spacing(2),
     },
+    thirdPartyDeliveryMessage: {
+      marginTop: theme.spacing(2),
+    },
   })
 );
 

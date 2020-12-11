@@ -1,5 +1,6 @@
 import Container from "@material-ui/core/Container";
 import Skeleton from "@material-ui/lab/Skeleton";
+import arrayToTree from "array-to-tree";
 import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
@@ -10,6 +11,7 @@ import { getProductRequest } from "../../api/queries/products";
 import { editProductRequest } from "../../api/queries/products/editProduct";
 import { getRegionsRequest } from "../../api/queries/regions";
 import { getGlobalSettingsRequest } from "../../api/queries/settings/global";
+import { getSettingsRequest } from "../../api/queries/settings/settings";
 import { getTagsRequest } from "../../api/queries/tags";
 import Page from "../../components/Common/Page";
 import ProductForm from "../../shared/components/products/ProductForm";
@@ -30,6 +32,7 @@ const ProductEditPage: React.FC = () => {
     getProductRequest
   );
 
+  const { data: settings } = useQuery(["/settings", false], getSettingsRequest);
   const { data: categories } = useQuery(
     ["/categories", false],
     getCategoriesRequest
@@ -57,7 +60,14 @@ const ProductEditPage: React.FC = () => {
     [editProduct, history, productId]
   );
 
-  if (!product || !categories || !containers || !regions || !tags) {
+  if (
+    !product ||
+    !categories ||
+    !containers ||
+    !regions ||
+    !tags ||
+    !settings
+  ) {
     return (
       <Page title={pageTitle}>
         {Array.from(Array(10).keys()).map((number) => (
@@ -73,9 +83,11 @@ const ProductEditPage: React.FC = () => {
         <ProductForm
           onSubmit={onSubmit}
           containers={containers}
+          categories={arrayToTree(categories, { parentProperty: "parent" })}
           regions={regions?.results}
           tags={tags}
           globalSettings={globalSettings}
+          settings={settings}
           product={product}
           buttonName={t("save")}
         />

@@ -13,6 +13,7 @@ interface Configuration {
   compantTypesVariant: null | "A" | "B";
   intercomId: string;
   currency: string;
+  cartLimit: number;
   registration: {
     companyID: boolean;
     uid: boolean;
