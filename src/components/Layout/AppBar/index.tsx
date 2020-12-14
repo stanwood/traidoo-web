@@ -4,6 +4,7 @@ import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
 import InputBase from "@material-ui/core/InputBase";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import Button from "@material-ui/core/Button";
 import {
   createStyles,
   fade,
@@ -26,6 +27,7 @@ import CartButton from "./CartButton";
 import DrawerButton from "./DrawerButton";
 import TraidooMenu from "./Menu";
 import TraidooAppBarTabs, { TabProps } from "./Tabs";
+import { useIntercom } from "react-use-intercom";
 
 const useAppBarStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,7 +45,7 @@ const useAppBarStyles = makeStyles((theme: Theme) =>
     },
     search: {
       position: "relative",
-      marginRight: theme.spacing(5),
+      marginRight: theme.spacing(3),
       borderRadius: theme.shape.borderRadius,
       backgroundColor: fade(theme.palette.common.white, 0.15),
       "&:hover": {
@@ -109,6 +111,7 @@ const TraidooAppBar: React.FC<TraidooAppBarProps> = (
   } = props;
   const showLoadingIndicator = useIsFetching();
   const { user } = useContext(UserContext);
+  const { show } = useIntercom();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -169,7 +172,10 @@ const TraidooAppBar: React.FC<TraidooAppBarProps> = (
             type="search"
           />
         </div>
-        {cartButton && user.id && <CartButton styleName={classes.menuButton} />}
+        {cartButton && user.id && <CartButton />}
+        <Button color="inherit" onClick={() => show()}>
+          {t("help")}
+        </Button>
         <IconButton
           edge="end"
           color="inherit"
