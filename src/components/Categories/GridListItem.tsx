@@ -7,7 +7,6 @@ export const useGridListImageItemStyles = makeStyles((theme: Theme) =>
   createStyles({
     tile: { maxWidth: "100%" },
     image: {
-      width: "100%",
       height: "auto",
       maxHeight: "78px",
       maxWidth: "100%",
