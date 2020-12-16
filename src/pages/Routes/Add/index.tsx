@@ -39,7 +39,9 @@ const AddRoutePage: React.FC = () => {
     async (data: RouteFormFields) => {
       const newData = {
         ...data,
-        waypoints: data.waypoints.map((waypoint) => waypoint.name),
+        waypoints: data.waypoints
+          ? data.waypoints.map((waypoint) => waypoint.name)
+          : [],
       };
       const route = await create(newData);
       if (route) history.push(`/seller/logistic/routes/${route.id}`);

@@ -12,7 +12,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Typography from "@material-ui/core/Typography";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { getCurrencySymbol } from "../../core/constants/currencies";
 import { CheckoutType } from "../../core/types/checkout";
 import EmptyCartMessage from "../EmptyCartMessage";
@@ -29,6 +29,11 @@ const CheckoutSummary = (props: CheckoutSummaryProps) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const { checkout, summary, isProceedDisabled, onSubmit } = props;
+  const history = useHistory();
+
+  if (checkout && !checkout.deliveryAddress) {
+    history.push("/checkout");
+  }
 
   if (checkout && checkout.items.length < 1) {
     return <EmptyCartMessage />;

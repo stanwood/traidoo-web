@@ -42,7 +42,9 @@ const EditRoutePage: React.FC = () => {
   const onSubmit = async (data: RouteFormFields) => {
     const newData = {
       ...data,
-      waypoints: data.waypoints.map((waypoint) => waypoint.name),
+      waypoints: data.waypoints
+        ? data.waypoints.map((waypoint) => waypoint.name)
+        : [],
     };
     const route = await edit({ id: Number(routeId), data: newData });
     if (route) history.push(`/seller/logistic/routes/${route.id}`);
