@@ -33,6 +33,15 @@ export const reducer = (state: CartState, action: Actions): CartState => {
     const index = products.findIndex(
       (product) => product.id === action.payload.id
     );
+
+    if (products[index].quantity < action.payload.quantity) {
+      products[index].maxQuantity =
+        products[index].maxQuantity - action.payload.quantity;
+    } else {
+      products[index].maxQuantity =
+        products[index].maxQuantity + action.payload.quantity;
+    }
+
     products[index].quantity = action.payload.quantity;
     return { ...state, ...products };
   }

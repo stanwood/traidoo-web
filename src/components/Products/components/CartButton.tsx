@@ -50,7 +50,7 @@ interface ProductCartButtonProps {
   unit: string;
   name: string;
   amount: number;
-  itemsAvailable: number | null;
+  itemsAvailable: number;
 }
 
 const ProductCartButton = (props: ProductCartButtonProps): JSX.Element => {
@@ -105,6 +105,7 @@ const ProductCartButton = (props: ProductCartButtonProps): JSX.Element => {
       price,
       unit,
       quantity: Number(quantity),
+      maxQuantity: itemsAvailable - Number(quantity),
     });
   };
 
@@ -150,6 +151,7 @@ const ProductCartButton = (props: ProductCartButtonProps): JSX.Element => {
                       price,
                       unit,
                       quantity: Number(quantity),
+                      maxQuantity: itemsAvailable - Number(quantity),
                     })
               }
             >

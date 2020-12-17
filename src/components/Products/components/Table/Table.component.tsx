@@ -76,7 +76,7 @@ const ProductsList: React.FC<ProductsListProps> = ({
     price: number | undefined,
     unit = "",
     amount: number,
-    itemsAvailable: number | null
+    itemsAvailable: number
   ): ReactElement | undefined => {
     if (price) {
       if (sellerView) {

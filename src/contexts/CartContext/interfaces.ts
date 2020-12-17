@@ -7,6 +7,7 @@ export interface CartProduct {
   price: number;
   unit: string;
   quantity: number;
+  maxQuantity: number;
 }
 
 export interface CartState {
