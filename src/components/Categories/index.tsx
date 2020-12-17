@@ -69,7 +69,7 @@ const Categories = () => {
           {Config.sponsorLogo &&
             Config.sponsorLogo
               .split(",")
-              .map((logo) => <GridListImageItem imageItem={logo} />)}
+              .map((logo) => <GridListImageItem imageItem={logo} key={logo} />)}
         </GridList>
       </Box>
     </Grid>
