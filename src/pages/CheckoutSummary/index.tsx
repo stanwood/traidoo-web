@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import * as Sentry from "@sentry/react";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
@@ -10,10 +11,12 @@ import CheckoutSummary from "../../components/CheckoutSummary";
 import Page from "../../components/Common/Page";
 import { SkeletonList } from "../../components/Sekeleton";
 import { CartContext } from "../../contexts/CartContext/context";
+import { UserContext } from "../../contexts/UserContext/context";
 
 const CheckoutSummaryPage: React.FC = () => {
   const history = useHistory();
   const { initialState } = useContext(CartContext);
+  const { user } = useContext(UserContext);
   const { t } = useTranslation();
   const pageTitle = t("checkoutSummary");
 
@@ -23,7 +26,17 @@ const CheckoutSummaryPage: React.FC = () => {
   );
 
   const [checkoutMutation, { status: checkoutMutationStatus }] = useMutation(
-    checkoutRequest
+    checkoutRequest,
+    {
+      onSuccess: () => history.push("/checkout/success"),
+      onError: (error: any) => {
+        const eventId = Sentry.captureMessage("CheckoutError", {
+          user: { id: user.id?.toString() },
+          extra: { response: error.response },
+        });
+        history.push(`/checkout/error?eventId=${eventId}`);
+      },
+    }
   );
 
   const buttonDisabled = React.useMemo(() => {
@@ -73,7 +86,6 @@ const CheckoutSummaryPage: React.FC = () => {
   const onSubmit = async () => {
     await checkoutMutation();
     initialState();
-    history.push("/checkout/success");
   };
 
   return (

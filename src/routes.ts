@@ -10,6 +10,7 @@ import {
 } from "./components/Layout/Layouts";
 import Checkout from "./pages/Checkout";
 import { CheckoutProvider } from "./pages/Checkout/context";
+import CheckoutErrorPage from "./pages/CheckoutError";
 import CheckoutSuccessPage from "./pages/CheckoutSuccess";
 import CheckoutSummaryPage from "./pages/CheckoutSummary";
 import ContactPage from "./pages/Contact";
@@ -274,6 +275,13 @@ export const privateRoutes = [
     layout: LayoutH,
     exact: true,
     component: CheckoutSuccessPage,
+  },
+  {
+    key: "checkoutError",
+    path: "/checkout/error",
+    layout: LayoutH,
+    exact: true,
+    component: CheckoutErrorPage,
   },
   {
     key: "profileCompanyDeliveryAddress",

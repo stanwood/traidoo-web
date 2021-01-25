@@ -102,6 +102,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = (
                 price,
                 unit,
                 quantity: 1,
+                maxQuantity: product.itemsAvailable - 1,
               })
             }
             disabled={!productInCart && productsLimitReached}

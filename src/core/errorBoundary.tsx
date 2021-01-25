@@ -50,7 +50,7 @@ export const GlobalErrorFallback: React.FC<FallbackProps> = (
           {t("errorMessageBody")}
         </Typography>
         <Typography className={classes.block}>
-          {t("errorId")}: {lastEventId}
+          {t("errorId")} {lastEventId}
         </Typography>
       </Grid>
     </Container>

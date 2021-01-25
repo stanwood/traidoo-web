@@ -103,6 +103,7 @@ const CartItem: React.FC<{
                 </Button>
                 <Button disabled>{product.quantity}</Button>
                 <Button
+                  disabled={product.maxQuantity < 1}
                   onClick={() =>
                     setProductQuantity(product.id, product.quantity + 1)
                   }
