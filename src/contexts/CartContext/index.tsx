@@ -64,7 +64,7 @@ const CartProvider = (props: CartProviderProps): ReactElement => {
         type: CART_ADD,
         payload: product,
       });
-      updateCart({ productId: product.id, quantity: 1 });
+      updateCart({ productId: product.id, quantity: product.quantity });
     },
     [dispatch, updateCart]
   );
