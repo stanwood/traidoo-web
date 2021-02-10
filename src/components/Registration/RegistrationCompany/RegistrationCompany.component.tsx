@@ -63,7 +63,7 @@ const RegistrationCompany = (props: RegistrationCompanyProps) => {
       data={data}
       onClearError={onClearError}
       triggerValidation={trigger}
-      setValue={(name: string, value: any) => setValue(name, value)}
+      setValue={(name: any, value: any) => setValue(name, value)}
     />
   );
 };
