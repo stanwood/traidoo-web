@@ -69,7 +69,7 @@ const RegistrationPersonal = (props: RegistrationPersonalProps) => {
       data={data}
       onClearError={onClearError}
       getValues={getValues}
-      setValue={(name: string, value: string) => setValue(name, value)}
+      setValue={(name: any, value: string) => setValue(name, value)}
     />
   );
 };
