@@ -40,7 +40,7 @@
     "react-router-dom": "^5.2.0",
     "react-use-intercom": "^1.1.2",
     "react-window": "^1.8.6",
-    "sanitize-html": "^1.27.4",
+    "sanitize-html": "^2.3.2",
     "use-query-params": "^1.1.9",
     "yup": "^0.29.3"
   },
