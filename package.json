@@ -45,7 +45,7 @@
     "yup": "^0.29.3"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/jest-dom": "^5.13.0",
     "@testing-library/react": "^11.0.4",
     "@testing-library/user-event": "^12.1.5",
     "@types/autosuggest-highlight": "^3.1.0",
